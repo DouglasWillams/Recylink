@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin - Recylink</title>
+
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+
+    <main class="auth-wrapper">
+        <div class="auth-card">
+            <h1 style="color: #FBBF24;">Login do Administrador</h1>
+            <p class="text-center" style="margin-bottom: 25px; color: #9CA3AF;">
+                Acesso restrito para moderação e gerenciamento do sistema.
+            </p>
+
+            <form id="admin-login-form">
+                <div class="form-group">
+                    <label for="admin-email">E-mail</label>
+                    <input type="email" id="admin-email" autocomplete="email" />
+                </div>
+
+                <div class="form-group">
+                    <label for="admin-password">Senha</label>
+                    <input type="password" id="admin-password" autocomplete="current-password" />
+                </div>
+
+                <button type="submit" class="btn" 
+                        style="background-color: #FBBF24; color: var(--color-text-dark);">
+                    Entrar como Admin
+                </button>
+            </form>
+
+            <p class="text-center" style="margin-top: 20px;">
+                <a href="../pages/login.html">Voltar para o Login do Usuário Comum</a>
+            </p>
+        </div>
+    </main>
+
+    <!-- SCRIPTS -->
+    <script src="../assets/js/app.js"></script>
+
+    <!-- Cache buster para garantir que o navegador baixe o novo JS -->
+    <script src="../assets/js/admin-login.js?v=5"></script>
+
+</body>
+</html>

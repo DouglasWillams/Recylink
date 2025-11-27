@@ -1,0 +1,583 @@
+/* --- Variáveis de Cores --- */
+:root {
+    --color-primary-green: #4CAF50; /* Verde principal do Recylink */
+    --color-secondary-green: #8BC34A; /* Verde mais claro */
+    --color-background-dark: #1A1A1A; /* Fundo escuro */
+    --color-text-light: #FFFFFF;
+    --color-text-dark: #333333;
+    --color-button-hover: #66BB6A;
+    --color-navbar-bg: #4CAF50; /* AGORA É COR SÓLIDA */
+    --color-navbar-link-active: #E8F5E9; /* Cor do link ativo na navbar */
+}
+
+/* --- Reset Básico --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--color-background-dark);
+    color: var(--color-text-light);
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden; /* Evita barras de rolagem horizontais indesejadas */
+}
+
+/* --- NAVBAR --- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-navbar-bg); /* Usa a nova cor sólida */
+    padding: 15px 30px;
+    position: fixed; /* Fixa a navbar no topo */
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Garante que fique acima de outros elementos */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    /* backdrop-filter: blur(5px); removido */
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand .logo {
+    height: 40px; /* Ajuste o tamanho do seu logo */
+    margin-right: 10px;
+}
+
+.navbar-brand .brand-name {
+    color: var(--color-text-light);
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.nav-menu ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-menu ul li {
+    margin-left: 30px;
+}
+
+.nav-menu ul li a {
+    color: var(--color-text-light);
+    text-decoration: none;
+    font-size: 1.1em;
+    padding: 5px 0;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+.nav-menu ul li a:hover,
+.nav-menu ul li a.active {
+    color: var(--color-navbar-link-active);
+    border-bottom: 2px solid var(--color-navbar-link-active);
+}
+
+/* --- HERO SECTION (CENTRALIZADO E MAIS BAIXO) --- */
+.hero-section {
+    padding-top: 80px; /* Espaço para a navbar fixa */
+    /* Propriedades como background-image/height/etc. são definidas no HTML/Inline Style */
+    height: 100vh;
+    display: flex;
+    justify-content: center; /* Centraliza o Hero horizontalmente */
+    align-items: flex-end; /* Alinha o conteúdo ao fundo da tela (para o efeito "mais para baixo") */
+    color: white;
+    position: relative;
+    padding-left: 5%; 
+    padding-right: 5%;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center; /* Centraliza o texto e o botão */
+    max-width: 800px; /* Limita a largura para o texto */
+    margin-bottom: 15%; /* Empurra o conteúdo para cima, da base */
+}
+
+.hero-content h1 {
+    font-size: 3.5em; /* Tamanho do slogan */
+    margin-bottom: 20px;
+    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.btn-hero {
+    background-color: var(--color-primary-green);
+    color: var(--color-text-light);
+    padding: 15px 30px;
+    border-radius: 5px;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn-hero:hover {
+    background-color: var(--color-button-hover);
+}
+
+.arrow-right {
+    margin-left: 10px;
+    font-size: 1.5em;
+    line-height: 1;
+}
+
+/* ------------------------------------------------------------------- */
+/* ESTILOS DE FORMULÁRIO GENÉRICO E AUTENTICAÇÃO (Login, Cadastro) */
+/* ------------------------------------------------------------------- */
+.page-container {
+    max-width: 1200px; /* Largura máxima para a maioria das seções */
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* AUTH WRAPPER (para Login e Cadastro) */
+.auth-wrapper {
+    min-height: 100vh;
+    padding-top: 100px; /* Espaço para a navbar */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centraliza verticalmente o card no desktop */
+    padding-bottom: 50px;
+}
+
+/* AUTH CARD (Card Principal do Formulário) */
+.auth-card {
+    background-color: #1F2937; /* Fundo escuro do card */
+    max-width: 450px;
+    width: 90%;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7); /* Sombra mais forte para destaque */
+}
+
+.auth-card h1 {
+    font-size: 2.2em;
+    color: var(--color-primary-green);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #E5E7EB;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select { /* Adicionado 'select' */
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #374151;
+    border-radius: 6px;
+    background-color: #1A1A1A; /* Fundo do input mais escuro */
+    color: var(--color-text-light);
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: var(--color-primary-green);
+    outline: none;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.btn {
+    background-color: var(--color-primary-green);
+    color: var(--color-text-light);
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 25px; /* Espaço antes do botão */
+}
+
+.btn:hover {
+    background-color: var(--color-button-hover);
+}
+
+.text-center {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.95em;
+}
+
+.text-center a {
+    color: var(--color-primary-green);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.text-center a:hover {
+    color: var(--color-navbar-link-active);
+}
+
+/* ------------------------------------------------------------------- */
+/* ESTILOS DO DASHBOARD E PERFIL */
+/* ------------------------------------------------------------------- */
+.dashboard-content-grid {
+    display: grid;
+    grid-template-columns: 1fr 3fr; /* Perfil 1/4, Conteúdo 3/4 */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.profile-sidebar {
+    position: sticky;
+    top: 100px; /* Alinha abaixo da navbar */
+    padding: 20px;
+    background-color: #1F2937;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.profile-picture-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 20px auto;
+}
+
+.profile-picture {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--color-primary-green);
+}
+
+.edit-photo-button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: var(--color-secondary-green);
+    border: 3px solid #1F2937;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: background-color 0.3s;
+}
+
+.edit-photo-button:hover {
+    background-color: var(--color-primary-green);
+}
+
+.profile-name {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--color-text-light);
+    margin-bottom: 5px;
+}
+
+.profile-level {
+    font-size: 0.9em;
+    color: #9CA3AF;
+    margin-bottom: 20px;
+}
+
+.profile-nav-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #2C3E50;
+    color: var(--color-text-light);
+    text-decoration: none;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s;
+    text-align: left;
+    font-weight: bold;
+}
+
+.profile-nav-btn:hover,
+.profile-nav-btn.active {
+    background-color: var(--color-primary-green);
+}
+
+.profile-details-card {
+    background-color: #1F2937;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.profile-details-card h2 {
+    color: var(--color-primary-green);
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #374151;
+    padding-bottom: 10px;
+}
+
+/* ------------------------------------------------------------------- */
+/* CONTACT SECTION (Para Home) */
+/* ------------------------------------------------------------------- */
+.contact-section {
+    background-color: #1F2937;
+    padding: 60px 20px;
+    margin-top: 40px;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+.section-title {
+    font-size: 2em;
+    color: var(--color-primary-green);
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.section-subtitle {
+    color: #9CA3AF;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+}
+
+/* Card Genérico para Contato/Info */
+.contact-card, .info-card {
+    background-color: #2C3E50;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Informações de Contato */
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 0;
+    border-bottom: 1px solid #374151;
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+.info-icon-wrapper {
+    background-color: var(--color-primary-green);
+    color: var(--color-text-light);
+    border-radius: 50%;
+    padding: 12px;
+    flex-shrink: 0;
+}
+
+.info-icon-wrapper i {
+    font-size: 1.5em;
+    line-height: 1;
+}
+
+.info-content p {
+    margin: 0;
+    font-size: 1.1em;
+}
+
+.info-content a {
+    color: #FBBF24;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.info-content a:hover {
+    color: #FFD700;
+}
+
+
+/* --- Media Queries para Responsividade --- */
+@media (max-width: 992px) {
+    .dashboard-content-grid {
+        grid-template-columns: 1fr; /* Coluna única em tablets */
+    }
+    .profile-sidebar {
+        position: relative;
+        top: 0;
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+    }
+
+    .nav-menu ul {
+        flex-direction: column;
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    .nav-menu ul li {
+        margin: 5px 0;
+        text-align: left;
+    }
+
+    .hero-content {
+        max-width: 100%; 
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .hero-content h1 {
+        font-size: 2.5em;
+    }
+
+    .btn-hero {
+        font-size: 1em;
+        padding: 12px 25px;
+    }
+    
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .hero-section {
+        justify-content: center;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .hero-content {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 15%; 
+    }
+    
+    .auth-wrapper {
+        padding-top: 80px;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar-brand .brand-name {
+        font-size: 1.2em;
+    }
+
+    .hero-content h1 {
+        font-size: 2em;
+    }
+}
+
+/* --- Estilos do Rodapé (Footer) --- */
+.main-footer {
+    background-color: #1F2937;
+    color: #FFFFFF;
+    padding: 3rem 0;
+    margin-top: 4rem;
+}
+
+.footer-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-logo {
+    height: 2.25rem;
+    margin-bottom: 1rem;
+}
+
+.slogan,
+.footer-links li a,
+.footer-grid p {
+    color: #9CA3AF;
+    font-size: 0.875rem;
+}
+
+.footer-grid h4 {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.footer-links li a:hover {
+    color: #FFFFFF;
+    transition: color 0.3s;
+}
+
+.footer-copy {
+    border-top: 1px solid #374151;
+    padding-top: 2rem;
+    margin-top: 2rem;
+    text-align: center;
+}

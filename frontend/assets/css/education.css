@@ -1,0 +1,282 @@
+/* ------------------------------------------------------------------- */
+/* CONTAINER GERAL */
+/* ------------------------------------------------------------------- */
+.education-page-wrapper {
+    padding-top: 80px;
+    min-height: 100vh;
+    background-color: var(--color-background-dark);
+}
+
+.education-page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ------------------------------------------------------------------- */
+/* CABEÇALHO E TÍTULOS */
+/* ------------------------------------------------------------------- */
+.header-content {
+    margin-bottom: 40px;
+    padding-top: 20px;
+}
+
+.header-content h1 {
+    font-size: 2.8em;
+    color: var(--color-primary-green);
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.header-content .subtitle {
+    font-size: 1.2em;
+    color: #9CA3AF;
+    margin-bottom: 20px;
+}
+
+/* ------------------------------------------------------------------- */
+/* DESTAQUE / FEATURED BANNER */
+/* ------------------------------------------------------------------- */
+.featured-card {
+    background-color: #1F2937;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    margin-bottom: 50px;
+}
+
+.featured-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.featured-visual {
+    background: linear-gradient(145deg, var(--color-primary-green), var(--color-secondary-green));
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.featured-visual-content {
+    text-align: center;
+}
+
+.featured-visual-content .icon {
+    font-size: 4em;
+    margin-bottom: 10px;
+    line-height: 1;
+}
+
+.featured-visual-content h2 {
+    font-size: 1.8em;
+    margin-bottom: 5px;
+    color: white;
+}
+
+.featured-visual-content p {
+    font-size: 1em;
+    opacity: 0.9;
+}
+
+.featured-text {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.featured-text h3 {
+    font-size: 1.5em;
+    color: var(--color-text-light);
+    margin-bottom: 10px;
+}
+
+.featured-text p {
+    color: #9CA3AF;
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    color: var(--color-primary-green);
+    background-color: #374151; /* Fundo escuro sutil para badge */
+    margin-bottom: 10px;
+}
+
+
+/* ------------------------------------------------------------------- */
+/* CARDS EDUCATIVOS */
+/* ------------------------------------------------------------------- */
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.content-card {
+    background-color: #1F2937;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+
+.content-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+.content-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.content-card-header .icon {
+    font-size: 2.5em;
+    line-height: 1;
+}
+
+.content-card h3 {
+    font-size: 1.3em;
+    color: var(--color-text-light);
+    margin-bottom: 8px;
+}
+
+.read-time {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9em;
+    color: var(--color-primary-green); /* Destaque na cor principal */
+    margin-top: 15px;
+}
+
+.tip-list {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #374151;
+}
+
+.tip-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.85em;
+    color: #9CA3AF;
+    margin-bottom: 5px;
+}
+
+.tip-icon {
+    color: var(--color-primary-green);
+    font-size: 1em;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+/* Link "Ler mais" */
+.read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--color-primary-green);
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 15px;
+    transition: gap 0.2s;
+}
+
+.read-more:hover {
+    gap: 8px;
+}
+
+/* ------------------------------------------------------------------- */
+/* CTA BOTTOM (Call to Action) */
+/* ------------------------------------------------------------------- */
+.cta-bottom-card {
+    background-color: #1F2937; 
+    border-radius: 12px;
+    padding: 30px;
+    margin-top: 50px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.cta-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.cta-icon-container {
+    background-color: var(--color-primary-green);
+    color: var(--color-text-light);
+    border-radius: 50%;
+    padding: 15px;
+    flex-shrink: 0;
+}
+
+.cta-icon-container i {
+    font-size: 1.5em;
+}
+
+.cta-title {
+    font-size: 1.5em;
+    color: var(--color-text-light);
+    margin-bottom: 5px;
+}
+
+.cta-subtitle {
+    color: #9CA3AF;
+}
+
+.cta-button {
+    padding: 10px 25px;
+    background-color: #FBBF24; /* Botão de destaque amarelo */
+    color: var(--color-text-dark);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+}
+
+.cta-button:hover {
+    background-color: #FFD700;
+}
+
+/* ------------------------------------------------------------------- */
+/* RESPONSIVIDADE */
+/* ------------------------------------------------------------------- */
+@media (max-width: 768px) {
+    .featured-grid {
+        grid-template-columns: 1fr;
+    }
+    .featured-text {
+        padding: 20px;
+    }
+    .content-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .cta-bottom-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .cta-button {
+        width: 100%;
+        text-align: center;
+    }
+}

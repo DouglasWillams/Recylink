@@ -1,0 +1,207 @@
+/* ------------------------------------------------------------------- */
+/* MARCADORES PERSONALIZADOS (Leaflet) */
+/* ------------------------------------------------------------------- */
+
+.custom-marker {
+    /* Usado para envolver o pin-marker */
+    text-align: center;
+}
+
+.marker-pin {
+    /* Novo estilo: Círculo colorida com sombra */
+    width: 38px; /* Diâmetro maior */
+    height: 38px;
+    border-radius: 50%; /* Torna o círculo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white; /* Cor do ícone interno */
+    font-size: 1.3em; /* Tamanho do ícone interno */
+    border: 3px solid white; /* Borda branca (como na imagem) */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Sombra para destacar */
+    transition: transform 0.2s;
+    
+    /* Posição vertical para simular o pin (usado pelo Leaflet) */
+    transform: translateY(0); 
+}
+
+/* Efeito de pin flutuante ao passar o mouse */
+.custom-marker:hover .marker-pin {
+    transform: translateY(-5px); 
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+}
+
+.marker-icon {
+    /* Garante que o ícone do phosphor fique centralizado */
+    line-height: 1;
+}
+
+/* O restante do map.css permanece o mesmo */
+.map-page-wrapper {
+    padding-top: 80px;
+    min-height: 100vh;
+    background-color: var(--color-background-dark);
+}
+
+.map-page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.header-content {
+    margin-bottom: 30px;
+    padding-top: 20px;
+}
+
+.header-content h1 {
+    font-size: 2.5em;
+    color: var(--color-text-light);
+    margin-bottom: 5px;
+}
+
+.header-content .subtitle {
+    font-size: 1.1em;
+    color: #9CA3AF;
+    margin-bottom: 20px;
+}
+.search-box-wrapper {
+    position: relative;
+    max-width: 450px;
+    margin-bottom: 30px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-dark);
+    font-size: 1.2em;
+    z-index: 10;
+}
+
+#search-input {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+    color: var(--color-text-dark);
+    background-color: #FFFFFF;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#search-input::placeholder {
+    color: #6B7280;
+}
+
+#search-input:focus {
+    border-color: var(--color-primary-green);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3);
+}
+.map-content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    align-items: start;
+}
+.map-card,
+.card {
+    background-color: #1F2937;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    color: var(--color-text-light);
+}
+
+.map-card {
+    padding: 0;
+    overflow: hidden;
+}
+
+#mapa-lixeiras {
+    height: 500px; 
+    width: 100%;
+    border-radius: 12px;
+}
+.legend-card h3,
+.location-list-card h3 {
+    font-size: 1.4em;
+    margin-bottom: 15px;
+    color: var(--color-primary-green);
+}
+.legend-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.9em;
+}
+
+.color-box {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    margin-right: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.color-box.papel { background-color: #3B82F6; }
+.color-box.vidro { background-color: #10B981; }
+.color-box.metal { background-color: #FBBF24; }
+.color-box.plastico { background-color: #DC2626; }
+.color-box.organico { background-color: #8B5CF6; }
+
+.location-list {
+    max-height: 350px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.location-item {
+    border-bottom: 1px solid #374151;
+    padding: 10px 0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.location-item:hover {
+    background-color: rgba(76, 175, 80, 0.1);
+    border-radius: 4px;
+    padding: 10px;
+    margin: -10px;
+}
+
+.location-item:last-child {
+    border-bottom: none;
+}
+
+.location-name {
+    font-weight: bold;
+    font-size: 1em;
+    color: #E5E7EB;
+    margin-bottom: 2px;
+}
+
+.location-address {
+    font-size: 0.85em;
+    color: #9CA3AF;
+    margin-bottom: 5px;
+}
+
+@media (max-width: 992px) {
+    .map-content-grid {
+        grid-template-columns: 1fr;
+    }
+    .map-page-container {
+        padding: 15px;
+    }
+    .location-list {
+        max-height: 300px;
+    }
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Recylink (Moderação)</title>
+    
+    <!-- CSS Global (Para cores e fontes) -->
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <!-- CSS Específico do Admin -->
+    <link rel="stylesheet" href="../assets/css/admin-style.css">
+    
+    <!-- Ícones (Phosphor Icons) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+</head>
+<body class="admin-page">
+    
+    <!-- WRAPPER PRINCIPAL DO ADMIN -->
+    <div class="admin-wrapper">
+        
+        <!-- SIDEBAR DE NAVEGAÇÃO -->
+        <aside class="admin-sidebar">
+            <div class="admin-header">
+                <h2>RECYLINK ADMIN</h2>
+                <p>Olá, <span id="admin-user-name">Admin!</span></p>
+            </div>
+            
+            <nav class="admin-nav">
+                <a href="#" class="admin-nav-item active" data-page="overview">
+                    <i class="ph ph-chart-bar"></i> Visão Geral
+                </a>
+                <a href="#" class="admin-nav-item" data-page="events">
+                    <i class="ph ph-calendar-check"></i> Moderação de Eventos
+                </a>
+                <a href="#" class="admin-nav-item" data-page="users">
+                    <i class="ph ph-users-three"></i> Gerenciar Usuários
+                </a>
+                <a href="#" class="admin-nav-item" data-page="settings">
+                    <i class="ph ph-gear"></i> Configurações
+                </a>
+                <a href="#" class="admin-nav-item logout-btn">
+                    <i class="ph ph-sign-out"></i> Sair
+                </a>
+            </nav>
+        </aside>
+
+        <!-- CONTEÚDO PRINCIPAL (DINÂMICO) -->
+        <main class="admin-main-content">
+            <h1 id="page-title">Visão Geral</h1>
+            
+            <div id="admin-content-area">
+                <!-- O conteúdo dinâmico será injetado aqui pelo admin.js -->
+                <p>Carregando dashboard...</p>
+            </div>
+        </main>
+        
+    </div> <!-- Fim do admin-wrapper -->
+    
+    <!-- Scripts -->
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/admin.js"></script>
+    
+    <!-- O Rodapé é omitido intencionalmente no Admin Dashboard para um visual mais limpo e focado -->
+</body>
+</html>

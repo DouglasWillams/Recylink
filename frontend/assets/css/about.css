@@ -1,0 +1,319 @@
+/* --- Estilos Específicos da Página 'Sobre' do Recylink --- */
+
+/* Wrapper para centralizar conteúdo */
+.content-wrapper {
+    padding-top: 80px; /* Garante que o conteúdo não fique sob a navbar fixa */
+}
+
+/* Títulos das Seções */
+.section-title {
+    font-size: 2.2em;
+    font-weight: 700;
+    text-align: center;
+    color: var(--color-primary-green);
+    margin-bottom: 10px;
+    padding-top: 50px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #9CA3AF;
+    font-size: 1.1em;
+    margin-bottom: 40px;
+}
+
+/* --- SEÇÃO HERO SECUNDÁRIA (Imagem de Fundo) --- */
+.hero-sub {
+    background-size: cover;
+    background-position: center;
+    height: 350px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.hero-sub::before { /* Camada escura sobre a imagem para melhor leitura do texto */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); 
+    z-index: 1;
+}
+
+.hero-sub-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.hero-sub-content h1 {
+    font-size: 3em;
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.hero-sub-content p {
+    font-size: 1.3em;
+    font-weight: 300;
+}
+
+
+/* --- CARDS DE OBJETIVOS (3 Pilares) --- */
+
+.objectives-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 20px 60px 20px;
+}
+
+.cards-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap; /* Garante quebras em telas menores */
+}
+
+.objective-card {
+    background-color: #2c2c2c; /* Fundo escuro */
+    border-radius: 12px;
+    padding: 30px;
+    width: 100%;
+    max-width: 350px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-top: 4px solid var(--color-primary-green);
+}
+
+.objective-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+.objective-card h3 {
+    font-size: 1.5em;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    color: var(--color-text-light);
+}
+
+.objective-card p {
+    color: #B0B0B0;
+}
+
+.icon-circle {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--icon-color);
+    font-size: 2em;
+    border: 2px solid var(--icon-color);
+}
+
+
+/* --- SEÇÃO ODS (Objetivos de Desenvolvimento Sustentável) --- */
+
+.ods-section {
+    background-color: #1a1a1a;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.ods-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.ods-item {
+    background-color: #2c2c2c;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.ods-item:hover {
+    background-color: #3e3e3e;
+}
+
+.ods-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--ods-color);
+    color: var(--color-text-light);
+    font-size: 1.8em;
+    margin-bottom: 15px;
+}
+
+.ods-item h4 {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--ods-color);
+}
+
+.ods-item p {
+    font-size: 0.9em;
+    color: #ccc;
+}
+
+
+/* --- SEÇÃO NOSSA JORNADA (TIMELINE) --- */
+
+.journey-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 20px 80px 20px;
+}
+
+.timeline {
+    position: relative;
+    padding: 20px 0;
+}
+
+.timeline::before { /* Linha vertical */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    background-color: var(--color-secondary-green);
+    transform: translateX(-50%);
+}
+
+.timeline-item {
+    position: relative;
+    width: 50%;
+    padding: 10px 0;
+    margin-bottom: 40px;
+}
+
+/* Alinhamento dos itens */
+.timeline-item:nth-child(odd) { /* Itens à esquerda */
+    left: 0;
+    padding-right: 40px;
+    text-align: right;
+}
+
+.timeline-item:nth-child(even) { /* Itens à direita */
+    left: 50%;
+    padding-left: 40px;
+    text-align: left;
+}
+
+/* Círculo do Ano */
+.timeline-date {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%); /* Move para centralizar na linha */
+    width: 80px;
+    height: 80px;
+    background-color: var(--color-primary-green);
+    color: var(--color-text-light);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.1em;
+    z-index: 10;
+    border: 4px solid #1a1a1a; /* Borda para destaque contra o fundo */
+}
+
+/* Ajusta a posição do círculo para itens à direita */
+.timeline-item:nth-child(even) .timeline-date {
+    left: -40px; /* Alinha com a linha central */
+}
+
+/* Ajusta a posição do círculo para itens à esquerda */
+.timeline-item:nth-child(odd) .timeline-date {
+    left: 100%;
+    transform: translate(-50%, -50%);
+}
+
+/* Estilo especial para o ano 2030 (Objetivo Final) */
+.timeline-date.year-2030 {
+    background-color: #3498db; 
+}
+
+/* Conteúdo da caixa */
+.timeline-content {
+    background-color: #34495e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.timeline-content h3 {
+    margin-top: 0;
+    color: var(--color-primary-green);
+}
+
+.timeline-content p {
+    color: #ecf0f1;
+}
+
+/* --- Media Queries para Responsividade (Mobile) --- */
+@media (max-width: 768px) {
+    /* Mudar o layout para uma coluna única */
+    .timeline::before {
+        left: 20px; /* Move a linha para a esquerda */
+    }
+
+    .timeline-item,
+    .timeline-item:nth-child(even) {
+        width: 100%;
+        left: 0;
+        padding-left: 60px; /* Aumenta o padding para compensar a linha */
+        padding-right: 0;
+        text-align: left;
+        margin-bottom: 30px;
+    }
+
+    /* Move os círculos para a esquerda para alinhar com a nova linha */
+    .timeline-item:nth-child(even) .timeline-date,
+    .timeline-item:nth-child(odd) .timeline-date {
+        left: 20px; 
+        transform: translate(-50%, -50%);
+    }
+
+    .section-title {
+        font-size: 1.8em;
+        padding-top: 30px;
+    }
+    
+    .hero-sub-content h1 {
+        font-size: 2em;
+    }
+    .hero-sub-content p {
+        font-size: 1em;
+    }
+    
+    .cards-grid {
+        gap: 20px;
+    }
+    
+    .ods-grid {
+        grid-template-columns: 1fr 1fr; /* 2 colunas no mobile */
+    }
+}

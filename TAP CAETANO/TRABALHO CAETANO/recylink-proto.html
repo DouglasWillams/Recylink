@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Recylink — Protótipo</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <style>
+    :root{
+      --verde-eco: #2E7D32;
+      --azul-claro: #4FC3F7;
+      --branco: #ffffff;
+      --cinza-claro: #F5F5F5;
+      --cinza-texto: #424242;
+      --radius: 12px;
+      --max-width: 1100px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      font-family: "Roboto", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      margin:0;
+      color:var(--cinza-texto);
+      background:linear-gradient(180deg, #ffffff 0%, #f9fbfa 100%);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    .container{
+      width:90%;
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:32px 0;
+    }
+
+    header{
+      position:sticky;
+      top:0;
+      background:rgba(255,255,255,0.95);
+      backdrop-filter: blur(4px);
+      border-bottom:1px solid #eee;
+      z-index:40;
+    }
+    .nav-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:12px 0;
+      width:90%;
+      max-width:var(--max-width);
+      margin:0 auto;
+    }
+    .logo{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      font-family:"Poppins", sans-serif;
+      color:var(--verde-eco);
+      font-weight:700;
+      font-size:20px;
+      text-decoration:none;
+    }
+    .logo .leaf{
+      width:36px;height:36px;border-radius:10px;
+      background:linear-gradient(135deg,var(--verde-eco),#66bb6a);
+      display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;
+    }
+    nav a{
+      margin-left:14px;
+      color:var(--cinza-texto);
+      text-decoration:none;
+      font-weight:500;
+    }
+    .cta{
+      background:var(--verde-eco);
+      color:#fff;
+      padding:10px 14px;
+      border-radius:10px;
+      text-decoration:none;
+      font-weight:600;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    /* Hero */
+    .hero{
+      display:flex;
+      gap:36px;
+      align-items:center;
+      padding:48px 0;
+    }
+    .hero-left{flex:1}
+    .hero h1{
+      font-family:"Poppins",sans-serif;
+      font-size:36px;
+      margin:0 0 12px 0;
+      color:var(--verde-eco);
+    }
+    .hero p{margin:0 0 18px 0; font-size:16px; color:#333}
+    .hero .hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+    .btn{
+      padding:12px 16px;border-radius:10px;border:0;font-weight:600;cursor:pointer;
+    }
+    .btn-primary{background:var(--verde-eco);color:#fff}
+    .btn-secondary{background:var(--azul-claro);color:#fff}
+
+    .hero-right{flex:1}
+    .hero-card{
+      background:var(--cinza-claro);
+      border-radius:16px;
+      padding:18px;
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+    }
+    .mini-card{
+      background:white;border-radius:12px;padding:12px;display:flex;gap:12px;align-items:center;box-shadow:0 2px 6px rgba(0,0,0,0.04)
+    }
+    .mini-card .ico{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);color:var(--verde-eco);font-weight:700}
+
+    /* Sections */
+    section{padding:48px 0}
+    h2{font-family:"Poppins",sans-serif;color:var(--verde-eco);margin:0 0 18px 0}
+    p.lead{margin:0 0 18px 0;color:#444}
+
+    .three-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{
+      background:white;border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(0,0,0,0.04);
+    }
+    .card h3{margin:0 0 8px 0;font-size:18px}
+    .card p{margin:0;font-size:14px;color:#555}
+
+    /* Mapa mock */
+    .map-mock{
+      background:linear-gradient(180deg,#e8fef7,#f1fbff);
+      border-radius:12px;
+      padding:12px;
+      min-height:320px;
+      position:relative;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+    .map-pin{
+      width:36px;height:36px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;color:white;font-weight:700;
+      position:absolute;
+      transform:translate(-50%,-100%);
+      box-shadow:0 6px 12px rgba(0,0,0,0.12);
+    }
+    /* place some example positions */
+    .pin-1{background:#66bb6a;left:20%;top:50%}
+    .pin-2{background:#29b6f6;left:60%;top:30%}
+    .pin-3{background:#ffb74d;left:80%;top:70%}
+    .map-legend{display:flex;gap:12px;margin-top:12px;flex-wrap:wrap}
+    .legend-item{display:flex;gap:8px;align-items:center}
+
+    .events-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .event-card{background:white;padding:14px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
+    .muted{color:#666;font-size:13px}
+
+    /* Community */
+    .posts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .post{background:white;padding:14px;border-radius:12px;box-shadow:0 6px 12px rgba(0,0,0,0.04)}
+    .post .meta{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+    .avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#c8e6c9,#a5d6a7);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+
+    /* Education */
+    .edu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+
+    /* Contact */
+    .contact-grid{display:grid;grid-template-columns:1fr 320px;gap:24px}
+    input, textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #ddd;font-size:14px}
+    textarea{min-height:140px;resize:vertical}
+
+    footer{padding:28px 0;border-top:1px solid #eee;margin-top:48px}
+    .footer-flex{display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .socials a{margin-left:8px;text-decoration:none;color:var(--cinza-texto)}
+
+    /* Responsive */
+    @media (max-width:900px){
+      .three-cards{grid-template-columns:1fr}
+      .events-grid,.posts,.edu-grid{grid-template-columns:1fr 1fr}
+      .hero{flex-direction:column}
+      .hero-right{order:-1}
+      .contact-grid{grid-template-columns:1fr}
+    }
+    @media (max-width:520px){
+      .events-grid,.posts,.edu-grid{grid-template-columns:1fr}
+      nav a{display:none}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="nav-row">
+    <a class="logo" href="#home">
+      <div class="leaf">R</div> Recylink
+    </a>
+    <nav aria-label="Menu principal">
+      <a href="#sobre">Sobre</a>
+      <a href="#mapa">Mapa</a>
+      <a href="#eventos">Eventos</a>
+      <a href="#comunidade">Comunidade</a>
+      <a href="#educacao">Educação</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <a class="cta" href="#mapa"><span class="material-icons" style="font-size:18px">place</span> Encontre lixeiras</a>
+  </div>
+</header>
+
+<main>
+  <section id="home" class="container hero" aria-label="Seção inicial">
+    <div class="hero-left">
+      <h1>Conectando pessoas para um futuro mais sustentável</h1>
+      <p class="lead">Recylink incentiva a conscientização ambiental, aproxima instituições e moradores e facilita a gestão local de resíduos através de mapas, eventos e conteúdo educativo.</p>
+      <div class="hero-cta">
+        <button class="btn btn-primary" onclick="document.getElementById('eventos').scrollIntoView({behavior:'smooth'})">Participar de um evento</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">Ver mapa de lixeiras</button>
+      </div>
+    </div>
+
+    <div class="hero-right" aria-hidden="false">
+      <div class="hero-card" role="list">
+        <div class="mini-card" role="listitem">
+          <div class="ico"><span class="material-icons">auto_delete</span></div>
+          <div>
+            <div style="font-weight:600">Reduzir</div>
+            <div class="muted" style="font-size:13px">Dicas práticas para consumir menos</div>
+          </div>
+        </div>
+
+        <div class="mini-card" role="listitem">
+          <div class="ico"><span class="material-icons">loop</span></div>
+          <div>
+            <div style="font-weight:600">Reutilizar</div>
+            <div class="muted" style="font-size:13px">Transforme resíduos em recursos</div>
+          </div>
+        </div>
+
+        <div class="mini-card" role="listitem">
+          <div class="ico"><span class="material-icons">recycling</span></div>
+          <div>
+            <div style="font-weight:600">Reciclar</div>
+            <div class="muted" style="font-size:13px">Separe corretamente e leve aos pontos</div>
+          </div>
+        </div>
+
+        <div class="mini-card" role="listitem">
+          <div class="ico"><span class="material-icons">people</span></div>
+          <div>
+            <div style="font-weight:600">Comunidade</div>
+            <div class="muted" style="font-size:13px">Compartilhe ações e inspire vizinhos</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sobre" class="container" aria-labelledby="sobre-title">
+    <h2 id="sobre-title">Sobre o Recylink</h2>
+    <p class="lead">Projeto voltado para melhorar o bem-estar ambiental e social das comunidades através da educação, eventos e um mapa com pontos de coleta seletiva.</p>
+
+    <div class="three-cards" style="margin-top:18px">
+      <article class="card">
+        <h3>Missão</h3>
+        <p>Promover a redução, reutilização e reciclagem de resíduos, fortalecendo laços entre moradores, escolas e instituições.</p>
+      </article>
+      <article class="card">
+        <h3>Visão</h3>
+        <p>Ser referência local em educação ambiental e mobilização comunitária para a gestão responsável de resíduos.</p>
+      </article>
+      <article class="card">
+        <h3>Alinhamento</h3>
+        <p>Contribui com os ODS 11 e 12 da Agenda 2030 (Cidades Sustentáveis e Consumo Responsável).</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="mapa" class="container" aria-labelledby="mapa-title">
+    <h2 id="mapa-title">Mapa de Lixeiras</h2>
+    <p class="lead">Localize pontos de coleta seletiva próximos e filtre por tipo de resíduo.</p>
+
+    <div class="map-mock" role="img" aria-label="Mapa mock com pontos de coleta">
+      <!-- Mock pins -->
+      <div class="map-pin pin-1" title="Papel - Ponto A">P</div>
+      <div class="map-pin pin-2" title="Plástico - Ponto B">PL</div>
+      <div class="map-pin pin-3" title="Vidro - Ponto C">V</div>
+
+      <!-- simple legend -->
+    </div>
+    <div class="map-legend" style="margin-top:12px">
+      <div class="legend-item"><div style="width:18px;height:18px;border-radius:4px;background:#66bb6a"></div><div class="muted">Papel</div></div>
+      <div class="legend-item"><div style="width:18px;height:18px;border-radius:4px;background:#29b6f6"></div><div class="muted">Plástico</div></div>
+      <div class="legend-item"><div style="width:18px;height:18px;border-radius:4px;background:#ffb74d"></div><div class="muted">Vidro</div></div>
+      <div class="legend-item"><div style="width:18px;height:18px;border-radius:4px;background:#ef5350"></div><div class="muted">Metal</div></div>
+    </div>
+  </section>
+
+  <section id="eventos" class="container" aria-labelledby="eventos-title">
+    <h2 id="eventos-title">Próximos Eventos</h2>
+    <p class="lead">Participe das nossas oficinas e mutirões.</p>
+
+    <div class="events-grid" style="margin-top:16px">
+      <article class="event-card">
+        <h3>Oficina de Compostagem</h3>
+        <p class="muted">20 de out · 14:00 · Escola Municipal</p>
+        <p>Aprenda a transformar restos orgânicos em adubo para hortas comunitárias.</p>
+        <div style="margin-top:10px"><button class="btn btn-primary">Inscrever-se</button></div>
+      </article>
+
+      <article class="event-card">
+        <h3>Mutirão de Limpeza</h3>
+        <p class="muted">05 de nov · 08:00 · Praça Central</p>
+        <p>Convidamos moradores a recolher resíduos e aprender sobre descarte correto.</p>
+        <div style="margin-top:10px"><button class="btn btn-primary">Participar</button></div>
+      </article>
+
+      <article class="event-card">
+        <h3>Feira de Sustentabilidade</h3>
+        <p class="muted">27 de nov · 10:00 · Centro Cultural</p>
+        <p>Feira com expositores locais e oficinas práticas para toda a família.</p>
+        <div style="margin-top:10px"><button class="btn btn-primary">Ver detalhes</button></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="comunidade" class="container" aria-labelledby="comunidade-title">
+    <h2 id="comunidade-title">Comunidade Sustentável</h2>
+    <p class="lead">Espaço para compartilhar ideias e experiências.</p>
+
+    <div style="margin:14px 0">
+      <textarea placeholder="Compartilhe sua ideia sustentável..." aria-label="Escreva uma ideia"></textarea>
+      <div style="margin-top:8px"><button class="btn btn-primary">Postar</button></div>
+    </div>
+
+    <div class="posts">
+      <article class="post">
+        <div class="meta">
+          <div class="avatar">P</div>
+          <div>
+            <div style="font-weight:600">Pollyana</div>
+            <div class="muted">há 2 dias</div>
+          </div>
+        </div>
+        <p>Criei um mini compostor em casa usando um balde velho — funciona super bem para a horta.</p>
+        <div style="margin-top:8px" class="muted">❤️ 12 • 💬 3</div>
+      </article>
+
+      <article class="post">
+        <div class="meta">
+          <div class="avatar">S</div>
+          <div>
+            <div style="font-weight:600">Sulamita</div>
+            <div class="muted">há 1 semana</div>
+          </div>
+        </div>
+        <p>Alguém tem dica de onde trocar óleo de cozinha usado na cidade?</p>
+        <div style="margin-top:8px" class="muted">❤️ 6 • 💬 4</div>
+      </article>
+
+      <article class="post">
+        <div class="meta">
+          <div class="avatar">D</div>
+          <div>
+            <div style="font-weight:600">Douglas</div>
+            <div class="muted">agora</div>
+          </div>
+        </div>
+        <p>Vou organizar um ponto de coleta no meu condomínio; quem topa me ajudar na divulgação?</p>
+        <div style="margin-top:8px" class="muted">❤️ 3 • 💬 0</div>
+      </article>
+    </div>
+  </section>
+
+  <section id="educacao" class="container" aria-labelledby="educacao-title">
+    <h2 id="educacao-title">Educação Ambiental</h2>
+    <p class="lead">Materiais e dicas para incorporar hábitos sustentáveis no dia a dia.</p>
+
+    <div class="edu-grid" style="margin-top:16px">
+      <article class="card">
+        <h3>Como separar o lixo</h3>
+        <p>Guia rápido e prático para separar corretamente resíduos recicláveis e orgânicos.</p>
+      </article>
+      <article class="card">
+        <h3>3 passos para reduzir plástico</h3>
+        <p>Estratégias simples: copo reutilizável, compras a granel e evitar embalagens descartáveis.</p>
+      </article>
+      <article class="card">
+        <h3>Compostagem básica</h3>
+        <p>Passo a passo para iniciar compostagem doméstica, mesmo em apartamentos.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="contato" class="container" aria-labelledby="contato-title">
+    <h2 id="contato-title">Contato</h2>
+    <p class="lead">Fale com a equipe do Recylink — sugestões, parcerias ou dúvidas.</p>
+
+    <div class="contact-grid" style="margin-top:16px">
+      <form onsubmit="event.preventDefault(); alert('Mensagem enviada (mock).');" aria-label="Formulário de contato">
+        <label>
+          <div style="font-weight:600;margin-bottom:6px">Nome</div>
+          <input type="text" required placeholder="Seu nome">
+        </label>
+        <div style="height:8px"></div>
+        <label>
+          <div style="font-weight:600;margin-bottom:6px">Email</div>
+          <input type="email" required placeholder="seu@exemplo.com">
+        </label>
+        <div style="height:8px"></div>
+        <label>
+          <div style="font-weight:600;margin-bottom:6px">Mensagem</div>
+          <textarea required placeholder="Escreva sua mensagem..."></textarea>
+        </label>
+        <div style="margin-top:12px">
+          <button class="btn btn-primary" type="submit">Enviar</button>
+        </div>
+      </form>
+
+      <aside style="background:white;padding:16px;border-radius:12px;box-shadow:0 6px 12px rgba(0,0,0,0.04)">
+        <h3 style="margin-top:0">Nossas redes</h3>
+        <p class="muted">Siga e participe das ações locais</p>
+        <div style="margin-top:8px">
+          <div class="muted">Instagram: @recylink</div>
+          <div class="muted">WhatsApp: (xx) xxxxx-xxxx</div>
+          <div class="muted">Email: contato@recylink.org</div>
+        </div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-flex">
+    <div>
+      <div style="font-weight:700">Recylink</div>
+      <div class="muted" style="font-size:13px">Incentivo à conscientização ambiental e à prática de hábitos sustentáveis.</div>
+    </div>
+    <div class="socials">
+      <a href="#" aria-label="Instagram"><span class="material-icons">instagram</span></a>
+      <a href="#" aria-label="Facebook"><span class="material-icons">facebook</span></a>
+      <a href="#" aria-label="WhatsApp"><span class="material-icons">whatsapp</span></a>
+    </div>
+  </div>
+</footer>
+
+<!-- Minimal JS for anchors and demo behaviors -->
+<script>
+  // Smooth scrolling for modern browsers
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', function(e){
+      const target = document.querySelector(this.getAttribute('href'));
+      if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth'}); }
+    });
+  });
+</script>
+</body>
+</html>
