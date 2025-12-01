@@ -1,13 +1,13 @@
+// frontend/assets/js/education-logic.js
+
 /**
  * Lógica JavaScript para a página de Educação Ambiental.
  * 1. Renderiza o conteúdo em destaque e os cards.
- * 2. Gerencia o Call-to-Action (CTA) para a Comunidade,
- * redirecionando com base no status de login.
+ * 2. Removida a lógica do Call-to-Action (CTA).
  */
-
 document.addEventListener('DOMContentLoaded', () => {
     const contentContainer = document.getElementById('educational-content-container');
-    const ctaSection = document.getElementById('cta-section');
+    // REMOVIDO: const ctaSection = document.getElementById('cta-section');
 
     // --- DADOS MOCKADOS DE CONTEÚDO (DEVE SER MANTIDO SINCRONIZADO COM education-detail-logic.js) ---
     const educationalContent = [
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 "Não misture materiais recicláveis com orgânicos",
             ],
             icon: "ph-recycle",
-            iconEmoji: "♻️"
+            iconEmoji: " ♻️ "
         },
         {
             id: 2,
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 "Amarelo para metal, marrom para orgânico",
             ],
             icon: "ph-trash-simple",
-            iconEmoji: "🗑️"
+            iconEmoji: " 🗑️ "
         },
         {
             id: 3,
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 "Prefira produtos com embalagens biodegradáveis",
             ],
             icon: "ph-drop",
-            iconEmoji: "🌊"
+            iconEmoji: " 🌊 "
         },
         {
             id: 4,
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 "Revire o composto regularmente para aeração",
             ],
             icon: "ph-leaf",
-            iconEmoji: "🌱"
+            iconEmoji: " 🌱 "
         },
         {
             id: 5,
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 "Conserte vazamentos imediatamente",
             ],
             icon: "ph-tint",
-            iconEmoji: "💧"
+            iconEmoji: " 💧 "
         },
         {
             id: 6,
@@ -99,41 +99,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 "Recicle baterias e pilhas separadamente",
             ],
             icon: "ph-device-mobile-camera",
-            iconEmoji: "📱"
+            iconEmoji: " 📱 "
         },
     ];
 
     // --- FUNÇÕES DE RENDERIZAÇÃO ---
-
     /**
      * Renderiza o banner de destaque e a grade de cards.
      */
     function renderContent() {
         contentContainer.innerHTML = ''; // Limpa a mensagem de carregamento
-        
+
         // 1. Renderiza o banner de destaque
         const featuredCard = document.createElement('div');
         featuredCard.className = 'featured-card';
         featuredCard.innerHTML = `
-            <div class="featured-grid">
-                <div class="featured-visual">
-                    <div class="featured-visual-content">
-                        <i class="ph ph-book-open icon"></i>
-                        <h2>Centro de Conhecimento</h2>
-                        <p>Dicas práticas para um estilo de vida sustentável</p>
-                    </div>
-                </div>
-                <div class="featured-text">
-                    <span class="badge" style="color: var(--color-text-dark); background-color: #FBBF24;">Destaque</span>
-                    <h3>Por que a educação ambiental é importante?</h3>
-                    <p class="subtitle" style="color: #ccc;">
-                        A educação ambiental é fundamental para criar consciência sobre os
-                        impactos de nossas ações no planeta. Pequenas mudanças de hábitos
-                        podem gerar grandes transformações para o meio ambiente e para as
-                        futuras gerações.
-                    </p>
+        <div class="featured-grid">
+            <div class="featured-visual">
+                <div class="featured-visual-content">
+                    <i class="ph ph-book-open icon"></i>
+                    <h2>Centro de Conhecimento</h2>
+                    <p>Dicas práticas para um estilo de vida sustentável</p>
                 </div>
             </div>
+            <div class="featured-text">
+                <span class="badge" style="color: var(--color-text-dark); background-color: #FBBF24;">Destaque</span>
+                <h3>Por que a educação ambiental é importante?</h3>
+                <p class="subtitle" style="color: #ccc;">
+                    A educação ambiental é fundamental para criar consciência sobre os
+                    impactos de nossas ações no planeta. Pequenas mudanças de hábitos
+                    podem gerar grandes transformações para o meio ambiente e para as
+                    futuras gerações.
+                </p>
+            </div>
+        </div>
         `;
         contentContainer.appendChild(featuredCard);
 
@@ -144,93 +143,46 @@ document.addEventListener('DOMContentLoaded', () => {
         educationalContent.forEach(content => {
             const card = document.createElement('div');
             card.className = 'content-card';
-            
+
             const tipsHtml = content.tips.slice(0, 2).map(tip => `
-                <div class="tip-item">
-                    <i class="ph ph-check-circle tip-icon"></i>
-                    <span>${tip}</span>
-                </div>
+            <div class="tip-item">
+                <i class="ph ph-check-circle tip-icon"></i>
+                <span>${tip}</span>
+            </div>
             `).join('');
 
             card.innerHTML = `
-                <div class="content-card-header">
-                    <div class="icon" style="color: var(--color-primary-green);">${content.iconEmoji}</div>
-                    <span class="badge">${content.category}</span>
-                </div>
-                <h3>${content.title}</h3>
-                <p style="color: #9CA3AF; margin-bottom: 10px; font-size: 0.9em;">
-                    ${content.description}
-                </p>
-                <div class="read-time">
-                    <i class="ph ph-clock tip-icon"></i>
-                    <span>${content.readTime} de leitura</span>
-                </div>
-                
-                <div class="tip-list">
-                    ${tipsHtml}
-                </div>
-                
-                <a href="detalhe-educacao.html?id=${content.id}" class="read-more">
-                    Ler mais
-                    <i class="ph ph-arrow-right"></i>
-                </a>
+            <div class="content-card-header">
+                <div class="icon" style="color: var(--color-primary-green);">${content.iconEmoji}</div>
+                <span class="badge">${content.category}</span>
+            </div>
+            <h3>${content.title}</h3>
+            <p style="color: #9CA3AF; margin-bottom: 10px; font-size: 0.9em;">
+                ${content.description}
+            </p>
+            <div class="read-time">
+                <i class="ph ph-clock tip-icon"></i>
+                <span>${content.readTime} de leitura</span>
+            </div>
+
+            <div class="tip-list">
+                ${tipsHtml}
+            </div>
+
+            <a href="detalhe-educacao.html?id=${content.id}" class="read-more">
+                Ler mais
+                <i class="ph ph-arrow-right"></i>
+            </a>
             `;
             contentGrid.appendChild(card);
         });
-        
+
         contentContainer.appendChild(contentGrid);
     }
-
-    /**
-     * Renderiza o Call to Action (CTA) inferior.
-     */
-    function renderCTA() {
-        const ctaCard = document.createElement('div');
-        ctaCard.className = 'cta-bottom-card';
-        
-        ctaCard.innerHTML = `
-            <div class="cta-info">
-                <div class="cta-icon-container">
-                    <i class="ph ph-lightbulb"></i>
-                </div>
-                <div>
-                    <div class="cta-title">Tem uma dica sustentável?</div>
-                    <p class="cta-subtitle">
-                        Compartilhe seu conhecimento com a comunidade.
-                    </p>
-                </div>
-            </div>
-            <a href="#" id="cta-share-button" class="cta-button">
-                COMPARTILHAR DICA
-            </a>
-        `;
-        
-        ctaSection.appendChild(ctaCard);
-
-        // Adiciona a lógica do fluxo de autenticação ao botão
-        document.getElementById('cta-share-button').addEventListener('click', handleCtaClick);
-    }
-
-    /**
-     * Gerencia o clique no CTA, aplicando o fluxo de autenticação.
-     */
-    function handleCtaClick(e) {
-        e.preventDefault();
-        
-        // A função isAuthenticated é definida em app.js (ou será no futuro, com JWT)
-        if (typeof isAuthenticated === 'function' && isAuthenticated()) {
-            // SE JÁ ESTIVER LOGADO -> VAI PARA A COMUNIDADE (onde ele pode postar)
-            window.location.href = 'comunidade.html';
-        } else {
-            // SE NÃO ESTIVER LOGADO -> VAI PARA O LOGIN
-            // O login irá redirecionar para 'comunidade.html' após o sucesso
-            alert('Você precisa estar logado para compartilhar! Redirecionando para o login.'); 
-            window.location.href = 'login.html?next=comunidade.html';
-        }
-    }
+    
+    // ⭐ LÓGICA DO CTA REMOVIDA AQUI (renderCTA e handleCtaClick) ⭐
 
     // --- INICIALIZAÇÃO ---
     renderContent();
-    renderCTA();
-
+    // REMOVIDO: renderCTA();
 });

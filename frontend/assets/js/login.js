@@ -1,197 +1,161 @@
 // frontend/assets/js/login.js
-// URL base da sua API. Deve corresponder ao seu servidor Node.js/Express.
-const API_BASE_URL = 'http://localhost:3000/api';
-const LOGIN_ENDPOINT = `${API_BASE_URL}/login`;
+// Versão corrigida: endpoint correto, seletores robustos e armazenamento compatível
 
-document.addEventListener('DOMContentLoaded', () => {
-  const loginForm = document.getElementById('login-form');
+const API_BASE_URL = (window.__API_BASE__ || 'http://localhost:3000') + '/api';
+const LOGIN_ENDPOINT = `${API_BASE_URL}/auth/login`; // <<-- rota correta: /api/auth/login
 
-  if (loginForm) {
-    loginForm.addEventListener('submit', handleLoginSubmit);
-  } else {
-    console.error("Erro: Formulário de login (ID 'login-form') não encontrado.");
+// Mensagem na UI
+function displayMessage(message, type = 'error') {
+  let container = document.getElementById('form-message');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'form-message';
+    container.style.margin = '14px auto';
+    container.style.padding = '10px 14px';
+    container.style.borderRadius = '8px';
+    container.style.maxWidth = '520px';
+    container.style.fontWeight = '600';
+    const formWrap = document.querySelector('.auth-card') || document.body;
+    formWrap.prepend(container);
   }
-
-  // Verifica se há mensagens de erro/sucesso na URL (após ativação, etc.)
-  checkUrlMessages();
-});
-
-/**
- * Exibe mensagens de feedback para o usuário.
- * @param {string} message - A mensagem a ser exibida.
- * @param {'success' | 'error'} type - O tipo de mensagem (para styling).
- */
-function displayMessage(message, type) {
-  let messageContainer = document.getElementById('form-message');
-
-  if (!messageContainer) {
-    messageContainer = document.createElement('div');
-    messageContainer.id = 'form-message';
-    messageContainer.style.marginTop = '20px';
-    messageContainer.style.padding = '10px';
-    messageContainer.style.borderRadius = '6px';
-    messageContainer.style.textAlign = 'center';
-    messageContainer.style.fontWeight = 'bold';
-
-    const authCard = document.querySelector('.auth-card') || document.body;
-    authCard.prepend(messageContainer);
-  }
-
-  messageContainer.textContent = message || '';
-
+  container.textContent = message;
   if (type === 'success') {
-    messageContainer.style.backgroundColor = '#10B981'; // Verde
-    messageContainer.style.color = '#fff';
+    container.style.background = '#10B981';
+    container.style.color = '#fff';
   } else {
-    messageContainer.style.backgroundColor = '#EF4444'; // Vermelho
-    messageContainer.style.color = '#fff';
+    container.style.background = '#EF4444';
+    container.style.color = '#fff';
   }
-
-  messageContainer.style.display = 'block';
-
-  setTimeout(() => {
-    messageContainer.style.display = 'none';
-  }, 5000);
+  container.style.display = 'block';
+  clearTimeout(container._hideTimeout);
+  container._hideTimeout = setTimeout(() => container.style.display = 'none', 5000);
 }
 
-/**
- * Verifica mensagens de URL (ex: após ativação de conta por e-mail).
- */
-function checkUrlMessages() {
-  try {
-    const urlParams = new URLSearchParams(window.location.search);
-    const message = urlParams.get('message');
-    const error = urlParams.get('error');
-
-    if (message) {
-      displayMessage(message, 'success');
-      history.replaceState(null, null, window.location.pathname);
-    } else if (error) {
-      displayMessage(error, 'error');
-      history.replaceState(null, null, window.location.pathname);
-    }
-  } catch (err) {
-    // não crítico
-  }
-}
-
-/**
- * Salva sessão do usuário no localStorage de forma consistente.
- * Guardamos: user (obj JSON), token (string), userName (string), userRole (string)
- */
+// Salva sessão
 function saveSession(userObj, token) {
   try {
-    if (!userObj || !token) return;
-    localStorage.setItem('user', JSON.stringify(userObj));
-    localStorage.setItem('token', token);
+    if (!token) return;
+    const pureToken = String(token).replace(/^Bearer\s+/i, '').trim();
 
-    // compatibilidade: nome pode vir como 'nome' ou 'name'
-    const userName = userObj.nome || userObj.name || userObj.email || '';
-    localStorage.setItem('userName', userName);
+    localStorage.setItem('userToken', pureToken);
+    localStorage.setItem('token', pureToken);
+    localStorage.setItem('userData', JSON.stringify(userObj || {}));
+    localStorage.setItem('user', JSON.stringify(userObj || {}));
 
-    const role = userObj.nivel_acesso || userObj.role || userObj.role;
+    const userName = userObj?.nome || userObj?.name || userObj?.email || '';
+    if (userName) localStorage.setItem('userName', userName);
+
+    const role = userObj?.nivel_acesso || userObj?.role || '';
     if (role) localStorage.setItem('userRole', role);
+
+    console.info('[login] sessão salva: userToken length=', pureToken.length, 'userName=', userName);
   } catch (err) {
-    console.warn('Não foi possível salvar a sessão localmente:', err);
+    console.warn('[login] falha ao salvar sessão local:', err);
   }
 }
 
-/**
- * Lida com o envio do formulário de login.
- * @param {Event} e - O evento de submissão do formulário.
- */
+// ==============================
+// FUNÇÃO PRINCIPAL DE LOGIN
+// ==============================
 async function handleLoginSubmit(e) {
   e.preventDefault();
 
-  const form = e.currentTarget || document.getElementById('login-form');
+  const form = e.currentTarget || document.getElementById('login-form') || document.querySelector('form');
   if (!form) {
     displayMessage('Formulário de login não encontrado.', 'error');
     return;
   }
 
-  // Buscando inputs de forma segura (dentro do form)
-  const emailInput = form.querySelector('#email') || form.querySelector('input[type="email"]') || document.getElementById('email');
-  const passwordInput = form.querySelector('#password') || form.querySelector('input[type="password"]') || document.getElementById('password');
+  const emailEl = form.querySelector('#email') || form.querySelector('input[type="email"]') || form.querySelector('input[name="email"]');
+  const passEl = form.querySelector('#password') || form.querySelector('#senha') || form.querySelector('input[type="password"]') || form.querySelector('input[name="senha"]');
 
-  if (!emailInput || !passwordInput) {
+  if (!emailEl || !passEl) {
+    console.error('[login] inputs não encontrados', { emailEl, passEl });
     displayMessage('Campos de e-mail/senha ausentes. Atualize a página.', 'error');
-    console.error('Campos de e-mail/senha não encontrados no DOM.', { emailInput, passwordInput });
     return;
   }
 
-  const email = (emailInput.value || '').trim();
-  const password = passwordInput.value || '';
+  const email = (emailEl.value || '').trim();
+  const senha = (passEl.value || '').trim();
 
-  if (!email || !password) {
+  if (!email || !senha) {
     displayMessage('Por favor, preencha todos os campos.', 'error');
     return;
   }
 
-  const submitButton = form.querySelector('button[type="submit"]') || null;
-  if (submitButton) {
-    submitButton.disabled = true;
-    submitButton.dataset.oldText = submitButton.textContent || 'Entrando...';
-    submitButton.textContent = 'Entrando...';
+  const submitBtn = form.querySelector('button[type="submit"]');
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.dataset.oldText = submitBtn.textContent;
+    submitBtn.textContent = 'Entrando...';
   }
 
-  const loginData = { email, password };
+  console.info('[login] POST', LOGIN_ENDPOINT, 'email:', email);
 
   try {
+    // ==============================
+    // ⭐ CORREÇÃO CRÍTICA ESTÁ AQUI ⭐
+    // ==============================
+    const loginData = { email, password: senha };
+
     const response = await fetch(LOGIN_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(loginData)
+      body: JSON.stringify(loginData)   // <<-- Envia password corretamente
     });
 
-    // tenta ler JSON (proteção caso resposta não seja JSON)
-    let result = {};
-    try { result = await response.json(); } catch (err) { /* ignore */ }
+    let data = {};
+    try { data = await response.json(); } catch (err) {}
 
     if (!response.ok) {
-      const msg = (result && result.message) ? result.message : 'Erro desconhecido ao tentar logar.';
+      const msg = (data && (data.message || data.error)) ? (data.message || data.error) : `Erro: ${response.status}`;
       displayMessage(msg, 'error');
+      console.error('[login] resposta não OK:', response.status, msg, data);
       return;
     }
 
-    // resposta OK
-    displayMessage(result.message || 'Login realizado!', 'success');
+    displayMessage(data.message || 'Login realizado com sucesso!', 'success');
 
-    // salva sessão de forma robusta
-    const userObj = result.user || result.userData || null;
-    const token = result.token || result.accessToken || null;
+    const token = data.token || data.accessToken || data.jwt || data.access_token;
+    const user = data.user || data.usuario || data.userData;
 
-    if (userObj && token) {
-      saveSession(userObj, token);
+    if (!token) {
+      console.warn('[login] resposta não incluiu token.');
+      if (data.token) localStorage.setItem('token', data.token);
+      if (data.user) localStorage.setItem('user', JSON.stringify(data.user));
     } else {
-      // backward compatibility: se backend retornou outras chaves
-      if (result.token && result.user) {
-        saveSession(result.user, result.token);
-      } else {
-        // tenta salvar pelo que há
-        if (result.token) localStorage.setItem('token', result.token);
-        if (result.user) localStorage.setItem('user', JSON.stringify(result.user));
-      }
+      saveSession(user || {}, token);
     }
 
-    // tempo curto para o usuário ver a mensagem
     setTimeout(() => {
-      const redirect = (result && result.redirectUrl) ? result.redirectUrl : 'http://127.0.0.1:5500/pages/dashboard.html';
-      // se redirect for relativo (começa com '/'), converte para base local
-      if (redirect.startsWith('/')) {
-        // assume que o frontend está sendo servido em 127.0.0.1:5500
-        window.location.href = `http://127.0.0.1:5500${redirect}`;
-      } else {
+      const redirect = (data && data.redirectUrl) ? data.redirectUrl : '/pages/comunidade.html';
+      const base = window.location.origin;
+
+      if (redirect.startsWith('http')) {
         window.location.href = redirect;
+      } else {
+        window.location.href = redirect.startsWith('/') ? `${base}${redirect}` : `${base}/${redirect}`;
       }
     }, 700);
 
-  } catch (error) {
-    console.error('Erro de rede ou servidor:', error);
-    displayMessage('Não foi possível conectar ao servidor. Verifique se o backend está rodando.', 'error');
+  } catch (err) {
+    console.error('[login] erro de rede:', err);
+    displayMessage('Não foi possível conectar ao servidor.', 'error');
   } finally {
-    if (submitButton) {
-      submitButton.disabled = false;
-      submitButton.textContent = submitButton.dataset.oldText || 'Entrar';
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = submitBtn.dataset.oldText || 'Entrar';
     }
   }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('login-form') || document.querySelector('form');
+  if (!form) {
+    console.warn('[login] formulário não encontrado');
+    return;
+  }
+  form.addEventListener('submit', handleLoginSubmit);
+});
+
+export { handleLoginSubmit, saveSession };

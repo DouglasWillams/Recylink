@@ -1,195 +1,305 @@
-/* ------------------------------------------------------------------- */
-/* CONTAINER GERAL */
-/* ------------------------------------------------------------------- */
-.events-page-wrapper {
-    padding-top: 80px; /* Espaço para a navbar fixa */
-    min-height: 100vh;
-    background-color: var(--color-background-dark);
-}
+/*
+------------------------------------------------------------------- */ 
+/* CONTAINER GERAL */ 
+/*
+------------------------------------------------------------------- */ 
+.events-page-wrapper
+{ 
+padding-top: 80px; /* Espaço para a navbar fixa */ 
+min-height:
+100vh; 
+background-color:
+var(--color-background-dark); 
+} 
+.events-page-container { 
+max-width: 1200px; /* Largura máxima do conteúdo */ 
+margin: 0 auto; 
+padding: 20px; 
+} 
+/*
+------------------------------------------------------------------- */ 
+/* CABEÇALHO E SUBTÍTULO */ 
+/*
+------------------------------------------------------------------- */ 
+.header-content
+{ 
+margin-bottom:
+40px; 
+padding-top:
+20px; 
+} 
+.header-content
+h1 { 
+font-size:
+2.8em; 
+color:
+var(--color-primary-green); 
+margin-bottom:
+5px; 
+font-weight:
+bold; 
+} 
+.header-content
+.subtitle { 
+font-size:
+1.2em; 
+color: #9CA3AF; /* Cinza claro */ 
+margin-bottom: 20px; 
+} 
+/*
+------------------------------------------------------------------- */ 
+/* GRID DE EVENTOS */ 
+/*
+------------------------------------------------------------------- */ 
+.events-grid
+{ 
+display:
+grid; 
+/* Layout:
+3 colunas em desktop, 2 em tablet, 1 em mobile */ 
+grid-template-columns:
+repeat(auto-fit, minmax(300px, 1fr)); 
+gap: 30px; 
+margin-bottom:
+50px; 
+} 
+/* Estado de carregamento */ 
+.loading-message { 
+grid-column: 1 / -1; /* Ocupa todas as colunas */ 
+text-align:
+center; 
+color:
+#9CA3AF; 
+padding:
+50px; 
+} 
+/*
+------------------------------------------------------------------- */ 
+/* CARD DE
+EVENTO */ 
+/*
+------------------------------------------------------------------- */ 
+.event-card
+{ 
+background-color: #1F2937; /* Fundo escuro do card */ 
+border-radius: 12px; 
+overflow: hidden; /* Garante que a imagem se ajuste */ 
+box-shadow:
+0 4px 15px rgba(0, 0, 0, 0.4); 
+transition:
+transform 0.3s, box-shadow 0.3s; 
+} 
+.event-card:hover { 
+transform: translateY(-5px); /* Efeito de elevação sutil */ 
+box-shadow:
+0 8px 20px rgba(0, 0, 0, 0.6); 
+} 
+.event-image-container { 
+height: 200px; /* Altura fixa da imagem/placeholder */ 
+overflow:
+hidden; 
+} 
+.event-image-container
+img { 
+width:
+100%; 
+height:
+100%; 
+object-fit:
+cover; 
+transition:
+transform 0.5s; 
+} 
+.event-card:hover
+.event-image-container img { 
+transform: scale(1.05); /* Zoom sutil no hover */ 
+} 
 
-.events-page-container {
-    max-width: 1200px; /* Largura máxima do conteúdo */
-    margin: 0 auto;
-    padding: 20px;
-}
-
-/* ------------------------------------------------------------------- */
-/* CABEÇALHO E SUBTÍTULO */
-/* ------------------------------------------------------------------- */
-.header-content {
-    margin-bottom: 40px;
-    padding-top: 20px;
-}
-
-.header-content h1 {
-    font-size: 2.8em;
-    color: var(--color-primary-green);
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.header-content .subtitle {
-    font-size: 1.2em;
-    color: #9CA3AF; /* Cinza claro */
-    margin-bottom: 20px;
-}
-
-/* ------------------------------------------------------------------- */
-/* GRID DE EVENTOS */
-/* ------------------------------------------------------------------- */
-.events-grid {
-    display: grid;
-    /* Layout: 3 colunas em desktop, 2 em tablet, 1 em mobile */
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    margin-bottom: 50px;
-}
-
-/* Estado de carregamento */
-.loading-message {
-    grid-column: 1 / -1; /* Ocupa todas as colunas */
-    text-align: center;
-    color: #9CA3AF;
-    padding: 50px;
-}
-
-/* ------------------------------------------------------------------- */
-/* CARD DE EVENTO */
-/* ------------------------------------------------------------------- */
-.event-card {
-    background-color: #1F2937; /* Fundo escuro do card */
-    border-radius: 12px;
-    overflow: hidden; /* Garante que a imagem se ajuste */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.event-card:hover {
-    transform: translateY(-5px); /* Efeito de elevação sutil */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-}
-
-.event-image-container {
-    height: 200px; /* Altura fixa da imagem */
-    overflow: hidden;
-}
-
-.event-image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s;
-}
-
-.event-card:hover .event-image-container img {
-    transform: scale(1.05); /* Zoom sutil no hover */
-}
-
-.event-content {
-    padding: 20px;
-}
-
-.event-title {
-    font-size: 1.4em;
-    font-weight: bold;
-    color: var(--color-text-light);
-    margin-bottom: 10px;
-    line-height: 1.2;
-}
-
-.event-description {
-    color: #9CA3AF;
-    font-size: 0.9em;
-    margin-bottom: 15px;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 3; /* Limita a 3 linhas */
-    -webkit-box-orient: vertical;
-    line-clamp: 3; /* CORREÇÃO: Adiciona a propriedade padrão */
-}
-
-/* Metadados (Data, Local, Participantes) */
-.event-meta {
+/* ------------------------------------------- */
+/* ✅ ESTILOS PARA PLACEHOLDER SEM IMAGEM */
+/* ------------------------------------------- */
+.event-image-container.no-image {
+    background-color: var(--color-secondary-green); /* Verde sólido */
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
-    gap: 8px;
-    font-size: 0.9em;
-    color: #9CA3AF;
-    margin-bottom: 20px;
-}
-
-.meta-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.meta-icon {
-    color: var(--color-primary-green); /* Ícones verdes */
-    font-size: 1.2em;
-    line-height: 1;
-}
-
-/* Badge (Categoria e Participantes) */
-.event-badges {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.badge {
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-weight: 600;
-    font-size: 0.8em;
-    text-transform: uppercase;
-    color: var(--color-text-light);
-    background-color: #374151; /* Cor de fundo padrão para badge */
-}
-
-.participants {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    color: #9CA3AF;
-    font-size: 0.9em;
-}
-
-/* Botão de Participação */
-.btn-participate {
-    display: block;
-    width: 100%;
-    padding: 12px 0;
+    color: var(--color-background-dark); /* Texto escuro sobre o fundo verde */
+    font-weight: 700;
     text-align: center;
-    text-decoration: none;
-    background-color: var(--color-primary-green);
-    color: var(--color-text-light);
-    border: none;
-    border-radius: 8px;
-    font-size: 1em;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    font-size: 1.2em;
+    padding: 10px;
 }
 
-.btn-participate:hover {
-    background-color: var(--color-button-hover);
+.event-image-container.no-image i.ph {
+    font-size: 3em; /* Ícone grande */
+    margin-bottom: 5px;
+    color: var(--color-background-dark);
 }
+/* ------------------------------------------- */
 
-/* ------------------------------------------------------------------- */
-/* RESPONSIVIDADE */
-/* ------------------------------------------------------------------- */
-@media (max-width: 768px) {
-    .events-grid {
-        grid-template-columns: 1fr; /* Coluna única em mobile */
-        gap: 20px;
-    }
-    .events-page-container {
-        padding: 15px;
-    }
-    .event-image-container {
-        height: 180px;
-    }
+
+.event-content
+{ 
+padding:
+20px; 
+} 
+.event-title
+{ 
+font-size:
+1.4em; 
+font-weight:
+bold; 
+color:
+var(--color-text-light); 
+margin-bottom:
+10px; 
+line-height:
+1.2; 
+} 
+.event-description
+{ 
+color:
+#9CA3AF; 
+font-size:
+0.9em; 
+margin-bottom:
+15px; 
+overflow:
+hidden; 
+display:
+-webkit-box; 
+-webkit-line-clamp:
+3; /* Limita a 3 linhas */ 
+-webkit-box-orient: vertical; 
+line-clamp: 3; 
+} 
+/* Metadados (Data, Local, Participantes) */ 
+.event-meta { 
+display:
+flex; 
+flex-direction:
+column; 
+gap: 8px; 
+font-size:
+0.9em; 
+color:
+#9CA3AF; 
+margin-bottom:
+20px; 
+} 
+.meta-item
+{ 
+display:
+flex; 
+align-items:
+center; 
+gap: 10px; 
+} 
+.meta-icon
+{ 
+color:
+var(--color-primary-green); /* Ícones verdes */ 
+font-size:
+1.2em; 
+line-height:
+1; 
+} 
+/* Badge
+(Categoria e Participantes) */ 
+.event-badges
+{ 
+display:
+flex; 
+justify-content:
+space-between; 
+align-items:
+center; 
+margin-bottom:
+15px; 
+} 
+.badge { 
+display:
+inline-block; 
+padding:
+5px 10px; 
+border-radius:
+4px; 
+font-weight:
+600; 
+font-size:
+0.8em; 
+text-transform:
+uppercase; 
+color:
+var(--color-text-light); 
+background-color: #374151; /* Cor de fundo padrão para badge
+*/ 
+} 
+.participants
+{ 
+display:
+flex; 
+align-items:
+center; 
+gap: 5px; 
+color:
+#9CA3AF; 
+font-size:
+0.9em; 
+} 
+/* Botão de Participação */ 
+.btn-participate { 
+display:
+block; 
+width:
+100%; 
+padding:
+12px 0; 
+text-align:
+center; 
+text-decoration:
+none; 
+background-color:
+var(--color-primary-green); 
+color:
+var(--color-text-light); 
+border:
+none; 
+border-radius:
+8px; 
+font-size:
+1em; 
+font-weight:
+bold; 
+cursor:
+pointer; 
+transition:
+background-color 0.3s; 
+} 
+.btn-participate:hover
+{ 
+background-color:
+var(--color-button-hover); 
+} 
+/*
+------------------------------------------------------------------- */ 
+/* RESPONSIVIDADE */ 
+/*
+------------------------------------------------------------------- */ 
+@media (max-width: 768px) { 
+.events-grid { 
+grid-template-columns: 1fr; /* Coluna única em mobile */ 
+gap: 20px; 
+} 
+.events-page-container
+{ 
+padding:
+15px; 
+} 
+.event-image-container
+{ 
+height:
+180px; 
+} 
 }

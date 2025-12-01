@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Detalhe do Artigo - Recylink</title>
     
-    <!-- CSS Global -->
     <link rel="stylesheet" href="../assets/css/main.css">
     
-    <!-- Ícones (Phosphor Icons) -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
     <style>
@@ -43,7 +43,7 @@
         .back-link:hover {
             color: var(--color-primary-green);
         }
-
+        
         /* Cabeçalho do Artigo */
         .article-header {
             display: flex;
@@ -85,7 +85,7 @@
             font-size: 0.9em;
             color: var(--color-primary-green);
         }
-
+        
         /* Corpo do Artigo */
         .article-body {
             display: grid;
@@ -109,7 +109,7 @@
             margin-top: 30px;
             margin-bottom: 15px;
         }
-
+        
         .article-summary ul, 
         .article-summary ol {
             list-style-position: inside;
@@ -143,7 +143,7 @@
             flex-shrink: 0;
             margin-top: 2px;
         }
-
+        
         /* CTA de Compartilhamento */
         .share-cta {
             padding: 20px;
@@ -160,7 +160,6 @@
             font-weight: bold;
         }
         
-        /* Artigo não encontrado */
         .article-not-found {
             text-align: center;
             padding: 50px;
@@ -189,11 +188,11 @@
                 gap: 20px;
             }
         }
+        
     </style>
 </head>
 <body>
     
-    <!-- HEADER / NAVBAR -->
     <header class="navbar">
         <div class="navbar-brand">
             <span class="brand-name">RECYLINK</span>
@@ -206,31 +205,35 @@
                 <li><a href="eventos.html">Eventos</a></li>
                 <li><a href="comunidade.html">Comunidade</a></li>
                 <li><a href="educacao.html" class="active">Educação</a></li>
-                <li><a href="login.html">Login</a></li>
-            </ul>
+                <li><a href="login.html">Login</a></li> </ul>
         </nav>
     </header>
-
+    
+    
     <main class="article-page-wrapper">
         <div class="article-container" id="article-detail-container">
-            <!-- Conteúdo injetado pelo education-detail-logic.js -->
+            
             <p style="text-align: center; color: #9CA3AF;">Carregando conteúdo...</p>
+            
         </div>
     </main>
     
-    <!-- Scripts -->
-    <script src="../assets/js/app.js"></script>
-    <script src="../assets/js/education-detail-logic.js"></script>
+    
+    <script type="module" src="../assets/js/auth.js"></script>
+    <script type="module" src="../assets/js/education-detail-logic.js"></script>
+    
+    <script type="module">
+        import { updateNavbarStatus } from '../assets/js/auth.js';
+        document.addEventListener('DOMContentLoaded', updateNavbarStatus);
+    </script>
 
-    <!-- FOOTER -->
-    <footer class="main-footer">
+     <footer class="main-footer">
         <div class="footer-container">
             <div class="footer-grid">
                 <div>
                     <img src="../assets/images/logo.png" alt="Recylink" class="footer-logo"/>
                     <p class="slogan">Conectando pessoas para um futuro mais sustentável.</p>
                 </div>
-                
                 <div>
                     <h4>Links Rápidos</h4>
                     <ul class="footer-links">
@@ -239,27 +242,22 @@
                         <li><a href="eventos.html">Eventos</a></li>
                     </ul>
                 </div>
-                
                 <div>
                     <h4>Comunidade</h4>
                     <ul class="footer-links">
                         <li><a href="comunidade.html">Fórum</a></li>
                         <li><a href="educacao.html">Educação</a></li>
-                        <li><a href="contact.html">Contato</a></li>
                     </ul>
                 </div>
-
                 <div>
                     <h4>Agenda 2030</h4>
                     <p>Comprometidos com os Objetivos de Desenvolvimento Sustentável da ONU.</p>
                 </div>
             </div>
-            
             <div class="footer-copy">
                 <p>© 2025 Recylink. Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>
-    
 </body>
 </html>

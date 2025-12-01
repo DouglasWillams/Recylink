@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Evento - Recylink</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        .edit-event-page-wrapper {
+            padding-top: 80px; /* Espaço para o navbar */
+            min-height: 100vh;
+            background-color: var(--color-background-dark);
+            color: var(--color-text-light);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Alinha no topo */
+            padding-bottom: 50px; /* Espaço inferior */
+        }
+        .edit-event-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 30px auto;
+            padding: 30px;
+            background-color: #1F2937;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .edit-event-container h1 {
+            color: var(--color-primary-green);
+            font-size: 2em;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #E5E7EB;
+            font-weight: bold;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="datetime-local"],
+        .form-group input[type="url"],
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            background-color: #2C3E50;
+            color: var(--color-text-light);
+            font-size: 1em;
+            box-sizing: border-box; /* Garante que padding não aumente a largura */
+        }
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--color-primary-green);
+            box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.3);
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 25px;
+            background-color: var(--color-primary-green);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            background-color: #4CAF50;
+        }
+        .loading-message, .error-message {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.1em;
+        }
+        .loading-message {
+            color: var(--color-primary-green);
+        }
+        .error-message {
+            color: #DC2626;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .edit-event-container {
+                margin: 20px 10px;
+                padding: 20px;
+            }
+            .edit-event-container h1 {
+                font-size: 1.6em;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-brand"><span class="brand-name">RECYLINK</span></div>
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="sobre.html">Sobre</a></li>
+                <li><a href="mapa.html">Mapa</a></li>
+                <li><a href="eventos.html">Eventos</a></li>
+                <li><a href="comunidade.html">Comunidade</a></li>
+                <li><a href="educacao.html">Educação</a></li>
+                <li><a href="user-home.html">Dashboard</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <a href="login.html" class="btn-login" id="loginButton">Login</a>
+            <button class="btn-logout" id="logoutButton" style="display:none;">Logout</button>
+        </div>
+    </header>
+    
+    <main class="edit-event-page-wrapper">
+        <div class="edit-event-container">
+            <h1><i class="ph ph-pencil-line"></i> Editar Evento</h1>
+            <div id="edit-event-status-message" class="loading-message">
+                Carregando dados do evento...
+            </div>
+            
+            <form id="edit-event-form" style="display:none;">
+                <div class="form-group">
+                    <label for="event-id">ID do Evento</label>
+                    <input type="text" id="event-id" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="event-title">Título do Evento</label>
+                    <input type="text" id="event-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="event-desc">Descrição</label>
+                    <textarea id="event-desc" placeholder="Detalhes do evento..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="event-date">Data e Hora do Evento</label>
+                    <input type="datetime-local" id="event-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="event-location">Localização</label>
+                    <input type="text" id="event-location" placeholder="Rua, bairro ou ponto de referência">
+                </div>
+                <div class="form-group">
+                    <label for="event-image">URL da Imagem (Opcional)</label>
+                    <input type="url" id="event-image" placeholder="URL para a imagem de divulgação">
+                </div>
+                <button type="submit" class="btn"><i class="ph ph-floppy-disk"></i> Salvar Alterações</button>
+            </form>
+        </div>
+    </main>
+
+    <script type="module" src="../assets/js/auth.js"></script>
+    <script type="module" src="../assets/js/edit-event-logic.js"></script>
+    <script type="module">
+        import { updateNavbarStatus } from '../assets/js/auth.js';
+        document.addEventListener('DOMContentLoaded', updateNavbarStatus);
+    </script>
+</body>
+</html>

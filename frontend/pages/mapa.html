@@ -1,25 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Mapa de Lixeiras - Recylink</title>
     
-    <!-- CSS Global -->
     <link rel="stylesheet" href="../assets/css/main.css">
-    <!-- CSS Específico do Mapa (Você precisa ter este arquivo salvo) -->
+    
     <link rel="stylesheet" href="../assets/css/map.css">
     
-    <!-- Biblioteca Leaflet (Mapa) -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     
-    <!-- Ícones (Phosphor Icons - Usados no JS do mapa e no layout) -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
 </head>
 <body>
     
-    <!-- HEADER / NAVBAR (Cópia do index.html para consistência) -->
     <header class="navbar">
         <div class="navbar-brand">
             <span class="brand-name">RECYLINK</span>
@@ -36,42 +34,70 @@
             </ul>
         </nav>
     </header>
-
+    
+    
     <main class="map-page-wrapper">
         <div class="map-page-container">
             
             <div class="header-content">
                 <h1>Mapa de Pontos de Coleta</h1>
                 <p class="subtitle">Encontre o ponto de coleta seletiva mais próximo de você.</p>
-
-                <!-- Campo de Busca Aprimorado -->
+                
                 <div class="search-box-wrapper">
                     <i class="ph ph-magnifying-glass search-icon"></i>
-                    <input type="text" id="search-input" placeholder="Digite seu bairro, rua ou material..." onkeydown="if(event.key === 'Enter') filterMapBySearch()">
+                    <input type="text" id="search-input" placeholder="Digite seu bairro, rua ou material...">
                 </div>
             </div>
+            
+            <button id="add-point-btn" class="btn" style="background-color: #FBBF24; color: #1A1A1A; margin-bottom: 20px; display: none;">
+                <i class="ph ph-plus-circle"></i> Adicionar Novo Ponto de Coleta
+            </button>
+            
+            <div id="add-point-form-container" class="card" style="margin-bottom: 30px; display: none;">
+                <h3>Sugerir Local de Coleta</h3>
+                <form id="add-point-form">
+                    <div class="form-group">
+                        <label for="point-name">Nome do Ponto</label>
+                        <input type="text" id="point-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="full-address">Endereço Completo (Rua, Número, Bairro, Cidade)</label>
+                        <input type="text" id="full-address" required placeholder="Ex: Rua da Reciclagem, 100, Boa Viagem, Recife">
+                    </div>
 
-            <!-- LAYOUT PRINCIPAL: MAPA (2/3) e LISTA/LEGENDA (1/3) -->
+                    <div class="form-group">
+                        <label for="point-material">Material Aceito</label>
+                        <select id="point-material" required>
+                            <option value="Papel">Papel</option>
+                            <option value="Plástico">Plástico</option>
+                            <option value="Vidro">Vidro</option>
+                            <option value="Metal">Metal</option>
+                            <option value="Orgânico">Orgânico</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn" style="background-color: var(--color-primary-green);">
+                        Salvar Ponto
+                    </button>
+                    <button type="button" id="cancel-add-point" class="btn" style="background-color: #DC2626; margin-top: 10px;">
+                        Cancelar
+                    </button>
+                </form>
+            </div>
+            
             <div class="map-content-grid">
                 
-                <!-- Coluna 1: Mapa (2/3 da largura em desktop) -->
                 <div class="map-area">
-                    <!-- A div do mapa deve ter a altura definida no map.css -->
                     <div id="mapa-lixeiras" class="map-card">
-                        <div class="map-placeholder">
-                            <p>Carregando Mapa Interativo...</p>
-                        </div>
+                        <p class="map-placeholder">Carregando Mapa Interativo...</p>
                     </div>
                 </div>
-
-                <!-- Coluna 2: Legenda e Lista de Pontos (1/3 da largura em desktop) -->
+                
                 <div class="sidebar-area">
                     
-                    <!-- Card de Legenda -->
                     <div class="card legend-card">
                         <h3>Legenda</h3>
                         <div class="legend-items" id="legend-container">
-                            <!-- Estrutura simplificada para garantir que o CSS aplique a cor -->
                             <span class="legend-item"><span class="color-box papel"></span> Papel</span>
                             <span class="legend-item"><span class="color-box plastico"></span> Plástico</span>
                             <span class="legend-item"><span class="color-box vidro"></span> Vidro</span>
@@ -79,34 +105,34 @@
                             <span class="legend-item"><span class="color-box organico"></span> Orgânico</span>
                         </div>
                     </div>
-
-                    <!-- Card de Pontos Próximos -->
+                    
                     <div class="card location-list-card">
                         <h3>Pontos Próximos</h3>
                         <div class="location-list" id="location-list-container">
-                            <!-- Os pontos serão injetados pelo map-logic.js (sem placeholder) -->
-                        </div>
+                            </div>
                     </div>
-
                 </div>
             </div> 
         </div>
     </main>
     
-    <!-- Scripts (Leaflet deve vir antes do seu script de lógica) -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="../assets/js/app.js"></script>
-    <script src="../assets/js/map-logic.js"></script>
+    
+    <script type="module" src="../assets/js/auth.js"></script>
+    <script type="module" src="../assets/js/map-logic.js"></script>
 
-    <!-- FOOTER (Corrigido para estar dentro do <body>) -->
-    <footer class="main-footer">
+    <script type="module">
+        import { updateNavbarStatus } from '../assets/js/auth.js';
+        document.addEventListener('DOMContentLoaded', updateNavbarStatus);
+    </script>
+    
+     <footer class="main-footer">
         <div class="footer-container">
             <div class="footer-grid">
                 <div>
                     <img src="../assets/images/logo.png" alt="Recylink" class="footer-logo"/>
                     <p class="slogan">Conectando pessoas para um futuro mais sustentável.</p>
                 </div>
-                
                 <div>
                     <h4>Links Rápidos</h4>
                     <ul class="footer-links">
@@ -115,27 +141,22 @@
                         <li><a href="eventos.html">Eventos</a></li>
                     </ul>
                 </div>
-                
                 <div>
                     <h4>Comunidade</h4>
                     <ul class="footer-links">
                         <li><a href="comunidade.html">Fórum</a></li>
                         <li><a href="educacao.html">Educação</a></li>
-                        <li><a href="contact.html">Contato</a></li>
                     </ul>
                 </div>
-
                 <div>
                     <h4>Agenda 2030</h4>
                     <p>Comprometidos com os Objetivos de Desenvolvimento Sustentável da ONU.</p>
                 </div>
             </div>
-            
             <div class="footer-copy">
                 <p>© 2025 Recylink. Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>
-    
 </body>
 </html>

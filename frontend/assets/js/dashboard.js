@@ -1,123 +1,228 @@
 // frontend/assets/js/dashboard.js
-import { protectPage, getUser, getToken, logout, getUserName } from './auth.js';
-import { renderHeader } from './header.js';
+import {
+    protectPage,
+    getToken,
+    logout,
+    getUser
+} from './auth.js';
+import {
+    renderHomeContent,
+    renderProfileContent,
+    renderMyRegistrations,
+    renderSuggestEvent,
+    renderAddPointForm,
+    fetchMyCreatedEventsForEditing,
+    setDependencies
+} from './user-home-logic.js';
 
 const API_BASE = 'http://localhost:3000/api';
 
-function qs(sel) { return document.querySelector(sel); }
+function qs(sel) {
+    return document.querySelector(sel);
+}
+
+// =================================================================
+// FUNÇÕES DE UTILIDADE DE API E ESCAPE (Exportadas para user-home-logic)
+// =================================================================
+/**
+ * Wrapper de fetch para API. Adiciona Token de Autenticação.
+ * [Lida com erros 401/403 e melhora o tratamento de erro JSON]
+ */
+async function fetchJson(path, opts = {}) {
+    const token = getToken();
+    const headers = opts.headers || {};
+
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+    if (opts.method !== 'GET' && !headers['Content-Type']) {
+        headers['Content-Type'] = 'application/json';
+    }
+
+    // Garante que a URL seja montada corretamente: API_BASE + path
+    const url = path.startsWith(API_BASE) ? path : `${API_BASE}${path}`;
+
+    const res = await fetch(url, { ...opts, headers });
+
+    if (res.status === 204) { return {}; }
+    
+    let jsonResult;
+    try {
+        jsonResult = await res.json();
+    } catch (err) {
+        // Fallback: se o JSON falhar, tenta ler como texto
+        const text = await res.text().catch(() => 'Conteúdo não legível');
+        console.error('[fetchJson] Falha ao parsear JSON. Status:', res.status, 'Resposta:', text, 'Erro:', err);
+        jsonResult = { message: res.statusText || 'Erro desconhecido ao processar resposta do servidor.' };
+    }
+
+    if (!res.ok) {
+        // TRATAMENTO CRÍTICO DE AUTENTICAÇÃO (401/403)
+        if (res.status === 401 || res.status === 403) {
+             console.warn('[fetchJson] 401/403 detectado, forçando logout.');
+             logout('/pages/login.html?error=Sessão expirada. Faça login novamente.');
+        }
+        throw new Error(jsonResult.message || `HTTP ${res.status}: ${res.statusText}`);
+    }
+
+    return jsonResult;
+}
+
+export { fetchJson };
+
+export function escapeHtml(str) {
+    if (!str && str !== 0) return '';
+    return String(str).replace(/[&<>"']/g, (m) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    }[m]));
+}
+
+// =================================================================
+// LÓGICA PRINCIPAL DO DASHBOARD
+// =================================================================
 
 (async function init() {
-  // Renderiza header (injetando nav)
-  renderHeader({ containerSelector: '#site-header', showOnLoggedOut: true });
+    // 1. Injeta as dependências na lógica de renderização
+    setDependencies({ fetchJson, escapeHtml, API_BASE });
 
-  // Protege a página (redireciona ao login se não estiver logado)
-  protectPage('/pages/login.html');
+    // 2. Protege a página e verifica o login
+    protectPage('/pages/login.html');
 
-  // Mostra o nome do usuário
-  const user = getUser();
-  const name = getUserName() || (user && (user.nome || user.name)) || 'Usuário';
-  const welcome = qs('#welcome-name');
-  if (welcome) welcome.textContent = name;
+    // 3. Carrega o perfil completo do usuário
+    const userProfile = await loadUserProfile();
 
-  // logout button attach
-  const btnLogout = qs('#btn-logout');
-  if (btnLogout) btnLogout.addEventListener('click', () => logout('/pages/login.html'));
+    // 4. Configura a navegação e listeners
+    if (userProfile) {
+        setupSidebarNavigation(userProfile);
 
-  // carregar dados
-  await loadPontos();
-  await loadEventos();
-  await loadPosts();
+        // 5. Verifica se há um parâmetro de URL para forçar a abertura de uma aba
+        const urlParams = new URLSearchParams(window.location.search);
+        const targetPage = urlParams.get('page');
+
+        // Inicia na aba solicitada ou na Home
+        if (targetPage) {
+            showPage(targetPage);
+        } else {
+            showPage('home');
+        }
+    }
 })();
 
-async function fetchJson(path, opts = {}) {
-  const token = getToken();
-  const headers = opts.headers || {};
-  if (token) headers['Authorization'] = `Bearer ${token}`;
-  headers['Content-Type'] = headers['Content-Type'] || 'application/json';
-  const res = await fetch(`${API_BASE}${path}`, { ...opts, headers });
-  if (!res.ok) {
-    const txt = await res.text().catch(()=>null);
-    throw new Error(`HTTP ${res.status} : ${txt || res.statusText}`);
-  }
-  return res.json();
-}
+/**
+ * Carrega o perfil completo do usuário logado usando a rota /api/profile.
+ */
+async function loadUserProfile() {
+    const displayNameElement = qs('#user-display-name');
+    const displayLevelElement = qs('#user-display-level');
+    const avatarElement = qs('#user-avatar');
 
-async function loadPontos() {
-  const target = qs('#pontos-list');
-  if (!target) return;
-  try {
-    const dados = await fetchJson('/pontos-coleta');
-    if (!dados || dados.length === 0) {
-      target.innerHTML = '<p>Nenhum ponto de coleta cadastrado.</p>';
-      return;
+    const localUser = getUser() || {};
+
+    try {
+        // ⭐ CORREÇÃO FINAL: Usando '/profile' (SEM A BARRA FINAL) ⭐
+        // Isso deve corresponder à rota montada em app.use('/api/profile', ...)
+        const user = await fetchJson('/profile'); 
+        
+        // 1. Preenche dados de exibição
+        const realName = user.nome || 'Usuário';
+        const realLevel = user.nivel_acesso || 'População';
+
+        if (displayNameElement) displayNameElement.textContent = realName;
+        if (displayLevelElement) displayLevelElement.textContent = realLevel;
+
+        // 2. Armazena dados no DOM para formulários
+        document.body.dataset.userName = user.nome;
+        document.body.dataset.userPhone = user.telefone || '';
+        document.body.dataset.userEmail = user.email;
+        document.body.dataset.userCreatedAt = user.data_cadastro;
+
+        // 3. Coloca as iniciais no avatar
+        if (avatarElement && realName) {
+            const initials = realName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+            avatarElement.innerHTML = initials.length > 0 ? initials : `<i class="ph ph-user"></i>`;
+        }
+        return user;
+
+    } catch (err) {
+        console.error('Erro ao carregar perfil:', err.message); 
+        
+        // Exibe o nome armazenado localmente como fallback
+        if (displayNameElement) displayNameElement.textContent = localUser.nome || 'Erro no Carregamento';
+        // Exibe o nível armazenado localmente
+        if (displayLevelElement) displayLevelElement.textContent = localUser.nivel_acesso || 'N/A';
+
+        // Retorna o erro local para evitar travar o fluxo se o erro não for crítico
+        return localUser;
     }
-    const html = dados.map(p => `
-      <div style="padding:8px;border:1px solid #eee;border-radius:8px;margin-bottom:8px">
-        <strong>${escapeHtml(p.nome)}</strong><br/>
-        ${escapeHtml(p.endereco)} — ${escapeHtml(p.cidade)}<br/>
-        Tipo: ${escapeHtml(p.tipo_material)} | Status: ${escapeHtml(p.status || '')}
-      </div>
-    `).join('');
-    target.innerHTML = html;
-  } catch (err) {
-    console.error('loadPontos error', err);
-    target.innerHTML = `<p>Erro ao carregar pontos: ${escapeHtml(err.message)}</p>`;
-  }
 }
 
-async function loadEventos() {
-  const target = qs('#eventos-list');
-  if (!target) return;
-  try {
-    const dados = await fetchJson('/eventos');
-    if (!dados || dados.length === 0) {
-      target.innerHTML = '<p>Sem eventos no momento.</p>';
-      return;
+/**
+ * Configura a navegação lateral e os listeners.
+ */
+function setupSidebarNavigation(userProfile) {
+    const navItems = document.querySelectorAll('.action-button-dash');
+    const contentArea = qs('#dynamic-content-area');
+
+    function showPage(page) {
+        navItems.forEach(item => item.classList.remove('active'));
+        const activeItem = qs(`.action-button-dash[data-page="${page}"]`);
+        if (activeItem) activeItem.classList.add('active');
+        contentArea.innerHTML = '<p style="text-align: center; color: #9CA3AF; padding: 50px;">Carregando...</p>';
+        
+        // Esconde a lista de eventos criados por padrão
+        const myCreatedEventsList = qs('#my-created-events-list');
+        if (myCreatedEventsList) {
+             myCreatedEventsList.style.display = 'none';
+        }
+
+        switch (page) {
+            case 'home':
+                renderHomeContent(contentArea);
+                // Busca eventos para a home
+                if (myCreatedEventsList) {
+                    myCreatedEventsList.style.display = 'block';
+                    fetchMyCreatedEventsForEditing(myCreatedEventsList);
+                }
+                break;
+            case 'profile':
+                renderProfileContent(contentArea, userProfile);
+                break;
+            case 'history':
+                renderMyRegistrations(contentArea);
+                break;
+            case 'suggest-event':
+                renderSuggestEvent(contentArea);
+                // Garante que a lista de eventos criados aparece nesta aba
+                if (myCreatedEventsList) {
+                    myCreatedEventsList.style.display = 'block';
+                    fetchMyCreatedEventsForEditing(myCreatedEventsList);
+                }
+                break;
+            case 'add-point':
+                renderAddPointForm(contentArea);
+                break;
+        }
     }
-    const html = dados.map(ev => `
-      <div style="padding:8px;border:1px solid #eee;border-radius:8px;margin-bottom:8px">
-        <strong>${escapeHtml(ev.titulo)}</strong>
-        <div style="color:#666">${new Date(ev.data_evento).toLocaleString()}</div>
-        <div>${escapeHtml(ev.descricao || '')}</div>
-      </div>
-    `).join('');
-    target.innerHTML = html;
-  } catch (err) {
-    console.error('loadEventos error', err);
-    target.innerHTML = `<p>Erro ao carregar eventos: ${escapeHtml(err.message)}</p>`;
-  }
-}
 
-async function loadPosts() {
-  const target = qs('#posts-list');
-  if (!target) return;
-  try {
-    const dados = await fetchJson('/posts');
-    if (!dados || dados.length === 0) {
-      target.innerHTML = '<p>Sem posts.</p>';
-      return;
-    }
-    const html = dados.map(p => `
-      <div style="padding:8px;border:1px solid #eee;border-radius:8px;margin-bottom:8px">
-        <div style="font-weight:700">${escapeHtml(p.autor || p.nome || '')}</div>
-        <div>${escapeHtml(p.conteudo)}</div>
-        <div style="font-size:12px;color:#666">${new Date(p.data_publicacao).toLocaleString()}</div>
-      </div>
-    `).join('');
-    target.innerHTML = html;
-  } catch (err) {
-    console.error('loadPosts error', err);
-    target.innerHTML = `<p>Erro ao carregar posts: ${escapeHtml(err.message)}</p>`;
-  }
-}
+    navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage(e.currentTarget.dataset.page);
+        });
+    });
 
-function escapeHtml(str) {
-  if (!str && str !== 0) return '';
-  return String(str).replace(/[&<>"']/g, (m) => ({
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;'
-  }[m]));
+    // Listener de Logout
+    document.querySelectorAll('.logout-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            logout('/pages/login.html');
+        });
+    });
+
+    // Expõe showPage globalmente para ser chamada pela inicialização
+    window.showPage = showPage;
 }

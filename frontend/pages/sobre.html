@@ -4,18 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sobre Nós - Recylink</title>
-    <!-- Carrega o CSS global e os estilos específicos da página Sobre -->
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="../assets/css/about.css">
-    <!-- Ícones da biblioteca Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
     
-    <!-- Navbar (Estrutura compartilhada com outras páginas) -->
     <header class="navbar">
         <div class="navbar-brand">
-            <!-- Usando apenas o nome da marca, conforme o main.css sugere -->
             <span class="brand-name">RECYLINK</span>
         </div>
         <nav class="nav-menu">
@@ -26,14 +22,12 @@
                 <li><a href="eventos.html">Eventos</a></li>
                 <li><a href="comunidade.html">Comunidade</a></li>
                 <li><a href="educacao.html">Educação</a></li>
-                <li><a href="login.html">Login</a></li>
-            </ul>
+                <li><a href="login.html">Login</a></li> </ul>
         </nav>
     </header>
-
+    
     <main class="content-wrapper">
         
-        <!-- Seção Hero/Missão com imagem de fundo -->
         <section class="hero-sub" style="background-image: url('../assets/images/background-jardim.jpg');"> 
             <div class="hero-sub-content">
                 <h1>Nossa Missão</h1>
@@ -41,12 +35,10 @@
             </div>
         </section>
 
-        <!-- Seção Nossos Pilares (Objetivos do Projeto) -->
         <section class="objectives-section">
             <h2 class="section-title">Nossos Pilares</h2>
             <div class="cards-grid">
                 
-                <!-- Card 1: Educação -->
                 <div class="objective-card">
                     <div class="icon-circle" style="--icon-color: var(--color-primary-green);">
                         <i class="ph ph-chalkboard-teacher"></i>
@@ -55,7 +47,6 @@
                     <p>Promover conhecimento sobre práticas sustentáveis e reciclagem adequada.</p>
                 </div>
 
-                <!-- Card 2: Engajamento -->
                 <div class="objective-card">
                     <div class="icon-circle" style="--icon-color: #3B82F6;">
                         <i class="ph ph-users-three"></i>
@@ -64,7 +55,6 @@
                     <p>Conectar pessoas interessadas em fazer a diferença no meio ambiente.</p>
                 </div>
 
-                <!-- Card 3: Impacto -->
                 <div class="objective-card">
                     <div class="icon-circle" style="--icon-color: #10B981;">
                         <i class="ph ph-leaf"></i>
@@ -76,7 +66,6 @@
             </div>
         </section>
 
-        <!-- Seção ODS (Agenda 2030) -->
         <section class="ods-section">
             <h2 class="section-title">Alinhados com a Agenda 2030 da ONU</h2>
             <p class="subtitle">Nosso projeto contribui para os Objetivos de Desenvolvimento Sustentável.</p>
@@ -89,7 +78,7 @@
                     <h4>ODS 12</h4>
                     <p>Consumo Responsável</p>
                 </div>
-                
+
                 <div class="ods-item">
                     <div class="ods-icon" style="--ods-color: #FBBF24;">
                         <i class="ph ph-globe"></i>
@@ -97,7 +86,7 @@
                     <h4>ODS 13</h4>
                     <p>Ação Climática</p>
                 </div>
-                
+
                 <div class="ods-item">
                     <div class="ods-icon" style="--ods-color: #22C55E;">
                         <i class="ph ph-tree"></i>
@@ -105,7 +94,7 @@
                     <h4>ODS 15</h4>
                     <p>Vida Terrestre</p>
                 </div>
-                
+
                 <div class="ods-item">
                     <div class="ods-icon" style="--ods-color: #6366F1;">
                         <i class="ph ph-handshake"></i>
@@ -116,13 +105,11 @@
             </div>
         </section>
 
-        <!-- Seção Nossa Jornada (Timeline Atualizada) -->
         <section class="journey-section">
             <h2 class="section-title">Nossa Jornada</h2>
             
             <div class="timeline">
                 
-                <!-- MARCO: INÍCIO DO PROJETO 2025 -->
                 <div class="timeline-item">
                     <div class="timeline-date year-2025">2025</div>
                     <div class="timeline-content">
@@ -131,7 +118,6 @@
                     </div>
                 </div>
 
-                <!-- MARCO: EXPANSÃO REGIONAL E NACIONAL 2026 (Alterado) -->
                 <div class="timeline-item">
                     <div class="timeline-date">2026</div>
                     <div class="timeline-content">
@@ -140,9 +126,6 @@
                     </div>
                 </div>
 
-                <!-- MARCO 2028 FOI REMOVIDO -->
-                
-                <!-- MARCO FINAL: OBJETIVOS ONU 2030 -->
                 <div class="timeline-item">
                     <div class="timeline-date year-2030">2030</div>
                     <div class="timeline-content">
@@ -150,20 +133,24 @@
                         <p>Alinhamento completo com as metas da Agenda 2030 para desenvolvimento sustentável.</p>
                     </div>
                 </div>
-                
             </div>
         </section>
     </main>
 
-    <!-- Rodapé (Estrutura compartilhada) -->
-    <footer class="main-footer">
+    <script type="module" src="../assets/js/auth.js"></script>
+    
+    <script type="module">
+        import { updateNavbarStatus } from '../assets/js/auth.js';
+        document.addEventListener('DOMContentLoaded', updateNavbarStatus);
+    </script>
+
+     <footer class="main-footer">
         <div class="footer-container">
             <div class="footer-grid">
                 <div>
                     <img src="../assets/images/logo.png" alt="Recylink" class="footer-logo"/>
                     <p class="slogan">Conectando pessoas para um futuro mais sustentável.</p>
                 </div>
-                
                 <div>
                     <h4>Links Rápidos</h4>
                     <ul class="footer-links">
@@ -172,27 +159,22 @@
                         <li><a href="eventos.html">Eventos</a></li>
                     </ul>
                 </div>
-                
                 <div>
                     <h4>Comunidade</h4>
                     <ul class="footer-links">
                         <li><a href="comunidade.html">Fórum</a></li>
                         <li><a href="educacao.html">Educação</a></li>
-                        <li><a href="contact.html">Contato</a></li>
                     </ul>
                 </div>
-
                 <div>
                     <h4>Agenda 2030</h4>
                     <p>Comprometidos com os Objetivos de Desenvolvimento Sustentável da ONU.</p>
                 </div>
             </div>
-            
             <div class="footer-copy">
                 <p>© 2025 Recylink. Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>
-    <script src="../assets/js/app.js"></script>
 </body>
 </html>

@@ -4,50 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recylink - Conectando para um Futuro Mais Sustentável</title>
-    
-    <!-- CSS Global -->
     <link rel="stylesheet" href="../assets/css/main.css">
-    <!-- Ícones (Phosphor Icons - Usados na seção de Contato) -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    
     <style>
-        /* Adicione estilos inline temporários para a imagem de fundo */
         .hero-section {
-            background-image: url('../assets/images/background-hero.jpg'); /* Crie esta imagem! */
+            background-image: url('../assets/images/background-hero.jpg'); 
             background-size: cover;
             background-position: center;
-            height: 100vh; /* Ocupa a altura total da viewport */
-            /* Propriedades ajustadas no main.css para alinhamento central inferior:
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            */
-            color: white;
-            text-align: center;
-            position: relative;
+            height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-end; 
+            color: white; 
+            position: relative; 
+            padding-left: 5%; 
+            padding-right: 5%; 
         }
-
-        .hero-section::before { /* Camada escura sobre a imagem para melhor leitura do texto */
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.4); /* Escurecimento de 40% */
-            z-index: 1;
+        .hero-section::before { 
+            content: ''; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0, 0, 0, 0.4); 
+            z-index: 1; 
         }
-        /* O hero-content recebe o text-align: center e margin-bottom: 15% do main.css */
         .hero-content {
-            position: relative;
+            position: relative; 
             z-index: 2; 
+            text-align: center; 
+            max-width: 800px; 
+            margin-bottom: 15%; 
+        }
+        /* Classe para esconder elementos quando logado */
+        .hidden-when-logged {
+            display: none !important;
         }
     </style>
 </head>
 <body>
+    
     <header class="navbar">
         <div class="navbar-brand">
-            <!-- Removida a imagem da logo, deixado apenas o texto -->
             <span class="brand-name">RECYLINK</span>
         </div>
         <nav class="nav-menu">
@@ -58,20 +57,20 @@
                 <li><a href="eventos.html">Eventos</a></li>
                 <li><a href="comunidade.html">Comunidade</a></li>
                 <li><a href="educacao.html">Educação</a></li>
-                <li><a href="login.html">Login</a></li>
-            </ul>
+                <li><a href="login.html">Login</a></li> 
+                </ul>
         </nav>
     </header>
-
-    <!-- 1. HERO SECTION -->
+    
     <section class="hero-section">
         <div class="hero-content">
             <h1>Conectando pessoas para um futuro mais sustentável</h1>
-            <a href="register.html" class="btn btn-hero">PARTICIPAR AGORA <span class="arrow-right">→</span></a>
+            <div id="cta-register-home"> 
+                <a href="register.html" class="btn btn-hero">PARTICIPAR AGORA <span class="arrow-right">→</span></a>
+            </div>
         </div>
     </section>
-
-    <!-- 2. SECTION DE CONTATO -->
+    
     <section class="contact-section">
         <div class="page-container">
             <h2 class="section-title">Entre em Contato</h2>
@@ -79,7 +78,6 @@
             
             <div class="contact-grid">
                 
-                <!-- Coluna 1: Formulário de Contato -->
                 <div class="contact-card">
                     <h3 style="font-size: 1.5em; margin-bottom: 20px;">Envie uma Mensagem</h3>
                     <form id="contact-form">
@@ -101,11 +99,9 @@
                     </form>
                 </div>
                 
-                <!-- Coluna 2: Informações de Contato e Redes -->
                 <div>
                     <div class="info-card" style="margin-bottom: 30px;">
                         <h3 style="font-size: 1.5em; margin-bottom: 15px;">Informações de Contato</h3>
-                        
                         <div class="info-item">
                             <div class="info-icon-wrapper">
                                 <i class="ph ph-envelope"></i>
@@ -114,7 +110,6 @@
                                 <p>Email: <a href="mailto:contato@recylink.com.br">contato@recylink.com.br</a></p>
                             </div>
                         </div>
-                        
                         <div class="info-item">
                             <div class="info-icon-wrapper">
                                 <i class="ph ph-phone"></i>
@@ -127,7 +122,6 @@
                     
                     <div class="info-card">
                         <h3 style="font-size: 1.5em; margin-bottom: 15px;">Redes Sociais</h3>
-                        
                         <div class="info-item">
                             <div class="info-icon-wrapper" style="background-color: #DC2626;">
                                 <i class="ph ph-instagram-logo"></i>
@@ -136,7 +130,6 @@
                                 <p>Instagram: <a href="https://instagram.com" target="_blank">@recylink</a></p>
                             </div>
                         </div>
-                        
                         <div class="info-item">
                             <div class="info-icon-wrapper" style="background-color: #3B82F6;">
                                 <i class="ph ph-facebook-logo"></i>
@@ -145,7 +138,6 @@
                                 <p>Facebook: <a href="https://facebook.com/recylink" target="_blank">/recylink</a></p>
                             </div>
                         </div>
-                        
                         <div class="info-item">
                             <div class="info-icon-wrapper" style="background-color: #10B981;">
                                 <i class="ph ph-whatsapp-logo"></i>
@@ -156,21 +148,57 @@
                         </div>
                     </div>
                 </div>
-                
             </div>
             
             <div style="margin-top: 40px; text-align: center;">
                 <p style="color: #9CA3AF;">Atendimento: Segunda a Sexta: 9h às 18h | Sábado: 9h às 13h</p>
             </div>
-            
         </div>
     </section>
+    
+    <script type="module" src="../assets/js/auth.js"></script>
+    <script type="module" src="../assets/js/contact-logic.js"></script>
+    
+    <script type="module">
+        import { isLoggedIn, updateNavbarStatus } from '../assets/js/auth.js';
+        
+        function initializeHomeStatus() {
+            updateNavbarStatus(); // Atualiza a Navbar primeiro
 
-    <!-- Scripts -->
-    <script src="../assets/js/app.js"></script>
-    <script src="../assets/js/contact-logic.js"></script>
+            const ctaElement = document.getElementById('cta-register-home');
+            
+            if (isLoggedIn()) {
+                // Se estiver logado, esconde o botão "PARTICIPAR AGORA"
+                if (ctaElement) {
+                    ctaElement.style.display = 'none';
+                    
+                    // Opcional: Adicionar uma mensagem de boas-vindas no lugar
+                    const heroContent = document.querySelector('.hero-content');
+                    if (heroContent && !heroContent.querySelector('.welcome-back')) {
+                        const welcomeMessage = document.createElement('h2');
+                        welcomeMessage.className = 'welcome-back';
+                        welcomeMessage.style.color = '#FBBF24';
+                        welcomeMessage.style.textShadow = '1px 1px 2px rgba(0,0,0,0.7)';
+                        welcomeMessage.style.marginTop = '20px';
+                        welcomeMessage.textContent = 'Bem-vindo(a) de volta! Acesse seu Dashboard.';
+                        heroContent.appendChild(welcomeMessage);
 
-    <!-- FOOTER -->
+                        const dashboardLink = document.createElement('a');
+                        dashboardLink.href = 'user-home.html';
+                        dashboardLink.className = 'btn btn-hero';
+                        dashboardLink.textContent = 'IR PARA O DASHBOARD';
+                        heroContent.appendChild(dashboardLink);
+                    }
+                }
+            } else {
+                // Se não estiver logado, garante que o botão esteja visível
+                if (ctaElement) ctaElement.style.display = 'block';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeHomeStatus);
+    </script>
+    
     <footer class="main-footer">
         <div class="footer-container">
             <div class="footer-grid">
@@ -178,7 +206,6 @@
                     <img src="../assets/images/logo.png" alt="Recylink" class="footer-logo"/>
                     <p class="slogan">Conectando pessoas para um futuro mais sustentável.</p>
                 </div>
-                
                 <div>
                     <h4>Links Rápidos</h4>
                     <ul class="footer-links">
@@ -187,22 +214,18 @@
                         <li><a href="eventos.html">Eventos</a></li>
                     </ul>
                 </div>
-                
                 <div>
                     <h4>Comunidade</h4>
                     <ul class="footer-links">
                         <li><a href="comunidade.html">Fórum</a></li>
                         <li><a href="educacao.html">Educação</a></li>
-                        <li><a href="contact.html">Contato</a></li>
                     </ul>
                 </div>
-
                 <div>
                     <h4>Agenda 2030</h4>
                     <p>Comprometidos com os Objetivos de Desenvolvimento Sustentável da ONU.</p>
                 </div>
             </div>
-            
             <div class="footer-copy">
                 <p>© 2025 Recylink. Todos os direitos reservados.</p>
             </div>

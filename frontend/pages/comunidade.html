@@ -4,65 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comunidade - Recylink</title>
-    
-    <!-- CSS Global -->
+
+    <!-- CSS -->
     <link rel="stylesheet" href="../assets/css/main.css">
-    <!-- CSS Específico para a Comunidade -->
     <link rel="stylesheet" href="../assets/css/community.css">
-    
-    <!-- Ícones (Phosphor Icons) -->
+
+    <!-- Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    
 </head>
 <body>
-    
-    <!-- HEADER / NAVBAR -->
+
+    <!-- ================= NAVBAR ================= -->
     <header class="navbar">
         <div class="navbar-brand">
             <span class="brand-name">RECYLINK</span>
         </div>
+
         <nav class="nav-menu">
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="sobre.html">Sobre</a></li> 
+                <li><a href="sobre.html">Sobre</a></li>
                 <li><a href="mapa.html">Mapa</a></li>
                 <li><a href="eventos.html">Eventos</a></li>
                 <li><a href="comunidade.html" class="active">Comunidade</a></li>
                 <li><a href="educacao.html">Educação</a></li>
-                <li><a href="login.html">Login</a></li>
+                <!-- O botão Login/Perfil será inserido automaticamente pelo auth.js -->
             </ul>
         </nav>
     </header>
 
+    <!-- ================= PAGE CONTENT ================= -->
     <main class="community-page-wrapper">
+
         <div class="community-page-container">
-            
+
             <div class="header-content">
                 <h1>Comunidade Sustentável</h1>
-                <p class="subtitle">Compartilhe suas ideias, dicas e conquistas sustentáveis com outros membros.</p>
+                <p class="subtitle">
+                    Compartilhe suas ideias, dicas e conquistas sustentáveis com outros membros.
+                </p>
             </div>
 
-            <!-- Área onde o formulário de postagem e o feed serão injetados pelo JavaScript -->
+            <!-- FEED (renderizado via JS) -->
             <section id="community-feed-container">
-                <!-- O JavaScript vai preencher este conteúdo -->
-                <p class="loading-message">Carregando feed da comunidade...</p>
+                <p class="loading-message">Feed da comunidade</p>
             </section>
+
         </div>
     </main>
-    
-    <!-- Scripts -->
-    <script src="../assets/js/app.js"></script>
-    <script src="../assets/js/community-logic.js"></script>
 
-    <!-- FOOTER -->
-    <footer class="main-footer">
+    <!-- ================= SCRIPTS ================= -->
+    <script type="module" src="../assets/js/auth.js"></script>
+    <script type="module" src="../assets/js/community-v2.js"></script>
+
+    <script type="module">
+        import { updateNavbarStatus } from '../assets/js/auth.js';
+
+        // Garante que o estado de Login/Logout/Profile aparece corretamente
+        document.addEventListener('DOMContentLoaded', updateNavbarStatus);
+    </script>
+
+    <!-- ================= FOOTER ================= -->
+     <footer class="main-footer">
         <div class="footer-container">
             <div class="footer-grid">
                 <div>
                     <img src="../assets/images/logo.png" alt="Recylink" class="footer-logo"/>
                     <p class="slogan">Conectando pessoas para um futuro mais sustentável.</p>
                 </div>
-                
                 <div>
                     <h4>Links Rápidos</h4>
                     <ul class="footer-links">
@@ -71,27 +80,22 @@
                         <li><a href="eventos.html">Eventos</a></li>
                     </ul>
                 </div>
-                
                 <div>
                     <h4>Comunidade</h4>
                     <ul class="footer-links">
                         <li><a href="comunidade.html">Fórum</a></li>
                         <li><a href="educacao.html">Educação</a></li>
-                        <li><a href="contact.html">Contato</a></li>
                     </ul>
                 </div>
-
                 <div>
                     <h4>Agenda 2030</h4>
                     <p>Comprometidos com os Objetivos de Desenvolvimento Sustentável da ONU.</p>
                 </div>
             </div>
-            
             <div class="footer-copy">
                 <p>© 2025 Recylink. Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>
-    
 </body>
 </html>
