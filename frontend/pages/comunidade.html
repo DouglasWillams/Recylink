@@ -4,27 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comunidade - Recylink</title>
-
-    <!-- CSS -->
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="../assets/css/community.css">
-
-    <!-- Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
 <body>
-
-    <!-- ================= NAVBAR ================= -->
     <header class="navbar">
         <div class="navbar-brand">
             <span class="brand-name">RECYLINK</span>
         </div>
-
         <nav class="nav-menu">
             <ul>
                 <li><a href="/index.html">Home</a></li>
                 <li><a href="/sobre.html">Sobre</a></li>
-                <li><a href="/mapa.html" class="active">Mapa</a></li>
+                <li><a href="/mapa.html">Mapa</a></li>
                 <li><a href="/eventos.html">Eventos</a></li>
                 <li><a href="/comunidade.html" class="active">Comunidade</a></li>
                 <li><a href="/educacao.html">Educação</a></li>
@@ -32,44 +25,31 @@
             </ul>
         </nav>
     </header>
-
-    <!-- ================= PAGE CONTENT ================= -->
     <main class="community-page-wrapper">
-
         <div class="community-page-container">
-
             <div class="header-content">
                 <h1>Comunidade Sustentável</h1>
                 <p class="subtitle">
                     Compartilhe suas ideias, dicas e conquistas sustentáveis com outros membros.
                 </p>
             </div>
-
-            <!-- FEED (renderizado via JS) -->
             <section id="community-feed-container">
-                <p class="loading-message">Feed da comunidade</p>
+                <p class="loading-message">Carregando feed da comunidade...</p>
             </section>
-
         </div>
     </main>
-
-    <!-- ================= SCRIPTS ================= -->
     <script type="module" src="../assets/js/auth.js"></script>
     <script type="module" src="../assets/js/community-v2.js"></script>
-
     <script type="module">
         import { updateNavbarStatus } from '../assets/js/auth.js';
-
         // Garante que o estado de Login/Logout/Profile aparece corretamente
         document.addEventListener('DOMContentLoaded', updateNavbarStatus);
     </script>
-
-    <!-- ================= FOOTER ================= -->
-     <footer class="main-footer">
+    <footer class="main-footer">
         <div class="footer-container">
             <div class="footer-grid">
                 <div>
-                    <img src="../assets/images/logo.png" alt="Recylink" class="footer-logo"/>
+                    <img src="../assets/images/logo.png" alt="Recylink" class="footer-logo" style="height: 2.25rem; margin-bottom: 1rem;"/>
                     <p class="slogan">Conectando pessoas para um futuro mais sustentável.</p>
                 </div>
                 <div>
