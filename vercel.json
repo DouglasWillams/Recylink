@@ -16,8 +16,16 @@
       "dest": "backend/server.cjs"
     },
     {
+      "src": "/pages/(.*)",
+      "dest": "frontend/pages/$1"
+    },
+    {
+      "src": "/assets/(.*)",
+      "dest": "frontend/assets/$1"
+    },
+    {
       "src": "/(.*)",
-      "dest": "frontend/$1"
+      "dest": "frontend/pages/index.html"
     }
   ]
 }

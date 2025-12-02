@@ -1,3 +1,4 @@
+// backend/server.cjs
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -10,24 +11,24 @@ const fs = require('fs/promises');
 const authRouter = require('./routes/auth');
 const postRoutes = require('./routes/post');
 const mapRoutes = require('./routes/mapa');
-const profileRoutes = require('./routes/profile');
+const profileRoutes = require('./routes/profile'); 
 const eventoRoutes = require('./routes/evento');
 
 const app = express();
-const PORT = process.env.PORT || 3000; // Mantido para uso em ambiente de dev local
+const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
 app.use(bodyParser.json());
 
 // 🌟 LÓGICA DE CORS CORRIGIDA: SUPORTE A PRODUÇÃO (VERCEL) 🌟
+// Permite que o Frontend e o Backend Serverless se comuniquem no mesmo domínio.
 const allowedOrigins = [
   'http://127.0.0.1:5500', // Dev local (padrão)
   'http://localhost:5500', // Dev local (Live Server/outras portas)
   'http://localhost:3000', // Dev local (porta do próprio backend)
-  // O Vercel usará a URL do seu deploy como "origin"
-  process.env.FRONTEND_URL, 
-  process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null
+  process.env.FRONTEND_URL, // URL de produção definida nas variáveis do Vercel
+  process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null // Permite o domínio dinâmico do Vercel
 ].filter(Boolean);
 
 app.use(cors({
@@ -44,7 +45,7 @@ app.use(cors({
 }));
 app.options('*', cors());
 
-// Configuração de Conteúdo Estático (Apenas para ambiente de desenvolvimento local, o Vercel irá lidar com isso via vercel.json)
+// Configuração de Conteúdo Estático (Apenas para ambiente de desenvolvimento local)
 app.use('/frontend', express.static(path.join(__dirname, '../frontend')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
@@ -76,12 +77,16 @@ app.use((err, req, res, next) => {
 });
 
 // ------------------------------
-// CONEXÃO DE BANCO DE DADOS E EXPORTAÇÃO PARA VERCEL
+// LÓGICA PARA AMBIENTE SERVERLESS (VERCEL)
 // ------------------------------
 
-// O Vercel não inicia o servidor com app.listen(), mas sim exporta a instância do Express.
-// No entanto, precisamos testar a conexão com o DB antes que qualquer rota seja chamada.
-// Em um ambiente serverless, a conexão é feita sob demanda, mas o teste inicial é bom para logs.
+// Em ambiente Serverless, não podemos usar app.listen().
+// O Vercel gerencia a inicialização e o fechamento da função,
+// e usa a exportação do módulo Express como ponto de entrada.
+
+// Tentamos verificar a conexão do DB na inicialização da função serverless.
+// Se falhar, as rotas que acessam o DB também falharão, mas o servidor será
+// exportado para que o Vercel possa rotear o tráfego.
 
 async function verifyDatabaseConnection() {
     try {
@@ -89,14 +94,15 @@ async function verifyDatabaseConnection() {
         console.log(`  ✅     CONEXÃO DB VERIFICADA: Pronta para Serverless.`);
     } catch (err) {
         console.error('  ❌     ERRO FATAL NO DB: Conexão inicial falhou.', err.message);
-        // Em um ambiente serverless, não se pode usar process.exit(1), mas registramos o erro.
-        // A próxima execução tentará se conectar novamente.
+        // Não usamos process.exit(1) em Serverless; o log é suficiente.
     }
 }
 
-// Inicia a verificação de conexão (a ser executada na inicialização do Serverless Function)
+// Inicia a verificação de conexão (será executada a cada "cold start" da função)
 verifyDatabaseConnection();
 
-
-// Exporta o aplicativo Express para ser usado como Serverless Function pelo Vercel.
+// EXPORTAÇÃO CRÍTICA PARA O VERCEL: 
+// O Vercel precisa que a instância do Express seja exportada, e não 'escutada' (listen).
 module.exports = app;
+
+// O bloco original 'start()' e 'app.listen()' foi removido intencionalmente.
