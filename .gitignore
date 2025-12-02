@@ -1,0 +1,10 @@
+# Arquivos de Configuração Sensíveis e Logs
+.env
+.env.local
+npm-debug.log
+
+# Diretórios de Módulo/Dependências
+/node_modules
+
+# Excluir uploads (se for o caso)
+/backend/uploads
