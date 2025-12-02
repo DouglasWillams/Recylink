@@ -2,10 +2,10 @@
   "name": "recylink-backend",
   "version": "1.0.0",
   "description": "Backend RecyLink - API",
-  "main": "backend/server.cjs",
+  "main": "server.cjs",
   "scripts": {
-    "start": "node backend/server.cjs",
-    "dev": "nodemon backend/server.cjs"
+    "start": "node server.cjs",
+    "dev": "nodemon server.cjs"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",

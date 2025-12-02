@@ -4,105 +4,102 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
-const db = require('./database');
+const db = require('./database'); // veja seção de db abaixo
 const fs = require('fs/promises');
 
-// Importação das rotas
+// Rotas
 const authRouter = require('./routes/auth');
 const postRoutes = require('./routes/post');
 const mapRoutes = require('./routes/mapa');
-const profileRoutes = require('./routes/profile'); 
+const profileRoutes = require('./routes/profile');
 const eventoRoutes = require('./routes/evento');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
+// Middlewares
 app.use(express.json());
 app.use(bodyParser.json());
 
-// 🌟 LÓGICA DE CORS CORRIGIDA: SUPORTE A PRODUÇÃO (VERCEL) 🌟
-// Permite que o Frontend e o Backend Serverless se comuniquem no mesmo domínio.
 const allowedOrigins = [
-  'http://127.0.0.1:5500', // Dev local (padrão)
-  'http://localhost:5500', // Dev local (Live Server/outras portas)
-  'http://localhost:3000', // Dev local (porta do próprio backend)
-  process.env.FRONTEND_URL, // URL de produção definida nas variáveis do Vercel
-  process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null // Permite o domínio dinâmico do Vercel
+  'http://127.0.0.1:5500',
+  'http://localhost:5500',
+  'http://localhost:3000',
+  process.env.FRONTEND_URL,
+  process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null
 ].filter(Boolean);
 
 app.use(cors({
-    origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error(`Not allowed by CORS. Origin: ${origin}`));
-        }
-    },
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-    optionsSuccessStatus: 204
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`Not allowed by CORS. Origin: ${origin}`));
+    }
+  },
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204
 }));
 app.options('*', cors());
 
-// Configuração de Conteúdo Estático (Apenas para ambiente de desenvolvimento local)
+// static (dev only)
 app.use('/frontend', express.static(path.join(__dirname, '../frontend')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// ------------------------------
-// Definição das Rotas da API
-// ------------------------------
-
-// Montagens com namespaces:
+// Rotas
 app.use('/api/auth', authRouter);
 app.use('/api/posts', postRoutes);
 app.use('/api/mapa', mapRoutes);
 app.use('/api/evento', eventoRoutes);
 app.use('/api/profile', profileRoutes);
 
-// Rota raiz para checagem simples
+// health check
 app.get('/', (req, res) => {
-    res.json({ ok: true, message: 'Servidor Recylink no ar' });
+  res.json({ ok: true, message: 'Servidor Recylink no ar' });
 });
 
-// Tratamento básico de 404 para rotas não encontradas
+// 404
 app.use((req, res, next) => {
-    res.status(404).json({ ok: false, message: 'Endpoint não encontrado' });
+  res.status(404).json({ ok: false, message: 'Endpoint não encontrado' });
 });
 
-// Tratamento de erro genérico
+// Error handler
 app.use((err, req, res, next) => {
-    console.error('Erro no servidor:', err);
-    res.status(500).json({ ok: false, message: 'Erro interno do servidor' });
+  console.error('Erro no servidor (middleware):', err);
+  res.status(500).json({ ok: false, message: 'Erro interno do servidor' });
 });
 
-// ------------------------------
-// LÓGICA PARA AMBIENTE SERVERLESS (VERCEL)
-// ------------------------------
-
-// Em ambiente Serverless, não podemos usar app.listen().
-// O Vercel gerencia a inicialização e o fechamento da função,
-// e usa a exportação do módulo Express como ponto de entrada.
-
-// Tentamos verificar a conexão do DB na inicialização da função serverless.
-// Se falhar, as rotas que acessam o DB também falharão, mas o servidor será
-// exportado para que o Vercel possa rotear o tráfego.
-
+// Função de verificação de DB (executa no cold start)
 async function verifyDatabaseConnection() {
-    try {
-        await db.testConnection();
-        console.log(`  ✅     CONEXÃO DB VERIFICADA: Pronta para Serverless.`);
-    } catch (err) {
-        console.error('  ❌     ERRO FATAL NO DB: Conexão inicial falhou.', err.message);
-        // Não usamos process.exit(1) em Serverless; o log é suficiente.
-    }
+  try {
+    await db.testConnection();
+    console.log('✅  CONEXÃO DB VERIFICADA.');
+  } catch (err) {
+    console.error('❌  ERRO AO CONECTAR AO DB NA INICIALIZAÇÃO:', err && err.message ? err.message : err);
+    // não damos exit: em muitos hosts serverless, o runtime quer a exportação do app.
+  }
 }
 
-// Inicia a verificação de conexão (será executada a cada "cold start" da função)
+// Ao carregar o módulo, tentamos verificar DB (opcional)
 verifyDatabaseConnection();
 
-// EXPORTAÇÃO CRÍTICA PARA O VERCEL: 
-// O Vercel precisa que a instância do Express seja exportada, e não 'escutada' (listen).
-module.exports = app;
+// Determina se estamos em ambiente serverless (Vercel, AWS Lambda, etc)
+const isServerless = Boolean(
+  process.env.VERCEL
+  || process.env.AWS_LAMBDA_FUNCTION_NAME
+  || process.env.FUNCTIONS_WORKER_RUNTIME
+);
 
-// O bloco original 'start()' e 'app.listen()' foi removido intencionalmente.
+// Se estivermos em serverless, exportamos o app (Vercel usa isso).
+// Caso contrário (Railway/Docker/local) iniciamos o servidor com app.listen().
+if (isServerless) {
+  console.log('ℹ️  Iniciando em MODO SERVERLESS — exportando app (Vercel/AWS Lambda detected).');
+  module.exports = app;
+} else {
+  app.listen(PORT, () => {
+    console.log(`🚀 Servidor rodando na porta ${PORT} (process.env.PORT=${process.env.PORT || 'n/a'})`);
+  });
+  // Exporte também para permitir testes locais ou uso em outros módulos
+  module.exports = app;
+}
