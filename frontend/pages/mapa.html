@@ -1,48 +1,36 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Mapa de Lixeiras - Recylink</title>
-    
-    <link rel="stylesheet" href="../assets/css/main.css">
-    
-    <link rel="stylesheet" href="../assets/css/map.css">
-    
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/map.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    
 </head>
 <body>
-    
     <header class="navbar">
         <div class="navbar-brand">
             <span class="brand-name">RECYLINK</span>
         </div>
         <nav class="nav-menu">
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="sobre.html">Sobre</a></li> 
-                <li><a href="mapa.html" class="active">Mapa</a></li>
-                <li><a href="eventos.html">Eventos</a></li>
-                <li><a href="comunidade.html">Comunidade</a></li>
-                <li><a href="educacao.html">Educação</a></li>
-                <li><a href="login.html">Login</a></li>
+                <li><a href="/pages/index.html">Home</a></li>
+                <li><a href="/pages/sobre.html">Sobre</a></li> 
+                <li><a href="/pages/mapa.html" class="active">Mapa</a></li>
+                <li><a href="/pages/eventos.html">Eventos</a></li>
+                <li><a href="/pages/comunidade.html">Comunidade</a></li>
+                <li><a href="/pages/educacao.html">Educação</a></li>
+                <li><a href="/pages/login.html">Login</a></li>
             </ul>
         </nav>
     </header>
-    
-    
     <main class="map-page-wrapper">
         <div class="map-page-container">
-            
             <div class="header-content">
                 <h1>Mapa de Pontos de Coleta</h1>
                 <p class="subtitle">Encontre o ponto de coleta seletiva mais próximo de você.</p>
-                
                 <div class="search-box-wrapper">
                     <i class="ph ph-magnifying-glass search-icon"></i>
                     <input type="text" id="search-input" placeholder="Digite seu bairro, rua ou material...">
@@ -86,7 +74,6 @@
             </div>
             
             <div class="map-content-grid">
-                
                 <div class="map-area">
                     <div id="mapa-lixeiras" class="map-card">
                         <p class="map-placeholder">Carregando Mapa Interativo...</p>
@@ -94,7 +81,6 @@
                 </div>
                 
                 <div class="sidebar-area">
-                    
                     <div class="card legend-card">
                         <h3>Legenda</h3>
                         <div class="legend-items" id="legend-container">
@@ -108,8 +94,7 @@
                     
                     <div class="card location-list-card">
                         <h3>Pontos Próximos</h3>
-                        <div class="location-list" id="location-list-container">
-                            </div>
+                        <div class="location-list" id="location-list-container"></div>
                     </div>
                 </div>
             </div> 
@@ -117,12 +102,11 @@
     </main>
     
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    
-    <script type="module" src="../assets/js/auth.js"></script>
-    <script type="module" src="../assets/js/map-logic.js"></script>
+    <script type="module" src="/assets/js/auth.js"></script>
+    <script type="module" src="/assets/js/map-logic.js"></script>
 
     <script type="module">
-        import { updateNavbarStatus } from '../assets/js/auth.js';
+        import { updateNavbarStatus } from '/assets/js/auth.js';
         document.addEventListener('DOMContentLoaded', updateNavbarStatus);
     </script>
     
@@ -130,22 +114,22 @@
         <div class="footer-container">
             <div class="footer-grid">
                 <div>
-                    <img src="../assets/images/logo.png" alt="Recylink" class="footer-logo"/>
+                    <img src="/assets/images/logo.png" alt="Recylink" class="footer-logo"/>
                     <p class="slogan">Conectando pessoas para um futuro mais sustentável.</p>
                 </div>
                 <div>
                     <h4>Links Rápidos</h4>
                     <ul class="footer-links">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="mapa.html">Mapa</a></li>
-                        <li><a href="eventos.html">Eventos</a></li>
+                        <li><a href="/pages/index.html">Home</a></li>
+                        <li><a href="/pages/mapa.html">Mapa</a></li>
+                        <li><a href="/pages/eventos.html">Eventos</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4>Comunidade</h4>
                     <ul class="footer-links">
-                        <li><a href="comunidade.html">Fórum</a></li>
-                        <li><a href="educacao.html">Educação</a></li>
+                        <li><a href="/pages/comunidade.html">Fórum</a></li>
+                        <li><a href="/pages/educacao.html">Educação</a></li>
                     </ul>
                 </div>
                 <div>

@@ -3,167 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sobre Nós - Recylink</title>
-    <link rel="stylesheet" href="../assets/css/main.css">
-    <link rel="stylesheet" href="../assets/css/about.css">
+    <title>Cadastro | Recylink</title>
+    <link rel="stylesheet" href="/assets/css/main.css">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        .auth-page-wrapper { min-height:100vh; padding-top:80px; display:flex; justify-content:center; align-items:center; padding-bottom:50px; box-sizing:border-box; }
+    </style>
 </head>
 <body>
-    
     <header class="navbar">
         <div class="navbar-brand">
             <span class="brand-name">RECYLINK</span>
         </div>
         <nav class="nav-menu">
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="sobre.html" class="active">Sobre</a></li> 
-                <li><a href="mapa.html">Mapa</a></li>
-                <li><a href="eventos.html">Eventos</a></li>
-                <li><a href="comunidade.html">Comunidade</a></li>
-                <li><a href="educacao.html">Educação</a></li>
-                <li><a href="login.html">Login</a></li> </ul>
+                <li><a href="/pages/index.html">Home</a></li>
+                <li><a href="/pages/sobre.html">Sobre</a></li> 
+                <li><a href="/pages/mapa.html">Mapa</a></li>
+                <li><a href="/pages/eventos.html">Eventos</a></li>
+                <li><a href="/pages/comunidade.html">Comunidade</a></li>
+                <li><a href="/pages/educacao.html">Educação</a></li>
+                <li><a href="/pages/login.html">Login</a></li>
+            </ul>
         </nav>
     </header>
     
-    <main class="content-wrapper">
-        
-        <section class="hero-sub" style="background-image: url('../assets/images/background-jardim.jpg');"> 
-            <div class="hero-sub-content">
-                <h1>Nossa Missão</h1>
-                <p>Uma iniciativa para conectar pessoas, promover a educação ambiental e facilitar a reciclagem em nossa comunidade.</p>
-            </div>
-        </section>
-
-        <section class="objectives-section">
-            <h2 class="section-title">Nossos Pilares</h2>
-            <div class="cards-grid">
-                
-                <div class="objective-card">
-                    <div class="icon-circle" style="--icon-color: var(--color-primary-green);">
-                        <i class="ph ph-chalkboard-teacher"></i>
-                    </div>
-                    <h3>Educação Ambiental</h3>
-                    <p>Promover conhecimento sobre práticas sustentáveis e reciclagem adequada.</p>
-                </div>
-
-                <div class="objective-card">
-                    <div class="icon-circle" style="--icon-color: #3B82F6;">
-                        <i class="ph ph-users-three"></i>
-                    </div>
-                    <h3>Engajamento Comunitário</h3>
-                    <p>Conectar pessoas interessadas em fazer a diferença no meio ambiente.</p>
-                </div>
-
-                <div class="objective-card">
-                    <div class="icon-circle" style="--icon-color: #10B981;">
-                        <i class="ph ph-leaf"></i>
-                    </div>
-                    <h3>Impacto Positivo</h3>
-                    <p>Reduzir resíduos e aumentar a taxa de reciclagem em nossa região.</p>
-                </div>
-
-            </div>
-        </section>
-
-        <section class="ods-section">
-            <h2 class="section-title">Alinhados com a Agenda 2030 da ONU</h2>
-            <p class="subtitle">Nosso projeto contribui para os Objetivos de Desenvolvimento Sustentável.</p>
-            <div class="ods-grid">
-                
-                <div class="ods-item">
-                    <div class="ods-icon" style="--ods-color: #0E7490;">
-                        <i class="ph ph-recycle"></i>
-                    </div>
-                    <h4>ODS 12</h4>
-                    <p>Consumo Responsável</p>
-                </div>
-
-                <div class="ods-item">
-                    <div class="ods-icon" style="--ods-color: #FBBF24;">
-                        <i class="ph ph-globe"></i>
-                    </div>
-                    <h4>ODS 13</h4>
-                    <p>Ação Climática</p>
-                </div>
-
-                <div class="ods-item">
-                    <div class="ods-icon" style="--ods-color: #22C55E;">
-                        <i class="ph ph-tree"></i>
-                    </div>
-                    <h4>ODS 15</h4>
-                    <p>Vida Terrestre</p>
-                </div>
-
-                <div class="ods-item">
-                    <div class="ods-icon" style="--ods-color: #6366F1;">
-                        <i class="ph ph-handshake"></i>
-                    </div>
-                    <h4>ODS 17</h4>
-                    <p>Parcerias</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="journey-section">
-            <h2 class="section-title">Nossa Jornada</h2>
+    <main class="auth-page-wrapper">
+        <div class="auth-card">
+            <h1 class="auth-title" style="color: var(--color-primary-green);">Crie Sua Conta</h1>
             
-            <div class="timeline">
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="name">Nome Completo</label>
+                    <input type="text" id="name" name="name" required placeholder="Seu nome completo">
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" required placeholder="seu@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Telefone</label>
+                    <input type="tel" id="phone" name="phone" placeholder="(XX) XXXXX-XXXX">
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" required placeholder="********">
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirmar Senha</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required placeholder="********">
+                </div>
                 
-                <div class="timeline-item">
-                    <div class="timeline-date year-2025">2025</div>
-                    <div class="timeline-content">
-                        <h3>Início do Projeto</h3>
-                        <p>Criação da plataforma digital para conectar comunidades sustentáveis.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-date">2026</div>
-                    <div class="timeline-content">
-                        <h3>Expansão Regional e Nacional</h3>
-                        <p>Implementação em 20 cidades com mais de 50 pontos de coleta mapeados e Meta de 100 mil usuários ativos e redução de 1000 toneladas de resíduos.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-date year-2030">2030</div>
-                    <div class="timeline-content">
-                        <h3>Objetivos ONU</h3>
-                        <p>Alinhamento completo com as metas da Agenda 2030 para desenvolvimento sustentável.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+                <button type="submit" class="btn">
+                    <i class="ph ph-user-plus"></i> Registrar
+                </button>
+            </form>
+            
+            <p class="text-center">Já tem uma conta? <a href="/pages/login.html">Faça login</a></p>
+            
+        </div>
     </main>
-
-    <script type="module" src="../assets/js/auth.js"></script>
+    
+    <script type="module" src="/assets/js/auth.js"></script>
+    <script type="module" src="/assets/js/register.js"></script>
     
     <script type="module">
-        import { updateNavbarStatus } from '../assets/js/auth.js';
+        import { updateNavbarStatus } from '/assets/js/auth.js';
         document.addEventListener('DOMContentLoaded', updateNavbarStatus);
     </script>
-
+    
      <footer class="main-footer">
         <div class="footer-container">
             <div class="footer-grid">
                 <div>
-                    <img src="../assets/images/logo.png" alt="Recylink" class="footer-logo"/>
+                    <img src="/assets/images/logo.png" alt="Recylink" class="footer-logo"/>
                     <p class="slogan">Conectando pessoas para um futuro mais sustentável.</p>
                 </div>
                 <div>
                     <h4>Links Rápidos</h4>
                     <ul class="footer-links">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="mapa.html">Mapa</a></li>
-                        <li><a href="eventos.html">Eventos</a></li>
+                        <li><a href="/pages/index.html">Home</a></li>
+                        <li><a href="/pages/mapa.html">Mapa</a></li>
+                        <li><a href="/pages/eventos.html">Eventos</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4>Comunidade</h4>
                     <ul class="footer-links">
-                        <li><a href="comunidade.html">Fórum</a></li>
-                        <li><a href="educacao.html">Educação</a></li>
+                        <li><a href="/pages/comunidade.html">Fórum</a></li>
+                        <li><a href="/pages/educacao.html">Educação</a></li>
                     </ul>
                 </div>
                 <div>
