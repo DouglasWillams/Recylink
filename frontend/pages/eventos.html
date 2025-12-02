@@ -1,64 +1,100 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
- <meta charset="UTF-8" />
- <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
- <title>Eventos - Recylink</title>
- <link rel="stylesheet" href="/assets/css/main.css" />
- <link rel="stylesheet" href="/assets/css/events.css" />
- <script src="https://unpkg.com/@phosphor-icons/web"></script>
-</head>
-<body>
-<header class="navbar">
- <div class="navbar-brand"><span class="brand-name">RECYLINK</span></div>
- <nav class="nav-menu">
-  <ul>
-    <li><a href="/pages/index.html">Home</a></li>
-    <li><a href="/pages/sobre.html">Sobre</a></li>
-    <li><a href="/pages/mapa.html">Mapa</a></li>
-    <li><a href="/pages/eventos.html" class="active">Eventos</a></li>
-    <li><a href="/pages/comunidade.html">Comunidade</a></li>
-    <li><a href="/pages/educacao.html">Educação</a></li>
-    <li><a href="/pages/login.html">Login</a></li>
-  </ul>
- </nav>
-</header>
+<!DOCTYPE 
+html> 
+<html 
+lang="pt-br"> 
+<head> 
+ <meta charset="UTF-8"> 
+<meta name="viewport" content="width=device-width, 
+ini al-scale=1.0"> 
 
-<main class="events-page-wrapper">
- <div class="events-page-container">
-  <div class="header-content">
-    <h1>Eventos Sustentáveis</h1>
-    <p class="subtitle">Participe de atividades, workshops e mutirões voltados para a sustentabilidade.</p>
-  </div>
+< tle>Eventos - Recylink</ tle> 
+ <link rel="stylesheet" 
+href="/assets/css/main.css"> 
+ <link rel="stylesheet" 
+href="/assets/css/events.css"> 
+<script 
+src="h ps://unpkg.com/@phosphor-icons/web"></script> 
+</head> 
+<body> 
+<header class="navbar"> 
+<div class="navbar-brand"> 
+<span 
+class="brand-name">RECYLINK</span> 
+</div> 
+<nav class="nav-menu"> 
+<ul> 
+<li><a 
+href="/index.html">Home</a></li> 
+<li><a 
+href="/sobre.html">Sobre</a></li>  
+<li><a href="/mapa.html">Mapa</a></li> 
+<li><a href="/eventos.html" 
+class="ac ve">Eventos</a></li> 
+<li><a 
+href="/comunidade.html">Comunidade</a></li> 
+<li><a href="/educacao.html">Educação</a></li> 
+<li><a 
+href="/login.html">Login</a></li> 
+</ul> 
+</nav> 
+</header> 
+<main class="events-page-wrapper"> 
+<div class="events-page-container"> 
+<div 
+class="header-content"> 
+<h1>Eventos Sustentáveis</h1> 
+<p class="sub tle">Par cipe de a vidades, workshops e 
+mu rões voltados para a sustentabilidade.</p> 
+</div> 
+<sec on class="events-grid" 
+id="events-list-container"> 
+<p 
+class="loading-message">Carregando eventos...</p> 
+</sec on> 
+ </div> 
+ </main> 
+ <script type="module" src="/assets/js/auth.js"></script> 
+ <script type="module" src="/assets/js/events-logic.js"></script> 
 
-  <section class="events-grid" id="events-list-container">
-    <p class="loading-message">Carregando eventos...</p>
-  </section>
- </div>
-</main>
+    <script type="module"> 
+        import { updateNavbarStatus } from '/assets/js/auth.js'; 
+        document.addEventListener('DOMContentLoaded', updateNavbarStatus); 
+    </script> 
 
-<script type="module" src="/assets/js/auth.js"></script>
-<script type="module" src="/assets/js/events-logic.js"></script>
-<script type="module">
-    import { updateNavbarStatus } from '/assets/js/auth.js';
-    document.addEventListener('DOMContentLoaded', updateNavbarStatus);
-</script>
-
-<footer class="main-footer">
- <div class="footer-container">
-   <div class="footer-grid">
-     <div><img src="/assets/images/logo.png" alt="Recylink" class="footer-logo"/><p class="slogan">Conectando pessoas para um futuro mais sustentável.</p></div>
-     <div>
-       <h4>Links Rápidos</h4>
-       <ul class="footer-links"><li><a href="/pages/index.html">Home</a></li><li><a href="/pages/mapa.html">Mapa</a></li><li><a href="/pages/eventos.html">Eventos</a></li></ul>
-     </div>
-     <div>
-       <h4>Comunidade</h4>
-       <ul class="footer-links"><li><a href="/pages/comunidade.html">Fórum</a></li><li><a href="/pages/educacao.html">Educação</a></li></ul>
-     </div>
-   </div>
-   <div class="footer-copy"><p>© 2025 Recylink. Todos os direitos reservados.</p></div>
- </div>
-</footer>
-</body>
+ <footer class="main-footer"> 
+        <div class="footer-container"> 
+            <div class="footer-grid"> 
+                <div> 
+                    <img src="/assets/images/logo.png" alt="Recylink" class="footer
+logo"/> 
+                    <p class="slogan">Conectando pessoas para um futuro mais 
+sustentável.</p> 
+                </div> 
+                <div> 
+                    <h4>Links Rápidos</h4> 
+                    <ul class="footer-links"> 
+                        <li><a href="/index.html">Home</a></li> 
+                        <li><a href="/mapa.html">Mapa</a></li> 
+                        <li><a href="/eventos.html">Eventos</a></li> 
+                    </ul> 
+                </div> 
+                <div> 
+                    <h4>Comunidade</h4> 
+                    <ul class="footer-links"> 
+                        <li><a href="/comunidade.html">Fórum</a></li> 
+                        <li><a href="/educacao.html">Educação</a></li> 
+                    </ul> 
+                </div> 
+                <div> 
+                    <h4>Agenda 2030</h4> 
+                    <p>Comprometidos com os Objetivos de Desenvolvimento Sustentável da 
+ONU.</p> 
+                </div> 
+            </div> 
+            <div class="footer-copy"> 
+                <p>© 2025 Recylink. Todos os direitos reservados.</p> 
+            </div> 
+        </div> 
+    </footer> 
+</body> 
 </html>

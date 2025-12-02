@@ -331,7 +331,7 @@ function attachInteractionListeners(container) {
     });
 }
 // -------------------------
-// Start
+//
 // -------------------------
 async function initCommunity() {
     const logged = isLoggedIn();

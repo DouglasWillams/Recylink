@@ -25,79 +25,91 @@ export function getUser() {
 }
 
 export function getToken() {
-  // retorna token limpo ou null
-  try {
-    const t = localStorage.getItem('token');
-    return t ? String(t).trim() : null;
-  } catch (err) {
-    return null;
+  return localStorage.getItem('token') || null;
+}
+
+export function setToken(t) {
+  if (!t) {
+    localStorage.removeItem('token');
+  } else {
+    localStorage.setItem('token', t);
   }
-}
-
-export function getUserName() {
-  return localStorage.getItem('userName') || '';
-}
-
-export function getUserRole() {
-  return localStorage.getItem('userRole') || '';
 }
 
 export function isLoggedIn() {
-  // evita tokens vazios com apenas espaços
-  const t = getToken();
-  return Boolean(t && t.length > 0);
+  return !!getToken();
 }
 
 export function logout() {
-  try {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    localStorage.removeItem('userName');
-    localStorage.removeItem('userRole');
-  } catch (err) { /* ignore */ }
-
-  // redireciona para home - ajuste conforme seu ambiente de deploy
-  const base = window.location.origin.includes('5500') ? window.location.origin : 'http://127.0.0.1:5500';
-  window.location.href = `${base}/frontend/pages/index.html`;
+  // limpa token e redireciona para a página pública
+  setToken(null);
+  // use caminho absoluto do deploy (rotas definidas no vercel.json)
+  window.location.href = '/pages/index.html';
 }
 
-export function protectPage(redirect = '/pages/login.html') {
-  if (!isLoggedIn()) {
-    const loginPath = `/pages/login.html?next=${encodeURIComponent(window.location.pathname + window.location.search)}`;
-    const base = window.location.origin.includes('5500') ? window.location.origin : 'http://127.0.0.1:5500';
-    window.location.href = `${base}/frontend${loginPath}`;
-  }
-}
-
+/*
+  updateNavbarStatus:
+  - procura por um link "Login" existente e troca por botão "Perfil/Logout" quando estiver logado
+  - evita criar elementos adicionais se já existirem
+*/
 export function updateNavbarStatus() {
-  const logged = isLoggedIn();
-  const navMenu = document.querySelector('.nav-menu ul');
-  const userName = getUserName();
-  if (!navMenu) return;
-  navMenu.querySelectorAll('.dynamic-link').forEach(el => el.remove());
+  try {
+    const nav = document.querySelector('.nav-menu ul');
+    if (!nav) return;
 
-  if (logged) {
-    let loginLink = navMenu.querySelector('a[href="login.html"]');
-    if (loginLink) loginLink.parentNode.remove();
-
-    const dashboardItem = document.createElement('li');
-    dashboardItem.className = 'dynamic-link';
-    dashboardItem.innerHTML = `<a href="user-home.html">Dashboard</a>`;
-    navMenu.appendChild(dashboardItem);
-
-    const logoutItem = document.createElement('li');
-    logoutItem.className = 'dynamic-link';
-    logoutItem.innerHTML = `<a href="#" class="logout-btn">Logout (${userName.split(' ')[0]})</a>`;
-    navMenu.appendChild(logoutItem);
-    logoutItem.querySelector('.logout-btn').addEventListener('click', (e) => {
-      e.preventDefault();
-      logout();
+    // procura um elemento com href contendo "login.html" (ou texto "Login")
+    const loginLink = Array.from(nav.querySelectorAll('a')).find(a => {
+      const href = a.getAttribute('href') || '';
+      const text = (a.textContent || '').toLowerCase().trim();
+      return href.includes('login.html') || text === 'login';
     });
-  } else {
-    if (!navMenu.querySelector('a[href="login.html"]')) {
-      const loginItem = document.createElement('li');
-      loginItem.innerHTML = `<a href="login.html">Login</a>`;
-      navMenu.appendChild(loginItem);
+
+    // Remove previamente injetados (se tiverem sido criados por esse script) para evitar duplicatas
+    const existingInjected = nav.querySelector('.injected-auth');
+    if (existingInjected) existingInjected.remove();
+
+    if (isLoggedIn()) {
+      // criar elemento perfil + logout
+      const li = document.createElement('li');
+      li.className = 'injected-auth';
+      li.innerHTML = `
+        <a href="/pages/user-home.html" class="nav-profile">Perfil</a>
+      `;
+      // se houver loginLink, substitui (mantendo a mesma posição)
+      if (loginLink) {
+        const parentLi = loginLink.closest('li');
+        if (parentLi) {
+          parentLi.replaceWith(li);
+        } else {
+          nav.appendChild(li);
+        }
+      } else {
+        nav.appendChild(li);
+      }
+      // criar um segundo botão/ação de logout no final (opcional)
+      // adicionar listener global para logout em um botão com id "logoutButton" se existir
+      const logoutBtn = document.getElementById('logoutButton');
+      if (logoutBtn) {
+        logoutBtn.style.display = 'inline-block';
+        logoutBtn.addEventListener('click', logout);
+      }
+    } else {
+      // está deslogado: garante que haja um link para /pages/login.html
+      if (!loginLink) {
+        const li = document.createElement('li');
+        li.className = 'injected-auth';
+        li.innerHTML = `<a href="/pages/login.html">Login</a>`;
+        nav.appendChild(li);
+      } else {
+        // se existe mas não aponta para /pages/ — corrige
+        if (!loginLink.getAttribute('href').startsWith('/pages/')) {
+          loginLink.setAttribute('href', '/pages/login.html');
+        }
+      }
     }
+  } catch (e) {
+    // não quebrar a página se algo falhar aqui
+    console.error('[updateNavbarStatus]', e);
   }
 }
+

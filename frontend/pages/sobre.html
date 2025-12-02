@@ -1,108 +1,76 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro | Recylink</title>
-    <link rel="stylesheet" href="/assets/css/main.css">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <style>
-        .auth-page-wrapper { min-height:100vh; padding-top:80px; display:flex; justify-content:center; align-items:center; padding-bottom:50px; box-sizing:border-box; }
-    </style>
-</head>
-<body>
-    <header class="navbar">
-        <div class="navbar-brand">
-            <span class="brand-name">RECYLINK</span>
-        </div>
-        <nav class="nav-menu">
-            <ul>
-                <li><a href="/pages/index.html">Home</a></li>
-                <li><a href="/pages/sobre.html">Sobre</a></li> 
-                <li><a href="/pages/mapa.html">Mapa</a></li>
-                <li><a href="/pages/eventos.html">Eventos</a></li>
-                <li><a href="/pages/comunidade.html">Comunidade</a></li>
-                <li><a href="/pages/educacao.html">Educação</a></li>
-                <li><a href="/pages/login.html">Login</a></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <main class="auth-page-wrapper">
-        <div class="auth-card">
-            <h1 class="auth-title" style="color: var(--color-primary-green);">Crie Sua Conta</h1>
-            
-            <form id="register-form">
-                <div class="form-group">
-                    <label for="name">Nome Completo</label>
-                    <input type="text" id="name" name="name" required placeholder="Seu nome completo">
-                </div>
-                <div class="form-group">
-                    <label for="email">E-mail</label>
-                    <input type="email" id="email" name="email" required placeholder="seu@email.com">
-                </div>
-                <div class="form-group">
-                    <label for="phone">Telefone</label>
-                    <input type="tel" id="phone" name="phone" placeholder="(XX) XXXXX-XXXX">
-                </div>
-                <div class="form-group">
-                    <label for="password">Senha</label>
-                    <input type="password" id="password" name="password" required placeholder="********">
-                </div>
-                <div class="form-group">
-                    <label for="confirm-password">Confirmar Senha</label>
-                    <input type="password" id="confirm-password" name="confirm-password" required placeholder="********">
-                </div>
-                
-                <button type="submit" class="btn">
-                    <i class="ph ph-user-plus"></i> Registrar
-                </button>
-            </form>
-            
-            <p class="text-center">Já tem uma conta? <a href="/pages/login.html">Faça login</a></p>
-            
-        </div>
-    </main>
-    
-    <script type="module" src="/assets/js/auth.js"></script>
-    <script type="module" src="/assets/js/register.js"></script>
-    
-    <script type="module">
-        import { updateNavbarStatus } from '/assets/js/auth.js';
-        document.addEventListener('DOMContentLoaded', updateNavbarStatus);
-    </script>
-    
-     <footer class="main-footer">
-        <div class="footer-container">
-            <div class="footer-grid">
-                <div>
-                    <img src="/assets/images/logo.png" alt="Recylink" class="footer-logo"/>
-                    <p class="slogan">Conectando pessoas para um futuro mais sustentável.</p>
-                </div>
-                <div>
-                    <h4>Links Rápidos</h4>
-                    <ul class="footer-links">
-                        <li><a href="/pages/index.html">Home</a></li>
-                        <li><a href="/pages/mapa.html">Mapa</a></li>
-                        <li><a href="/pages/eventos.html">Eventos</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4>Comunidade</h4>
-                    <ul class="footer-links">
-                        <li><a href="/pages/comunidade.html">Fórum</a></li>
-                        <li><a href="/pages/educacao.html">Educação</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4>Agenda 2030</h4>
-                    <p>Comprometidos com os Objetivos de Desenvolvimento Sustentável da ONU.</p>
-                </div>
-            </div>
-            <div class="footer-copy">
-                <p>© 2025 Recylink. Todos os direitos reservados.</p>
-            </div>
-        </div>
-    </footer>
-</body>
+<!DOCTYPE html> 
+<html lang="pt-br"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, ini al-scale=1.0"> 
+    < tle>Sobre Nós - Recylink</ tle> 
+    <link rel="stylesheet" href="/assets/css/main.css"> 
+    <link rel="stylesheet" href="/assets/css/about.css"> 
+    <script src="h ps://unpkg.com/@phosphor-icons/web"></script> 
+</head> 
+<body> 
+     
+    <header class="navbar"> 
+        <div class="navbar-brand"> 
+            <span class="brand-name">RECYLINK</span> 
+        </div> 
+        <nav class="nav-menu"> 
+            <ul> 
+                <li><a href="/index.html">Home</a></li> 
+                <li><a href="/sobre.html" class="ac ve">Sobre</a></li>  
+                <li><a href="/mapa.html">Mapa</a></li> 
+                <li><a href="/eventos.html">Eventos</a></li> 
+                <li><a href="/comunidade.html">Comunidade</a></li> 
+                <li><a href="/educacao.html">Educação</a></li> 
+                <li><a href="/login.html">Login</a></li> </ul> 
+        </nav> 
+    </header> 
+     
+    <main class="content-wrapper"> 
+        <!-- conteúdo mantido --> 
+    </main> 
+
+    <script type="module" src="/assets/js/auth.js"></script> 
+     
+    <script type="module"> 
+        import { updateNavbarStatus } from '/assets/js/auth.js'; 
+        document.addEventListener('DOMContentLoaded', updateNavbarStatus); 
+    </script> 
+
+     <footer class="main-footer"> 
+        <div class="footer-container"> 
+            <div class="footer-grid"> 
+                <div> 
+                    <img src="/assets/images/logo.png" alt="Recylink" class="footer
+logo"/> 
+                    <p class="slogan">Conectando pessoas para um futuro mais 
+sustentável.</p> 
+                </div> 
+                <div> 
+                    <h4>Links Rápidos</h4> 
+                    <ul class="footer-links"> 
+                        <li><a href="/index.html">Home</a></li> 
+                        <li><a href="/mapa.html">Mapa</a></li> 
+                        <li><a href="/eventos.html">Eventos</a></li> 
+                    </ul> 
+                </div> 
+                <div> 
+                    <h4>Comunidade</h4> 
+                    <ul class="footer-links"> 
+                        <li><a href="/comunidade.html">Fórum</a></li> 
+                        <li><a href="/educacao.html">Educação</a></li> 
+                    </ul> 
+                </div> 
+                <div> 
+                    <h4>Agenda 2030</h4> 
+                    <p>Comprome dos com os Obje vos de Desenvolvimento Sustentável da 
+ONU.</p> 
+                </div> 
+            </div> 
+            <div class="footer-copy"> 
+                <p>© 2025 Recylink. Todos os direitos reservados.</p> 
+            </div> 
+        </div> 
+    </footer> 
+</body> 
 </html>

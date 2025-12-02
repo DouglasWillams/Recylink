@@ -1,3 +1,107 @@
+<!DOCTYPE html> 
+<html lang="pt-br"> 
+<head> 
+     
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, ini al-scale=1.0"> 
+     
+    <title>Cadastro | Recylink</title> 
+     
+    <link rel="stylesheet" href="/assets/css/main.css"> 
+     
+    <script src="h ps://unpkg.com/@phosphor-icons/web"></script> 
+
+    <style> 
+        .auth-page-wrapper { 
+            min-height: 100vh; 
+            padding-top: 80px; /* Espaço para a navbar */ 
+            display: flex;  
+            justify-content: center; /* Centraliza horizontalmente */ 
+            align-items: center; /* Centraliza ver calmente */ 
+            padding-bottom: 50px;  
+            box-sizing: border-box; 
+        } 
+    </style> 
+</head> 
+<body> 
+     
+    <header class="navbar"> 
+        <div class="navbar-brand"> 
+            <span class="brand-name">RECYLINK</span> 
+        </div> 
+        <nav class="nav-menu"> 
+            <ul> 
+                <li><a href="/index.html">Home</a></li> 
+                <li><a href="/sobre.html">Sobre</a></li>  
+                <li><a href="/mapa.html">Mapa</a></li> 
+                <li><a href="/eventos.html">Eventos</a></li> 
+                <li><a href="/comunidade.html">Comunidade</a></li> 
+                <li><a href="/educacao.html">Educação</a></li> 
+                <li><a href="/login.html">Login</a></li> 
+            </ul> 
+        </nav> 
+    </header> 
+     
+    <main class="auth-page-wrapper"> 
+        <div class="auth-card"> 
+            <h1 class="auth-tle" style="color: var(--color-primary-green);">Crie Sua 
+Conta</h1> 
+             
+            <form id="register-form"> 
+                <!-- formulário mantido --> 
+            </form> 
+             
+            <p class="text-center">Já tem uma conta? <a href="/login.html">Faça 
+login</a></p> 
+             
+        </div> 
+    </main> 
+     
+    <script type="module" src="/assets/js/auth.js"></script> 
+    <script type="module" src="/assets/js/register.js"></script> 
+     
+    <script type="module"> 
+        import { updateNavbarStatus } from '/assets/js/auth.js'; 
+        document.addEventListener('DOMContentLoaded', updateNavbarStatus); 
+    </script> 
+     
+     <footer class="main-footer"> 
+        <div class="footer-container"> 
+            <div class="footer-grid"> 
+                <div> 
+                    <img src="/assets/images/logo.png" alt="Recylink" class="footer
+logo"/> 
+                    <p class="slogan">Conectando pessoas para um futuro mais 
+sustentável.</p> 
+                </div> 
+                <div> 
+                    <h4>Links Rápidos</h4> 
+                    <ul class="footer-links"> 
+                        <li><a href="/index.html">Home</a></li> 
+                        <li><a href="/mapa.html">Mapa</a></li> 
+                        <li><a href="/eventos.html">Eventos</a></li> 
+                    </ul> 
+                </div> 
+                <div> 
+                    <h4>Comunidade</h4> 
+                    <ul class="footer-links"> 
+                        <li><a href="/comunidade.html">Fórum</a></li> 
+                        <li><a href="/educacao.html">Educação</a></li> 
+                    </ul> 
+                </div> 
+                <div> 
+                    <h4>Agenda 2030</h4> 
+                    <p>Comprome dos com os Obje vos de Desenvolvimento Sustentável da 
+ONU.</p> 
+                </div> 
+            </div> 
+            <div class="footer-copy"> 
+                <p>© 2025 Recylink. Todos os direitos reservados.</p> 
+            </div> 
+        </div> 
+    </footer> 
+</body> 
+</html>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -5,33 +109,101 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro | Recylink</title>
     <link rel="stylesheet" href="/assets/css/main.css">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="h ps://unpkg.com/@phosphor-icons/web"></script>
+
     <style>
-        .auth-page-wrapper { min-height:100vh; padding-top:80px; display:flex; justify-content:center; align-items:center; padding-bottom:50px; box-sizing:border-box; }
+        .auth-page-wrapper {
+            min-height: 100vh;
+            padding-top: 80px; /* Espaço para a navbar */
+            display: flex;
+            justify-content: center; /* Centraliza horizontalmente */
+            align-items: center; /* Centraliza verticalmente */
+            padding-bottom: 50px;
+            box-sizing: border-box;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 520px;
+            background-color: #1F2937;
+            padding: 28px;
+            border-radius: 12px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: var(--color-text-light);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #374151;
+            background-color: #2C3E50;
+            color: var(--color-text-light);
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            background-color: var(--color-primary-green);
+            color: #ffffff;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .auth-card {
+                padding: 20px;
+                margin: 0 12px;
+            }
+        }
     </style>
 </head>
 <body>
+
     <header class="navbar">
         <div class="navbar-brand">
             <span class="brand-name">RECYLINK</span>
         </div>
         <nav class="nav-menu">
             <ul>
-                <li><a href="/pages/index.html">Home</a></li>
-                <li><a href="/pages/sobre.html">Sobre</a></li> 
-                <li><a href="/pages/mapa.html">Mapa</a></li>
-                <li><a href="/pages/eventos.html">Eventos</a></li>
-                <li><a href="/pages/comunidade.html">Comunidade</a></li>
-                <li><a href="/pages/educacao.html">Educação</a></li>
-                <li><a href="/pages/login.html">Login</a></li>
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/sobre.html">Sobre</a></li>
+                <li><a href="/mapa.html">Mapa</a></li>
+                <li><a href="/eventos.html">Eventos</a></li>
+                <li><a href="/comunidade.html">Comunidade</a></li>
+                <li><a href="/educacao.html">Educação</a></li>
+                <li><a href="/login.html">Login</a></li>
             </ul>
         </nav>
     </header>
-    
+
     <main class="auth-page-wrapper">
         <div class="auth-card">
-            <h1 class="auth-title" style="color: var(--color-primary-green);">Crie Sua Conta</h1>
-            
+            <h1 class="auth-title" style="color: var(--color-primary-green); margin-bottom: 14px;">Crie Sua Conta</h1>
+
             <form id="register-form">
                 <div class="form-group">
                     <label for="name">Nome Completo</label>
@@ -53,45 +225,45 @@
                     <label for="confirm-password">Confirmar Senha</label>
                     <input type="password" id="confirm-password" name="confirm-password" required placeholder="********">
                 </div>
-                
+
                 <button type="submit" class="btn">
                     <i class="ph ph-user-plus"></i> Registrar
                 </button>
             </form>
-            
-            <p class="text-center">Já tem uma conta? <a href="/pages/login.html">Faça login</a></p>
-            
+
+            <p class="text-center" style="margin-top:12px;">Já tem uma conta? <a href="/login.html">Faça login</a></p>
+
         </div>
     </main>
-    
+
     <script type="module" src="/assets/js/auth.js"></script>
     <script type="module" src="/assets/js/register.js"></script>
-    
+
     <script type="module">
         import { updateNavbarStatus } from '/assets/js/auth.js';
         document.addEventListener('DOMContentLoaded', updateNavbarStatus);
     </script>
-    
+
      <footer class="main-footer">
         <div class="footer-container">
             <div class="footer-grid">
                 <div>
-                    <img src="/assets/images/logo.png" alt="Recylink" class="footer-logo"/>
+                    <img src="/assets/images/logo.png" alt="Recylink" class="footerlogo"/>
                     <p class="slogan">Conectando pessoas para um futuro mais sustentável.</p>
                 </div>
                 <div>
                     <h4>Links Rápidos</h4>
                     <ul class="footer-links">
-                        <li><a href="/pages/index.html">Home</a></li>
-                        <li><a href="/pages/mapa.html">Mapa</a></li>
-                        <li><a href="/pages/eventos.html">Eventos</a></li>
+                        <li><a href="/index.html">Home</a></li>
+                        <li><a href="/mapa.html">Mapa</a></li>
+                        <li><a href="/eventos.html">Eventos</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4>Comunidade</h4>
                     <ul class="footer-links">
-                        <li><a href="/pages/comunidade.html">Fórum</a></li>
-                        <li><a href="/pages/educacao.html">Educação</a></li>
+                        <li><a href="/comunidade.html">Fórum</a></li>
+                        <li><a href="/educacao.html">Educação</a></li>
                     </ul>
                 </div>
                 <div>
