@@ -1,20 +1,17 @@
 {
   "version": 2,
   "builds": [
-    
     {
       "src": "frontend/**",
       "use": "@vercel/static"
     }
   ],
   "routes": [
-    
     {
+      
       "src": "/api/(.*)",
-      "dest": "https://<recylink-production-4ed4.up.railway.app" 
+      "dest": "https://recylink-production-4ed4.up.railway.app/$1"
     },
-    
-    
     {
       "src": "/assets/(.*)",
       "dest": "frontend/assets/$1"
