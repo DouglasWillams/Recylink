@@ -9,7 +9,6 @@ const geocoder = NodeGeocoder({
     apiKey: process.env.OPENCAGE_API_KEY, // <-- Lê a chave do Railway
     httpAdapter: 'https', 
     formatter: null, 
-    // User Agent ainda é enviado, mas a autenticação é feita pela API Key
     userAgent: 'RecyLink-App-V1.0' 
 });
 
@@ -70,7 +69,9 @@ message: 'Não foi possível encontrar as coordenadas para o endereço fornecido
         const enderecoCompleto = `${streetName || ''} ${streetNumber || ''}`.trim();
         const cidadeFinal = city || 'Não Identificada';
  
+        // 3. EXECUÇÃO DA QUERY INSERT LIMPA
         const result = await db.query(
+          // Query INSERT sem espaços ou caracteres especiais
           `INSERT INTO ponto_coleta (nome, endereco, cidade, latitude, longitude, tipo_material, status, sugerido_por_id)
              VALUES ($1, $2, $3, $4, $5, $6, 'ativo', $7) RETURNING *`,
             [nome, enderecoCompleto, cidadeFinal, latitude, longitude, tipo_material, userId]

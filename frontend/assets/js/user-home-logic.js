@@ -1,6 +1,5 @@
 // frontend/assets/js/user-home-logic.js
-// IMPORTANTE: Este módulo depende que o dashboard.js injete as funções
-// de utilidade (fetchJson, escapeHtml) através de setDependencies.
+// ESTE MÓDULO DEPENDE DE QUE O dashboard.js INJETE AS DEPENDÊNCIAS DE API E UTILIDADE.
 
 let fetchJson;
 let escapeHtml;
