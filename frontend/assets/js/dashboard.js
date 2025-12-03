@@ -44,7 +44,7 @@ async function fetchJson(path, opts = {}) {
         headers['Content-Type'] = 'application/json';
     }
     
-    // Garante que a URL seja montada corretamente: API_BASE + path
+    // Garante que a URL seja montada corretamente: /api/path
     const url = path.startsWith(API_BASE) ? path : `${API_BASE}/${path.replace(/^\/+/, '')}`;
 
     const res = await fetch(url, { ...opts, headers });
@@ -91,12 +91,11 @@ export function escapeHtml(str) {
 // =================================================================
 
 /**
- * Função para proteger a página (CRÍTICA).
+ * Função para proteger a página.
  */
 function protectPage(redirectUrl) {
     if (!isLoggedIn()) {
         console.warn('[Dashboard] Não autenticado. Redirecionando...');
-        // Redireciona para o caminho absoluto
         window.location.href = redirectUrl;
     }
 }
@@ -169,12 +168,12 @@ async function loadUserProfile() {
     } catch (err) {
         console.error('Erro ao carregar perfil:', err.message); 
         
-        // Tentativa de verificar se o servidor está no ar:
+        // Tenta a rota /status para debug
         try {
             await fetchJson('/status'); 
-            console.warn("Servidor UP, mas a rota /profile falhou. Verifique o roteador de rotas (routes/profile.js).");
+            console.warn("Servidor Railway UP, mas a rota /profile falhou. Verifique o roteador de rotas (routes/profile.js) e o Middleware.");
         } catch (statusErr) {
-            console.error("ERRO CRÍTICO: Servidor Railway não está respondendo, ou CORS/URL no Railway está incorreta.");
+            console.error("ERRO CRÍTICO: Servidor Railway não está respondendo, ou CORS/URL no Railway está incorreta. Verifique FRONTEND_URL.");
         }
 
         if (displayNameElement) displayNameElement.textContent = localUser.nome || 'Erro no Carregamento';
