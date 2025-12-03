@@ -12,7 +12,7 @@ const geocoder = NodeGeocoder({
     userAgent: 'RecyLink-App-V1.0' 
 });
 
-// Helper para escapar HTML (necessário para o popup)
+// Helper para escapar HTML (necessário para o popup e mensagens de erro)
 function escapeHtml(str) {
     if (!str && str !== 0) return '';
     return String(str).replace(/[&<>"']/g, (m) => ({
@@ -54,7 +54,7 @@ exports.createPoint = async (req, res) => {
     }
  
     try {
-        // 1. GEOCODIFICAÇÃO
+        // 1. GEOCODIFICAÇÃO (Agora não deve ser bloqueada)
         const geoResult = await geocoder.geocode(full_address);
  
         if (!geoResult || geoResult.length === 0) {
@@ -81,7 +81,6 @@ message: 'Não foi possível encontrar as coordenadas para o endereço fornecido
         });
  
     } catch (err) {
-        // O CATCH ESTAVA COM ERRO DE SINTAXE (Linhas 111-115)
         console.error('❌ ERRO AO CRIAR PONTO/GEOC:', err);
         return res.status(500).json({ message: `Erro ao adicionar ponto de coleta. Detalhe: ${err.message}` });
     }
@@ -111,7 +110,6 @@ exports.deletePoint = async (req, res) => {
       return res.status(204).send(); 
  
     } catch (err) {
-        // O CATCH ESTAVA COM ERRO DE SINTAXE (Linhas 126-130)
         console.error('❌ ERRO AO DELETAR PONTO:', err);
         return res.status(500).json({ message: 'Erro ao excluir ponto de coleta.' });
     }

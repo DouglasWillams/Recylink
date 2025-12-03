@@ -6,11 +6,14 @@ import {
 
 const API_BASE = '/api'; 
 const DEFAULT_IMAGE = '../assets/images/placeholder.jpg'; 
+const eventsListContainer = document.getElementById('events-list-container');
+
+// -------------------------
+// INICIALIZAÇÃO
+// -------------------------
 
 document.addEventListener('DOMContentLoaded',
 () => {
- 
-  const eventsListContainer = document.getElementById('events-list-container');
  
   if (eventsListContainer) {
       fetchAndRenderEvents(eventsListContainer);
@@ -20,6 +23,7 @@ document.addEventListener('DOMContentLoaded',
 // -------------------------
 // FUNÇÕES DE UTILIDADE (Fetch e Escape)
 // -------------------------
+
 function escapeHtml(str)
 {
  
@@ -149,11 +153,9 @@ function renderEvents(container, events) {
       
       const imageContainerClass = imageUrl ? '' : 'no-image'; 
 
-      // 2. Cria o HTML do Card (Em linha)
+      // 2. Cria o HTML do Card (Em linha e minimizado)
       card.innerHTML = `
-<div class="event-image-container ${imageContainerClass}">
-${eventVisual}
-</div>
+<div class="event-image-container ${imageContainerClass}">${eventVisual}</div>
 <div class="event-content">
 <div class="event-badges">
 <span class="badge">${event.category || 'Voluntariado'}</span>
