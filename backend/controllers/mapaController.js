@@ -3,16 +3,17 @@ const db = require('../database');
 const NodeGeocoder = require('node-geocoder');
  
 // Configuração do Geocoder
-// CRÍTICO: Adicionando User-Agent para cumprir a política de uso do OSM e evitar o bloqueio (Access Blocked)
+// ✅ SOLUÇÃO FINAL FREE: OpenCage Data. Requer a variável OPENCAGE_API_KEY no Railway.
 const geocoder = NodeGeocoder({
-    provider: 'openstreetmap',
+    provider: 'opencage', // <-- Provedor alterado
+    apiKey: process.env.OPENCAGE_API_KEY, // <-- Lê a chave do Railway
     httpAdapter: 'https', 
     formatter: null, 
-    // Nome da sua aplicação para identificar o IP no Nominatim
+    // User Agent ainda é enviado, mas a autenticação é feita pela API Key
     userAgent: 'RecyLink-App-V1.0' 
 });
 
-// Helper para escapar HTML (necessário para o popup e mensagens de erro)
+// Helper para escapar HTML (mantido)
 function escapeHtml(str) {
     if (!str && str !== 0) return '';
     return String(str).replace(/[&<>"']/g, (m) => ({
@@ -54,7 +55,7 @@ exports.createPoint = async (req, res) => {
     }
  
     try {
-        // 1. GEOCODIFICAÇÃO (Agora não deve ser bloqueada)
+        // 1. GEOCODIFICAÇÃO (Usando OpenCage)
         const geoResult = await geocoder.geocode(full_address);
  
         if (!geoResult || geoResult.length === 0) {
