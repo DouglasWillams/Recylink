@@ -26,7 +26,7 @@ function qs(sel) {
 }
 
 // =================================================================
-// FUNÇÕES DE UTILIDADE DE API E ESCAPE (CRÍTICAS)
+// FUNÇÕES DE UTILIDADE (Fetch e Escape)
 // =================================================================
 
 /**
@@ -168,12 +168,12 @@ async function loadUserProfile() {
     } catch (err) {
         console.error('Erro ao carregar perfil:', err.message); 
         
-        // Se a rota falhar, tenta o /status para debugar o Railway
+        // Tenta a rota /status para debug
         try {
             await fetchJson('/status'); 
-            console.warn("Servidor Railway UP, mas a rota /profile FALHOU. Verifique o roteador de rotas (routes/profile.js) e o Middleware.");
+            console.warn("Servidor Railway UP, mas a rota /profile FALHOU. O PROBLEMA É APENAS NO ROUTER do PROFILE NO RAILWAY.");
         } catch (statusErr) {
-            console.error("ERRO CRÍTICO: Servidor Railway não está respondendo, ou CORS/URL no Railway está incorreta. Verifique FRONTEND_URL.");
+            console.error("ERRO CRÍTICO: Servidor Railway não está respondendo, ou CORS/FRONTEND_URL está incorreta. Verifique FRONTEND_URL.");
         }
 
         if (displayNameElement) displayNameElement.textContent = localUser.nome || 'Erro no Carregamento';
