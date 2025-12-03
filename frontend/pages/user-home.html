@@ -2,12 +2,116 @@
 <html lang="pt-br"> 
 <head> 
     <meta charset="UTF-8"> 
-    <meta name="viewport" content="width=device-width, ini al-scale=1.0"> 
-    < tle>Minha Área - Recylink</ tle> 
-    <link rel="stylesheet" href="/assets/css/main.css"> 
-    <script src="h ps://unpkg.com/@phosphor-icons/web"></script> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Minha Área - Recylink</title> 
+    <link rel="stylesheet" href="../assets/css/main.css"> 
+    <script src="https://unpkg.com/@phosphor-icons/web"></script> 
     <style> 
-        /* estilos mantidos */ 
+        .user-page-wrapper { 
+            padding-top: 80px; 
+            min-height: 100vh; 
+            background-color: var(--color-background-dark); 
+        } 
+        .user-container { 
+            max-width: 1000px; 
+            margin: 0 auto; 
+            padding: 30px 20px; 
+        } 
+        .user-profile-header { 
+            background-color: #1F2937; 
+            padding: 25px; 
+            border-radius: 12px; 
+            margin-bottom: 30px; 
+            display: flex; 
+            align-items: center; 
+            gap: 20px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+            position: relative; 
+        } 
+        .user-avatar-lg { 
+            width: 80px; 
+            height: 80px; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            border: 3px solid var(--color-primary-green); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            font-size: 1.5em; 
+            background-color: #2C3E50; 
+            color: white; 
+        } 
+        .user-info h1 { 
+            font-size: 2em; 
+            color: var(--color-text-light); 
+            margin: 0 0 5px 0; 
+        } 
+        .user-info p { 
+            color: #9CA3AF; 
+            margin: 0; 
+            font-weight: bold; 
+        } 
+        .user-grid { 
+            display: grid; 
+            grid-template-columns: 2fr 1fr; 
+            gap: 30px; 
+            align-items: flex-start; 
+        } 
+        .info-card-dash { 
+            background-color: #1F2937; 
+            padding: 20px; 
+            border-radius: 12px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+        } 
+        .info-card-dash h2 { 
+            color: var(--color-primary-green); 
+            font-size: 1.4em; 
+            margin-bottom: 15px; 
+            border-bottom: 1px solid #374151; 
+            padding-bottom: 10px; 
+        } 
+        .data-item { 
+            padding: 10px 0; 
+            border-bottom: 1px dashed #374151; 
+            color: #E5E7EB; 
+        } 
+        .data-item:last-child { 
+            border-bottom: none; 
+        } 
+        .data-item strong { 
+            display: block; 
+            font-size: 0.9em; 
+            color: #9CA3AF; 
+        } 
+        .action-button-dash { 
+            background-color: #2C3E50; 
+            color: var(--color-text-light); 
+            padding: 10px; 
+            border: none; 
+            border-radius: 6px; 
+            margin-bottom: 10px; 
+            cursor: pointer; 
+            width: 100%; 
+            text-align: left; 
+            transition: background-color 0.2s; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+        } 
+        .action-button-dash:hover, .action-button-dash.active { 
+            background-color: var(--color-primary-green); 
+        } 
+          
+        @media (max-width: 768px) { 
+            .user-grid { 
+                grid-template-columns: 1fr; 
+            } 
+            .user-profile-header { 
+                flex-direction: column; /* CORREÇÃO: Alinhamento vertical em mobile */
+                text-align: center; 
+            } 
+        } 
     </style> 
 </head> 
 <body> 
@@ -15,65 +119,60 @@
         <div class="navbar-brand"><span class="brand-name">RECYLINK</span></div> 
         <nav class="nav-menu"> 
             <ul> 
-                <li><a href="/index.html">Home</a></li> 
-                <li><a href="/sobre.html">Sobre</a></li> 
-                <li><a href="/mapa.html">Mapa</a></li> 
-                <li><a href="/eventos.html">Eventos</a></li> 
-                <li><a href="/comunidade.html">Comunidade</a></li> 
-                <li><a href="/educacao.html">Educação</a></li> 
+                <li><a href="index.html">Home</a></li> 
+                <li><a href="sobre.html">Sobre</a></li> 
+                <li><a href="mapa.html">Mapa</a></li> 
+                <li><a href="eventos.html">Eventos</a></li> 
+                <li><a href="comunidade.html">Comunidade</a></li> 
+                <li><a href="educacao.html">Educação</a></li> 
                 </ul> 
         </nav> 
     </header> 
-     
+      
     <main class="user-page-wrapper"> 
         <div class="user-container"> 
-             
-
-            <sec on id="user-profile-sec on" class="user-profile-header"> 
-                 
+              
+            <section id="user-profile-section" class="user-profile-header"> 
+                
                 <div id="user-avatar" class="user-avatar-lg"> 
-                    <i class="ph ph-user"></i>  
+                    <i class="ph ph-user"></i> 
                 </div> 
-                 
+                
                 <div class="user-info"> 
                     <h1 id="user-display-name">Carregando...</h1> 
                     <p>Nível: <span id="user-display-level">...</span></p> 
                 </div> 
-            </sec on> 
-
+            </section> 
+  
             <div class="user-grid"> 
-                 
+                  
                 <div> 
-                    <sec on id="dynamic-content-area"> 
-                        </sec on> 
+                    <section id="dynamic-content-area"> 
+                        </section> 
                 </div> 
-
+  
                 <aside> 
                     <div class="info-card-dash"> 
                         <h2>Navegação</h2> 
-                        <bu on class="ac on-bu on-dash" data-page="home"><i class="ph 
-ph-house"></i> Home</bu on> 
-                        <bu on class="ac on-bu on-dash" data-page="profile"><i class="ph 
-ph-user-circle"></i> Editar Perfil</bu on> 
-                        <bu on class="ac on-bu on-dash" data-page="history"><i class="ph 
-ph-calendar-check"></i> Minhas Inscrições</bu on> 
-                        <bu on class="ac on-bu on-dash" data-page="suggest-event"><i 
-class="ph ph-calendar-plus"></i> Sugerir Evento</bu on> 
-                        <bu on class="ac on-bu on-dash" data-page="add-point"><i 
-class="ph ph-map-pin"></i> Adicionar Ponto</bu on> 
-                    </div> 
+                        <button class="action-button-dash" data-page="home"><i class="ph ph-house"></i> Home</button> 
+                        <button class="action-button-dash" data-page="profile"><i class="ph ph-user-circle"></i> Editar Perfil</button> 
+                        <button class="action-button-dash" data-page="history"><i class="ph ph-calendar-check"></i> Minhas Inscrições</button> 
+                        <button class="action-button-dash" data-page="suggest-event"><i class="ph ph-calendar-plus"></i> Sugerir Evento</button> 
+                        <button class="action-button-dash" data-page="add-point"><i class="ph ph-map-pin"></i> Adicionar Ponto</button> 
+                        <button class="action-button-dash logout-btn" id="logoutButton"><i class="ph ph-sign-out"></i> Sair</button> </div> 
                 </aside> 
             </div> 
         </div> 
     </main> 
-
-    <script type="module" src="/assets/js/auth.js"></script> 
-    <script type="module" src="/assets/js/user-home-logic.js"></script> 
-    <script type="module" src="/assets/js/dashboard.js"></script>  
+  
+    <script type="module" src="../assets/js/auth.js"></script> 
+    <script type="module" src="../assets/js/user-home-logic.js"></script> 
+    <script type="module" src="../assets/js/dashboard.js"></script> 
     <script type="module"> 
-        import { updateNavbarStatus } from '/assets/js/auth.js'; 
+        import { updateNavbarStatus } from '../assets/js/auth.js'; 
+        // O dashboard.js já chama a lógica principal (loadUserProfile -> setupSidebarNavigation).
+        // Aqui chamamos apenas o updateNavbarStatus para garantir a navbar.
         document.addEventListener('DOMContentLoaded', updateNavbarStatus); 
     </script> 
-     
 </body> 
 </html>
