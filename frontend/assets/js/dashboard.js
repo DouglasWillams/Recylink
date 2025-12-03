@@ -26,7 +26,7 @@ function qs(sel) {
 }
 
 // =================================================================
-// FUNÇÕES DE UTILIDADE DE API E ESCAPE (Exportadas para user-home-logic)
+// FUNÇÕES DE UTILIDADE DE API E ESCAPE (CRÍTICAS)
 // =================================================================
 
 /**
@@ -151,7 +151,7 @@ async function loadUserProfile() {
         if (displayNameElement) displayNameElement.textContent = realName;
         if (displayLevelElement) displayLevelElement.textContent = realLevel;
 
-        // 2. Armazena dados no DOM para formulários (user-home-logic usa isso)
+        // 2. Armazena dados no DOM para formulários
         document.body.dataset.userName = user.nome;
         document.body.dataset.userPhone = user.telefone || '';
         document.body.dataset.userEmail = user.email;
@@ -168,10 +168,10 @@ async function loadUserProfile() {
     } catch (err) {
         console.error('Erro ao carregar perfil:', err.message); 
         
-        // Tenta a rota /status para debug
+        // Se a rota falhar, tenta o /status para debugar o Railway
         try {
             await fetchJson('/status'); 
-            console.warn("Servidor Railway UP, mas a rota /profile falhou. Verifique o roteador de rotas (routes/profile.js) e o Middleware.");
+            console.warn("Servidor Railway UP, mas a rota /profile FALHOU. Verifique o roteador de rotas (routes/profile.js) e o Middleware.");
         } catch (statusErr) {
             console.error("ERRO CRÍTICO: Servidor Railway não está respondendo, ou CORS/URL no Railway está incorreta. Verifique FRONTEND_URL.");
         }

@@ -11,14 +11,14 @@ const db = require('./database');
 const authRouter = require('./routes/auth');
 const postRoutes = require('./routes/post');
 const mapRoutes = require('./routes/mapa');
-const profileRoutes = require('./routes/profile');
+const profileRoutes = require('./routes/profile'); // Importação correta
 const eventoRoutes = require('./routes/evento');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ====================================================================
-// 1. Configuração de CORS (Resolve ERRO 001: 403 Forbidden)
+// 1. Configuração de CORS (Resolve ERRO 403 Forbidden)
 // ====================================================================
 
 const allowedOrigins = [
@@ -48,15 +48,14 @@ app.use(bodyParser.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // ====================================================================
-// 2. Rotas (Resolve ERRO 002: 404 Endpoint não encontrado)
-//    Removido o prefixo '/api' pois o Vercel já o remove no proxy.
+// 2. Rotas (CRÍTICO: Removido o prefixo '/api' para o Railway)
 // ====================================================================
 
 app.use('/auth', authRouter);
 app.use('/posts', postRoutes);
 app.use('/mapa', mapRoutes);
 app.use('/evento', eventoRoutes);
-app.use('/profile', profileRoutes);
+app.use('/profile', profileRoutes); // ✅ Roteia /profile para o profile.js
 
 // Health-check / Status
 app.get('/', (req, res) => {
@@ -102,5 +101,4 @@ app.listen(PORT, () => {
     console.log(`🚀 Servidor rodando na porta ${PORT} (process.env.PORT=${process.env.PORT || 'n/a'})`);
 });
 
-// Exportação necessária para o Vercel (apesar de estarmos usando Railway, manter a exportação é comum em projetos Híbridos)
 module.exports = app;
