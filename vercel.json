@@ -10,7 +10,7 @@
    
     {
       "src": "/api/(.*)",
-      "dest": "https://<SEU_URL_PUBLICO_RAILWAY>.up.railway.app/api/$1" 
+      "dest": "https://<recylink-production-4ed4.up.railway.app" 
     },
     
     {
