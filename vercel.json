@@ -2,19 +2,17 @@
   "version": 2,
   "builds": [
     {
-      "src": "backend/server.cjs",
-      "use": "@vercel/node"
-    },
-    {
       "src": "frontend/**",
       "use": "@vercel/static"
     }
   ],
   "routes": [
+   
     {
       "src": "/api/(.*)",
-      "dest": "backend/server.cjs"
+      "dest": "https://<SEU_URL_PUBLICO_RAILWAY>.up.railway.app/api/$1" 
     },
+    
     {
       "src": "/assets/(.*)",
       "dest": "frontend/assets/$1"
