@@ -5,36 +5,62 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
-const db = require('./database');
+const db = require('./database'); 
+const fs = require('fs/promises');
 
 // Rotas
 const authRouter = require('./routes/auth');
 const postRoutes = require('./routes/post');
 const mapRoutes = require('./routes/mapa');
-const profileRoutes = require('./routes/profile'); // Importação correta (prefixo /profile deve ser definido aqui)
+const profileRoutes = require('./routes/profile'); // Importação correta
 const eventoRoutes = require('./routes/evento');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ====================================================================
-// 1. Configuração de CORS (Resolve ERRO 403 Forbidden)
+// 1. Configuração de CORS (Resolve ERRO 403 Forbidden com Wildcard)
 // ====================================================================
 
-const allowedOrigins = [
-    'http://127.0.0.1:5500',
-    'http://localhost:5500',
-    'http://localhost:3000',
-    process.env.FRONTEND_URL, // CRÍTICO: Deve ser configurado em seu ambiente (ex: Railway/Vercel)
+// Define os padrões de origem permitidos, incluindo localhosts e subdomínios do Vercel
+const allowedOriginsRegex = [
+    // Padrões locais de desenvolvimento
+    /http:\/\/127\.0\.0\.1:\d+$/, 
+    /http:\/\/localhost:\d+$/,
+    // Padrão Wildcard para todos os subdomínios .vercel.app (para preview/main branch)
+    /https?:\/\/.*\.vercel\.app$/,
+    // Domínio de produção principal (se definido como variável no Railway)
+    process.env.FRONTEND_URL 
 ].filter(Boolean);
 
 app.use(cors({
     origin: (origin, callback) => {
-        // Permitir requests sem origin (ex.: ferramentas de teste, curl, Postman)
-        if (!origin || allowedOrigins.includes(origin)) {
+        // Se a origem não estiver presente (requests de servidor/testes), permita.
+        if (!origin) {
+            return callback(null, true);
+        }
+        
+        let isAllowed = false;
+        
+        // Verifica se a URL de origem corresponde a algum padrão Regex ou string exata
+        for (const pattern of allowedOriginsRegex) {
+            if (typeof pattern === 'string') {
+                if (pattern === origin) {
+                    isAllowed = true;
+                    break;
+                }
+            } else if (origin.match(pattern)) {
+                isAllowed = true;
+                break;
+            }
+        }
+        
+        if (isAllowed) {
             callback(null, true);
         } else {
-            callback(new Error(`Not allowed by CORS. Origin: ${origin}`));
+            const message = `Not allowed by CORS. Origin: ${origin}`;
+            console.error('❌ CORS BLOCKED:', message);
+            callback(new Error(message), false);
         }
     },
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -49,20 +75,18 @@ app.use(bodyParser.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // ====================================================================
-// 2. Rotas (CRÍTICO: Define o prefixo /profile sem '/api' — Vercel faz proxy)
+// 2. Rotas (CRÍTICO: Define o prefixo /profile - Resolve ERRO 404)
 // ====================================================================
+
+// O Vercel remove o prefixo /api, então o Railway deve usar as rotas limpas:
 
 app.use('/auth', authRouter);
 app.use('/posts', postRoutes);
 app.use('/mapa', mapRoutes);
 app.use('/evento', eventoRoutes);
-app.use('/profile', profileRoutes); // ✅ Roteia /profile para o profile.js
+app.use('/profile', profileRoutes); // ✅ Roteia o prefixo /profile
 
-// Health-check / Status
-app.get('/', (req, res) => {
-    res.json({ ok: true, message: 'Servidor RecyLink no ar' });
-});
-
+// Health-check / Status (ROTA QUE FUNCIONOU - /status)
 app.get('/status', (req, res) => {
     res.json({ ok: true, message: 'Backend RecyLink UP!', env: process.env.NODE_ENV || 'development' });
 });
@@ -72,9 +96,8 @@ app.use((req, res, next) => {
     res.status(404).json({ ok: false, message: 'Endpoint não encontrado' });
 });
 
-// Error middleware (CORS e outros erros)
+// Error middleware
 app.use((err, req, res, next) => {
-    console.error('Erro middleware:', err && err.stack ? err.stack : err);
     if (err && String(err.message).includes('Not allowed by CORS')) {
         return res.status(403).json({ ok: false, message: err.message });
     }
@@ -86,25 +109,28 @@ app.use((err, req, res, next) => {
 // ====================================================================
 
 async function verifyDatabaseConnectionSafe() {
+    // Tenta verificar a conexão do DB (db é importado de database.js)
     if (db && typeof db.testConnection === 'function') {
         try {
-            await db.testConnection();
-            console.log('✅ DB: conexão verificada com sucesso.');
+            await db.testConnection(); 
         } catch (err) {
-            console.error('DB: verificação falhou:', err.message || err);
-            // Não interrompe o start — apenas loga a falha para investigação
+            console.error('DB: verificação falhou:', err.message);
         }
-    } else {
-        console.warn('DB: função testConnection não encontrada — pulando verificação.');
     }
 }
 
-// Verifica DB no cold start
+// Inicia a verificação do DB no cold start
 verifyDatabaseConnectionSafe();
 
-// Inicializa o servidor
-app.listen(PORT, () => {
-    console.log(`🚀 Servidor rodando na porta ${PORT} (process.env.PORT=${process.env.PORT || 'n/a'})`);
-});
+// Inicialização do Servidor no Railway
+const isServerless = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
 
-module.exports = app;
+if (isServerless) {
+    console.log('ℹ️ Rodando em modo SERVERLESS - exportando app.');
+    module.exports = app;
+} else {
+    app.listen(PORT, () => {
+        console.log(`🚀 Servidor rodando na porta ${PORT} (process.env.PORT=${process.env.PORT || 'n/a'})`);
+    });
+    module.exports = app;
+}
