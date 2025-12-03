@@ -5,6 +5,7 @@ npm-debug.log
 
 # Diretórios de Módulo/Dependências
 /node_modules
+/backend/node_modules
 
 # Excluir uploads (se for o caso)
 /backend/uploads
