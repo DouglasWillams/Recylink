@@ -3,16 +3,15 @@ const db = require('../database');
 const NodeGeocoder = require('node-geocoder');
  
 // Configuração do Geocoder
-// ✅ SOLUÇÃO FINAL FREE: OpenCage Data. Requer a variável OPENCAGE_API_KEY no Railway.
 const geocoder = NodeGeocoder({
-    provider: 'opencage', // <-- Provedor alterado
-    apiKey: process.env.OPENCAGE_API_KEY, // <-- Lê a chave do Railway
+    provider: 'opencage', // Provedor funcional (requer OPENCAGE_API_KEY no Railway)
+    apiKey: process.env.OPENCAGE_API_KEY, 
     httpAdapter: 'https', 
     formatter: null, 
     userAgent: 'RecyLink-App-V1.0' 
 });
 
-// Helper para escapar HTML (mantido)
+// Helper para escapar HTML
 function escapeHtml(str) {
     if (!str && str !== 0) return '';
     return String(str).replace(/[&<>"']/g, (m) => ({
@@ -28,11 +27,8 @@ function escapeHtml(str) {
 exports.getAll = async (req, res) => { 
  
   try { 
- 
       const rows = await db.query('SELECT * FROM ponto_coleta WHERE status = \'ativo\' ORDER BY id_ponto ASC'); 
- 
       return res.status(200).json(rows);
- 
   } catch (err) { 
         console.error('❌ ERRO (GET /pontos-coleta):', err.message); 
         return res.status(500).json({ 
@@ -49,18 +45,15 @@ exports.createPoint = async (req, res) => {
     const { nome, full_address, tipo_material } = req.body;
     
     if (!userId || !nome || !full_address || !tipo_material) {
- 
       return res.status(400).json({ message: 'Dados obrigatórios ausentes.' });
     }
  
     try {
-        // 1. GEOCODIFICAÇÃO (Usando OpenCage)
+        // 1. GEOCODIFICAÇÃO
         const geoResult = await geocoder.geocode(full_address);
  
         if (!geoResult || geoResult.length === 0) {
-            return res.status(400).json({
-message: 'Não foi possível encontrar as coordenadas para o endereço fornecido.'
-});
+            return res.status(400).json({ message: 'Não foi possível encontrar as coordenadas para o endereço fornecido.' });
         }
         
         const { latitude, longitude, city, streetName, streetNumber } = geoResult[0];
@@ -69,11 +62,9 @@ message: 'Não foi possível encontrar as coordenadas para o endereço fornecido
         const enderecoCompleto = `${streetName || ''} ${streetNumber || ''}`.trim();
         const cidadeFinal = city || 'Não Identificada';
  
-        // 3. EXECUÇÃO DA QUERY INSERT LIMPA
+        // 3. EXECUÇÃO DA QUERY INSERT (CRÍTICO: A query está na menor formatação possível)
         const result = await db.query(
-          // Query INSERT sem espaços ou caracteres especiais
-          `INSERT INTO ponto_coleta (nome, endereco, cidade, latitude, longitude, tipo_material, status, sugerido_por_id)
-             VALUES ($1, $2, $3, $4, $5, $6, 'ativo', $7) RETURNING *`,
+          `INSERT INTO ponto_coleta (nome, endereco, cidade, latitude, longitude, tipo_material, status, sugerido_por_id) VALUES ($1, $2, $3, $4, $5, $6, 'ativo', $7) RETURNING *`,
             [nome, enderecoCompleto, cidadeFinal, latitude, longitude, tipo_material, userId]
         );
  
@@ -83,7 +74,7 @@ message: 'Não foi possível encontrar as coordenadas para o endereço fornecido
         });
  
     } catch (err) {
-        console.error('❌ ERRO AO CRIAR PONTO/GEOC:', err);
+        console.error('❌ ERRO AO CRIAR PONTO/DB:', err);
         return res.status(500).json({ message: `Erro ao adicionar ponto de coleta. Detalhe: ${err.message}` });
     }
 };
