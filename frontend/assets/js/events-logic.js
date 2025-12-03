@@ -72,7 +72,7 @@ async function fetchJson(path, opts = {}) {
     if (!res.ok) {
         if (res.status === 401 || res.status === 403) {
             alert("Sessão expirada. Faça login novamente.");
-            window.location.href = '/pages/login.html'; // ✅ Caminho absoluto
+            window.location.href = '/pages/login.html'; 
         }
         throw new Error(jsonResult.message
 || `HTTP ${res.status}: ${res.statusText}`);
@@ -94,13 +94,13 @@ function handleParticipation(eventId)
  
   if (isLoggedIn()) {
       // Se logado: vai direto para a página de Inscrição
-      window.location.href = `/pages/inscricao.html?eventId=${eventId}`; // ✅ Caminho absoluto
+      window.location.href = `/pages/inscricao.html?eventId=${eventId}`; 
  
   } else {
         // Se não logado: vai para a tela de login
         alert('Você precisa estar logado para se inscrever! Redirecionando para o login.');
         // Passamos o destino final como parâmetro 'next'
-        window.location.href = `/pages/login.html?next=/pages/inscricao.html?eventId=${eventId}`; // ✅ Caminho absoluto
+        window.location.href = `/pages/login.html?next=/pages/inscricao.html?eventId=${eventId}`; 
  
   }
 }

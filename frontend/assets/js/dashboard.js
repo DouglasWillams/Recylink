@@ -3,8 +3,8 @@ import {
     getToken,
     logout,
     getUser,
-    isLoggedIn,
-    updateNavbarStatus // ✅ Importação para garantir que a navbar atualize
+    isLoggedIn, 
+    updateNavbarStatus
 } from './auth.js';
 
 // Importa as funções de lógica de renderização
@@ -106,7 +106,7 @@ function protectPage(redirectUrl) {
     setDependencies({ fetchJson, escapeHtml, API_BASE });
 
     // 2. Protege a página e verifica o login
-    protectPage('/pages/login.html'); // ✅ Usando a função interna/local
+    protectPage('/pages/login.html'); 
 
     // 3. Carrega o perfil completo do usuário
     const userProfile = await loadUserProfile();
@@ -127,7 +127,7 @@ function protectPage(redirectUrl) {
         }
     }
     
-    // 6. Atualiza a Navbar globalmente (se o módulo estiver no HTML)
+    // 6. Atualiza a Navbar globalmente 
     updateNavbarStatus();
     
 })();
@@ -142,7 +142,7 @@ async function loadUserProfile() {
     const localUser = getUser() || {};
 
     try {
-        // Rota correta: '/api/profile'
+        // Rota: '/api/profile'
         const user = await fetchJson('/profile'); 
         
         // 1. Preenche dados de exibição
@@ -169,7 +169,14 @@ async function loadUserProfile() {
     } catch (err) {
         console.error('Erro ao carregar perfil:', err.message); 
         
-        // Exibe o nome armazenado localmente como fallback
+        // Tentativa de verificar se o servidor está no ar:
+        try {
+            await fetchJson('/status'); 
+            console.warn("Servidor UP, mas a rota /profile falhou. Verifique o roteador de rotas (routes/profile.js).");
+        } catch (statusErr) {
+            console.error("ERRO CRÍTICO: Servidor Railway não está respondendo, ou CORS/URL no Railway está incorreta.");
+        }
+
         if (displayNameElement) displayNameElement.textContent = localUser.nome || 'Erro no Carregamento';
         if (displayLevelElement) displayLevelElement.textContent = localUser.nivel_acesso || 'N/A';
         
