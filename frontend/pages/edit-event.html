@@ -1,121 +1,49 @@
-<!DOCTYPE html> 
-<html lang="pt-br"> 
-<head> 
-    <meta charset="UTF-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>Minha Área - Recylink</title> 
-    <link rel="stylesheet" href="../assets/css/main.css"> 
-    <script src="https://unpkg.com/@phosphor-icons/web"></script> 
-    <style> 
-        /* Estilos CSS fornecidos nas etapas anteriores, ajustados para sintaxe limpa */
-        .user-page-wrapper { 
-            padding-top: 80px; 
-            min-height: 100vh; 
-            background-color: var(--color-background-dark); 
-        } 
-        .user-container { 
-            max-width: 1000px; 
-            margin: 0 auto; 
-            padding: 30px 20px; 
-        } 
-        .user-profile-header { 
-            background-color: #1F2937; 
-            padding: 25px; 
-            border-radius: 12px; 
-            margin-bottom: 30px; 
-            display: flex; 
-            align-items: center; 
-            gap: 20px; 
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
-            position: relative; 
-        } 
-        .user-avatar-lg { 
-            width: 80px; 
-            height: 80px; 
-            border-radius: 50%; 
-            object-fit: cover; 
-            border: 3px solid var(--color-primary-green); 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            font-size: 1.5em; 
-            background-color: #2C3E50; 
-            color: white; 
-        } 
-        .user-info h1 { 
-            font-size: 2em; 
-            color: var(--color-text-light); 
-            margin: 0 0 5px 0; 
-        } 
-        .user-info p { 
-            color: #9CA3AF; 
-            margin: 0; 
-            font-weight: bold; 
-        } 
-        .user-grid { 
-            display: grid; 
-            grid-template-columns: 2fr 1fr; 
-            gap: 30px; 
-            align-items: flex-start; 
-        } 
-        .info-card-dash { 
-            background-color: #1F2937; 
-            padding: 20px; 
-            border-radius: 12px; 
-            margin-bottom: 20px; 
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
-        } 
-        .info-card-dash h2 { 
-            color: var(--color-primary-green); 
-            font-size: 1.4em; 
-            margin-bottom: 15px; 
-            border-bottom: 1px solid #374151; 
-            padding-bottom: 10px; 
-        } 
-        .data-item { 
-            padding: 10px 0; 
-            border-bottom: 1px dashed #374151; 
-            color: #E5E7EB; 
-        } 
-        .data-item:last-child { 
-            border-bottom: none; 
-        } 
-        .data-item strong { 
-            display: block; 
-            font-size: 0.9em; 
-            color: #9CA3AF; 
-        } 
-        .action-button-dash { 
-            background-color: #2C3E50; 
-            color: var(--color-text-light); 
-            padding: 10px; 
-            border: none; 
-            border-radius: 6px; 
-            margin-bottom: 10px; 
-            cursor: pointer; 
-            width: 100%; 
-            text-align: left; 
-            transition: background-color 0.2s; 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-        } 
-        .action-button-dash:hover, .action-button-dash.active { 
-            background-color: var(--color-primary-green); 
-        } 
-          
-        @media (max-width: 768px) { 
-            .user-grid { 
-                grid-template-columns: 1fr; 
-            } 
-            .user-profile-header { 
-                flex-direction: column; 
-                text-align: center; 
-            } 
-        } 
-    </style> 
-</head> 
-<body> 
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Evento - Recylink</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="../assets/css/events.css"> 
+    <link rel="stylesheet" href="../assets/css/community.css"> 
+
+    <style>
+        /* Estilos de layout para centralizar o formulário */
+        .edit-event-wrapper {
+            padding-top: 80px;
+            min-height: 100vh;
+            background-color: var(--color-background-dark);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .edit-container {
+            max-width: 700px;
+            width: 90%;
+            margin-top: 40px;
+            padding: 30px;
+            background-color: #1F2937;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+        /* O formulário começa escondido e é exibido pelo JS */
+        #edit-event-form {
+            display: none; 
+        }
+        #edit-event-status-message {
+            text-align: center;
+            color: #9CA3AF;
+            padding: 40px 0;
+            font-size: 1.2em;
+        }
+        .info-card-dash h2 {
+            color: var(--color-primary-green);
+        }
+    </style>
+</head>
+<body>
     <header class="navbar"> 
         <div class="navbar-brand"><span class="brand-name">RECYLINK</span></div> 
         <nav class="nav-menu"> 
@@ -126,55 +54,60 @@
                 <li><a href="eventos.html">Eventos</a></li> 
                 <li><a href="comunidade.html">Comunidade</a></li> 
                 <li><a href="educacao.html">Educação</a></li> 
-                
-                <li id="auth-link-slot"></li> 
+                <li class="injected-auth-nav"><a href="/pages/user-home.html"></a></li> 
             </ul> 
         </nav> 
     </header> 
       
-    <main class="user-page-wrapper"> 
-        <div class="user-container"> 
-              
-            <section id="user-profile-section" class="user-profile-header"> 
+    <main class="edit-event-wrapper"> 
+        <div class="edit-container">
+            <div class="info-card-dash">
+                <h2><i class="ph ph-pencil"></i> Editar Evento</h2>
                 
-                <div id="user-avatar" class="user-avatar-lg"> 
-                    <i class="ph ph-user"></i> 
-                </div> 
-                
-                <div class="user-info"> 
-                    <h1 id="user-display-name">Carregando...</h1> 
-                    <p>Nível: <span id="user-display-level">...</span></p> 
-                </div> 
-            </section> 
-  
-            <div class="user-grid"> 
-                  
-                <div> 
-                    <section id="dynamic-content-area"> 
-                        </section> 
-                </div> 
-  
-                <aside> 
-                    <div class="info-card-dash"> 
-                        <h2>Navegação</h2> 
-                        <button class="action-button-dash" data-page="home"><i class="ph ph-house"></i> Home</button> 
-                        <button class="action-button-dash" data-page="profile"><i class="ph ph-user-circle"></i> Editar Perfil</button> 
-                        <button class="action-button-dash" data-page="history"><i class="ph ph-calendar-check"></i> Minhas Inscrições</button> 
-                        <button class="action-button-dash" data-page="suggest-event"><i class="ph ph-calendar-plus"></i> Sugerir Evento</button> 
-                        <button class="action-button-dash" data-page="add-point"><i class="ph ph-map-pin"></i> Adicionar Ponto</button> 
-                        <button class="action-button-dash logout-btn" id="logoutButton"><i class="ph ph-sign-out"></i> Sair</button>
-                    </div> 
-                </aside> 
-            </div> 
-        </div> 
+                <div id="edit-event-status-message">Carregando dados do evento...</div>
+
+                <form id="edit-event-form">
+                    <input type="hidden" id="event-id">
+
+                    <div class="form-group">
+                        <label for="event-title">Título do Evento</label>
+                        <input type="text" id="event-title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="event-desc">Descrição</label>
+                        <textarea id="event-desc" placeholder="Detalhes do evento, objetivo..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="event-date">Data e Hora do Evento</label>
+                        <input type="datetime-local" id="event-date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="event-location">Localização</label>
+                        <input type="text" id="event-location" placeholder="Rua, bairro ou ponto de referência">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="event-image">URL da Imagem (Opcional)</label>
+                        <input type="url" id="event-image" placeholder="URL para a imagem de divulgação">
+                    </div>
+
+                    <button type="submit" class="btn"><i class="ph ph-floppy-disk"></i> Salvar Alterações</button>
+                    <a href="user-home.html" class="text-center" style="display:block; margin-top:15px; color:#9CA3AF;">Cancelar e Voltar</a>
+                </form>
+
+            </div>
+        </div>
     </main> 
   
     <script type="module" src="../assets/js/auth.js"></script> 
-    <script type="module" src="../assets/js/user-home-logic.js"></script> 
-    <script type="module" src="../assets/js/dashboard.js"></script> 
+    <script type="module" src="../assets/js/edit-event-logic.js"></script>
     
     <script type="module"> 
         import { updateNavbarStatus } from '../assets/js/auth.js'; 
+        // Inicializa a navbar para mostrar o status de login/perfil
         document.addEventListener('DOMContentLoaded', updateNavbarStatus); 
     </script> 
 </body> 
